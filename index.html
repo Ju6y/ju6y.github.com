@@ -9,7 +9,7 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="相信那些经常使用Python处理中文或者其他非西文字符的人都多多少少被字符的编码转换困扰过。当然，只要是国内的程序员，不管你使用哪种编程语言都会遇到字符编码转换的问题，但这个问题在Python中更为突出。 我们知道在Python内部和许多第三方模块内部，字符串都默认是使用unicode来表示的（ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -63,6 +63,307 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">Python中的字符编码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T23:18:00+08:00" pubdate data-updated="true">Jun 29<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>相信那些经常使用Python处理中文或者其他非西文字符的人都多多少少被字符的编码转换困扰过。当然，只要是国内的程序员，不管你使用哪种编程语言都会遇到字符编码转换的问题，但这个问题在Python中更为突出。</p>
+
+<p>我们知道在Python内部和许多第三方模块内部，字符串都默认是使用unicode来表示的（Python 2.x中字符串分为str类型和unicode类型，本文提到的带编码的字符串都是指str类型，而提到的unicode编码的字符串都是指unicode类型），也就是说，你传入一个字符串给一个内置函数或者第三方模块的接口，它们内部会事先将字符串的编码转换为unicode，而unicode最常见的实现方式是utf8编码（关于更多的字符编码信息请自行谷歌），所以这些函数通常会将获得的字符串参数默认为utf8编码，并尝试解码为unicode，这就导致了如果你传入的是非utf8编码的字符串，调用这些接口就会抛出异常，终止你的代码。</p>
+
+<p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块<strong>chardet</strong>，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
+
+<p>下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def to_unicode(string):
+</span><span class='line'>    # 1
+</span><span class='line'>    if isinstance(string, unicode):
+</span><span class='line'>        return string
+</span><span class='line'>    try:
+</span><span class='line'>        string_uni = string.decode("UTF-8")
+</span><span class='line'>        return string_uni
+</span><span class='line'>    except UnicodeDecodeError:
+</span><span class='line'>        pass
+</span><span class='line'>    try:
+</span><span class='line'>        string_uni = string.decode('big5')
+</span><span class='line'>        return string_uni
+</span><span class='line'>    except UnicodeDecodeError:
+</span><span class='line'>        pass
+</span><span class='line'>    try:
+</span><span class='line'>        string_uni = string.decode('GB18030')
+</span><span class='line'>        return string_uni
+</span><span class='line'>    except UnicodeDecodeError:
+</span><span class='line'>        pass
+</span><span class='line'>    # 2 
+</span><span class='line'>    INIT = 100
+</span><span class='line'>    MAX = 10
+</span><span class='line'>    charset = None
+</span><span class='line'>    if len(string) &lt;= INIT: 
+</span><span class='line'>        encoding_info = chardet.detect(string)
+</span><span class='line'>        charset = encoding_info['encoding']
+</span><span class='line'>    else:
+</span><span class='line'>        detector = UniversalDetector()
+</span><span class='line'>        for i in range(MAX):
+</span><span class='line'>            detector.feed(string[INIT*i:INIT*(i+1)])
+</span><span class='line'>            if detector.done:
+</span><span class='line'>                break
+</span><span class='line'>        detector.close()
+</span><span class='line'>        charset = detector.result.get('encoding')
+</span><span class='line'>    # 3   
+</span><span class='line'>    if not charset:
+</span><span class='line'>        INIT = 1
+</span><span class='line'>        MAX = 100
+</span><span class='line'>        detector = UniversalDetector()
+</span><span class='line'>        for i in range(MAX):
+</span><span class='line'>            detector.feed(string[INIT*i:INIT*(i+1)])
+</span><span class='line'>            if detector.done:
+</span><span class='line'>                mylog.LOG.ERROR("decode char one by one worked!")
+</span><span class='line'>                break
+</span><span class='line'>        detector.close()
+</span><span class='line'>        charset = detector.result.get('encoding')
+</span><span class='line'>    if not charset:
+</span><span class='line'>        return string.decode('UTF-8', 'ignore')
+</span><span class='line'>    # 4   
+</span><span class='line'>    try:
+</span><span class='line'>        return string.decode(charset, 'replace')
+</span><span class='line'>    except UnicodeDecodeError:
+</span><span class='line'>        mylog.LOG.ERROR(traceback.format_exc())
+</span><span class='line'>        return string</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码：
+第一部分先用最常见的几个中文字符编码尝试去解码字符串，这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; a = '中文'
+</span><span class='line'>&gt;&gt;&gt; a
+</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87'
+</span><span class='line'>&gt;&gt;&gt; b = a.decode('utf8').encode('big5')
+</span><span class='line'>&gt;&gt;&gt; b
+</span><span class='line'>'\xa4\xa4\xa4\xe5'
+</span><span class='line'>&gt;&gt;&gt; print b
+</span><span class='line'>????
+</span><span class='line'>&gt;&gt;&gt; b.decode('gb18030')
+</span><span class='line'>u'\u3044\u3085'
+</span><span class='line'>&gt;&gt;&gt; print b.decode('gb18030')
+</span><span class='line'>いゅ
+</span><span class='line'>&gt;&gt;&gt; print a.decode('gb18030')
+</span><span class='line'>涓枃</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果是奇数个字节的utf8编码字符串就不能被gb18030解码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; c = '中文字'
+</span><span class='line'>&gt;&gt;&gt; c
+</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87\xe5\xad\x97'
+</span><span class='line'>&gt;&gt;&gt; c.decode('gb18030')
+</span><span class='line'>Traceback (most recent call last):
+</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+</span><span class='line'>UnicodeDecodeError: 'gb18030' codec can't decode byte 0x97 in position 8: incomplete multibyte sequence</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这里使用gb18030，而没有使用gbk或者gb2312，是因为gb18030是后两者的超集。</p>
+
+<p>第二部分中，对长度小于100的字符串直接使用detect函数进行编码检测，而超过100的同样是考虑性能问题，采用了每次增量检测长度100的字符串，最多增加9次，即限制检测的最大的长度为1000，如果能提前确定了编码，就会跳出循环，避免了对大字符串的整体检测，因为一个字符串往往都是同一种编码。</p>
+
+<p>第三部分中，如果第二部检测不到编码结果，往往是遇到了字符串中混有错误编码的情况，那么对字符串的前100个字符逐个检测，直到检测出编码或者检测完100个字符为止。检测完毕如果检测出编码，就调用decode，并传入‘ignore’，跳过不能解码的字节，减小错误编码造成的影响。</p>
+
+<p>这里补充下decode函数的说明：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>decode(...)
+</span><span class='line'>    S.decode([encoding[,errors]]) -&gt; object
+</span><span class='line'>    
+</span><span class='line'>    Decodes S using the codec registered for encoding. encoding defaults
+</span><span class='line'>    to the default encoding. errors may be given to set a different error
+</span><span class='line'>    handling scheme. Default is 'strict' meaning that encoding errors raise
+</span><span class='line'>    a UnicodeDecodeError. Other possible values are 'ignore' and 'replace'
+</span><span class='line'>    as well as any other name registered with codecs.register_error that is
+</span><span class='line'>    able to handle UnicodeDecodeErrors.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
+
+<p>例：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; '中文'
+</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87'
+</span><span class='line'>&gt;&gt;&gt; '中文'.decode('utf8')
+</span><span class='line'>u'\u4e2d\u6587'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>手动在上面utf8编码的字符串中混入一个错误编码，并且已经无法正常使用utf8解码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; d = '\xe4\xb8\xad\xdd\xe6\x96\x87'
+</span><span class='line'>&gt;&gt;&gt; d
+</span><span class='line'>'\xe4\xb8\xad\xdd\xe6\x96\x87'
+</span><span class='line'>&gt;&gt;&gt; print d
+</span><span class='line'>中?文
+</span><span class='line'>&gt;&gt;&gt; d.decode('utf8')
+</span><span class='line'>Traceback (most recent call last):
+</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+</span><span class='line'>  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py", line 16, in decode
+</span><span class='line'>    return codecs.utf_8_decode(input, errors, True)
+</span><span class='line'>UnicodeDecodeError: 'utf8' codec can't decode byte 0xdd in position 3: invalid continuation byte</span></code></pre></td></tr></table></div></figure>
+
+
+<p>下面测试下使用ingore和replace后的不同</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; d.decode('utf8', 'ignore')
+</span><span class='line'>u'\u4e2d\u6587'
+</span><span class='line'>&gt;&gt;&gt; print d.decode('utf8', 'ignore')
+</span><span class='line'>中文
+</span><span class='line'>&gt;&gt;&gt; d.decode('utf8', 'replace')
+</span><span class='line'>u'\u4e2d\ufffd\u6587'
+</span><span class='line'>&gt;&gt;&gt; print d.decode('utf8', 'replace')
+</span><span class='line'>中�文
+</span><span class='line'>&gt;&gt;&gt; '中文'.decode('utf8')
+</span><span class='line'>u'\u4e2d\u6587'</span></code></pre></td></tr></table></div></figure>
+
+
+<p>发现，使用ignore正确地跳过了错误编码，使用replace则会将那个错误编码强制转换，造成乱码。</p>
+
+<p>再回到上面的函数代码，第四部分中，不管之前有没有检测出编码，都会对字符串进行强制解码，当然保险起见，这里还加了try，来捕获有可能抛出的异常。</p>
+
+<p>最后，虽然字符编码问题很令人头疼，但只要耐心搞清楚背后的原理，处理起来也没有想象中那么困难。</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -74,6 +375,10 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">Python中的字符编码</a>
+      </li>
     
   </ul>
 </section>
