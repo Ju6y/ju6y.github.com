@@ -196,8 +196,8 @@
 </span><span class='line'>                break
 </span><span class='line'>        detector.close()
 </span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>    if not charset:
-</span><span class='line'>        return string.decode('UTF-8', 'ignore')
+</span><span class='line'>        if not charset:
+</span><span class='line'>            return string.decode('UTF-8', 'ignore')
 </span><span class='line'>    # 4   
 </span><span class='line'>    try:
 </span><span class='line'>        return string.decode(charset, 'replace')
@@ -261,7 +261,7 @@
 
 <p>第二部分中，对长度小于100的字符串直接使用detect函数进行编码检测，而超过100的同样是考虑性能问题，采用了每次增量检测长度100的字符串，最多增加9次，即限制检测的最大的长度为1000，如果能提前确定了编码，就会跳出循环，避免了对大字符串的整体检测，因为一个字符串往往都是同一种编码。</p>
 
-<p>第三部分中，如果第二部检测不到编码结果，往往是遇到了字符串中混有错误编码的情况，那么对字符串的前100个字符逐个检测，直到检测出编码或者检测完100个字符为止。检测完毕如果检测出编码，就调用decode，并传入‘ignore’，跳过不能解码的字节，减小错误编码造成的影响。</p>
+<p>第三部分中，如果第二部检测不到编码结果，往往是遇到了字符串中混有错误编码的情况，那么对字符串的前100个字符逐个检测，直到检测出编码或者检测完100个字符为止。检测完毕如果还是未检测出编码，就使用utf8解码，并传入‘ignore’，跳过不能解码的字节，减小错误编码造成的影响。</p>
 
 <p>这里补充下decode函数的说明：</p>
 
