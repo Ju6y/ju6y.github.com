@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-07-05T23:54:40+08:00</updated>
+  <updated>2013-07-07T16:10:41+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -12,6 +12,896 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[PEP 8翻译]]></title>
+    <link href="http://Ju6y.github.io/blog/2013/07/07/pep-8fan-yi/"/>
+    <updated>2013-07-07T16:08:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2013/07/07/pep-8fan-yi</id>
+    <content type="html"><![CDATA[<h1>PEP<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 8</h1>
+
+<h3>Python代码风格指导</h3>
+
+<h3>原文链接<a href="http://www.python.org/dev/peps/pep-0008/#id8">http://www.python.org/dev/peps/pep-0008/#id8</a></h3>
+
+<h2>介绍</h2>
+
+<p>这个文档提供了主要的Python发行版本中标准库代码的风格规范。可以同时参考C代码风格指南<a href="http://www.python.org/dev/peps/pep-0007/">PEP 7</a>。
+这个文档和<a href="http://www.python.org/dev/peps/pep-0257/">PEP 257(docstring的编写指南)</a>是从Guido最早的Python编码风格指导论文改编而来，并在此之上增加了部分Barry的风格指导（<a href="http://barry.warsaw.us/software/STYLEGUIDE.txt">Barry&rsquo;s GNU Mailman style guide</a>）</p>
+
+<h2>愚蠢地坚持随波逐流是心胸狭窄的表现(A Foolish Consistency is the Hobgoblin of Little Minds)</h2>
+
+<p>Guido的主要观点之一是代码更多的时候是用来读的。这篇指南旨在提高代码的可读性，并使大部分的Python代码的风格都能够保持一致性。就像<a href="http://www.python.org/dev/peps/pep-0020/">PEP 20（Python之禅）</a>里提到的，“Readability counts”（可读性很重要）。</p>
+
+<p>一种代码风格指南说白了就是保持一致性。在代码风格指南中保持风格的一致性很重要，在一个项目中保持一致性更是如此，在一个模块或者一个函数中保持代码风格的一致性尤甚。</p>
+
+<p>但更重要的是要知道什么时候该放弃一致性，有的时候风格指南并不适用。当对是否要应用风格指南有疑问时，你应该相信自己的最佳判断，也可以查看其他例子，决定什么样的才是看上去最好的，还有要会及时提问。</p>
+
+<p>有2个理由可以让你不遵守某个规则：</p>
+
+<p>1.应用这个规则会降低代码的可读性，即使是对那些习惯了这个规则的代码阅读者</p>
+
+<p>2.为了与原有代码保持一致（也许是历史原因）&mdash; 虽然这是一个绝佳的机会来收拾别人的烂摊子（真正的XP风格，XP，Xtreme Programming，极限编程）</p>
+
+<h2>代码布局</h2>
+
+<h3>缩进</h3>
+
+<p>使用4个空格来进行每一级的缩进。
+为了与那些很老的代码保持一致，你可以继续使用8空格长的制表符。</p>
+
+<p>续行应该通过使用小括号、中括号、大括号中隐式续行垂直的排列元素，或者使用一个悬挂的缩进。当使用悬挂缩进时，需要注意如下几点：第一行中不应该放参数，使用进一步的缩进来区分这一行是续行。</p>
+
+<p>YES：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#跟开始的圆括号对齐
+</span><span class='line'>foo = long_function_name(var_one, var_two,
+</span><span class='line'>                         var_three, var_four)
+</span><span class='line'>#多缩进一次来进行区分
+</span><span class='line'>def long_function_name(
+</span><span class='line'>        var_one, var_two, var_three,
+</span><span class='line'>        var_four):
+</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>NO：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>#当没有垂直对齐时，是不允许将参数放在第一行的
+</span><span class='line'>foo = long_function_name(var_one, var_two,
+</span><span class='line'>    var_three, var_four)
+</span><span class='line'>#需要更进一步的缩进来与其他正常行的缩进区分开
+</span><span class='line'>def long_function_name(
+</span><span class='line'>    var_one, var_two, var_three,
+</span><span class='line'>    var_four):
+</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Optional：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># 更多的缩进也不是必须的
+</span><span class='line'>foo = long_function_name(
+</span><span class='line'>  var_one, var_two,
+</span><span class='line'>  var_three, var_four)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>多行结构的右括号（包括圆括号、方括号、花括号）可以放在在列表中最后一个元素的下面，如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
+</span><span class='line'>    1, 2, 3,
+</span><span class='line'>    4, 5, 6,
+</span><span class='line'>    ]
+</span><span class='line'>result = some_function_that_takes_arguments(
+</span><span class='line'>    'a', 'b', 'c',
+</span><span class='line'>    'd', 'e', 'f',
+</span><span class='line'>    )</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可以放在多行结构的行头下面，如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
+</span><span class='line'>    1, 2, 3,
+</span><span class='line'>    4, 5, 6,
+</span><span class='line'>]
+</span><span class='line'>result = some_function_that_takes_arguments(
+</span><span class='line'>    'a', 'b', 'c',
+</span><span class='line'>    'd', 'e', 'f',
+</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>制表符还是空格</h3>
+
+<p>永远不要将制表符和空格混合使用。</p>
+
+<p>Python缩进的最常用方式是只使用空格。第二常用的是只使用制表符。混合使用空格和制表符进行缩进的代码都应该专门处理成用空格缩进。在使用Python命令行时，使用-t选项将会对混合空格和制表符的缩进进行警告，如果是用-tt选项，这些警告就会变成错误。强烈建议使用这些选项。</p>
+
+<p>对于新项目，强烈建议使用空格作为唯一的缩进方式，很多编辑器都能够设置将tab映射为多个空格，使得使用空格来缩进变得很容易使用。</p>
+
+<h3>最大行字符数</h3>
+
+<p>将每一行的最大字符数都限制到79个。</p>
+
+<p>现在仍然有很多设备限制每行最多只能显示80个字符，此外，限制窗口到80个字符，能够方便将多个窗口并排显示。拥有这些限制的设备在显示代码的时候会打乱代码结构，使得代码难以理解，所以最好还是限制行最大字符数为79。对于那些连续的文字快（docstring或者注释）建议限制长度到72个字符。</p>
+
+<p>较长行折行的首选方式是在圆括号、方括号、花括号中使用Python隐式续行。较长行可以在圆括号中分解为多行显示。这些操作应比反斜杠优先使用。同时要对续行进行适当地缩进。应该优先在二元操作符的后面对较长行进行折行，而不是二元操作符的前面，如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Rectangle(Blob):
+</span><span class='line'>
+</span><span class='line'>    def __init__(self, width, height,
+</span><span class='line'>                 color='black', emphasis=None, highlight=0):
+</span><span class='line'>        if (width == 0 and height == 0 and
+</span><span class='line'>            color == 'red' and emphasis == 'strong' or
+</span><span class='line'>            highlight &gt; 100):
+</span><span class='line'>            raise ValueError("sorry, you lose")
+</span><span class='line'>        if width == 0 and height == 0 and (color == 'red' or
+</span><span class='line'>                                           emphasis is None):
+</span><span class='line'>            raise ValueError("I don't think so -- values are %s, %s" %
+</span><span class='line'>                             (width, height))
+</span><span class='line'>        Blob.__init__(self, width, height,
+</span><span class='line'>                      color, emphasis, highlight)</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>空行</h3>
+
+<p>顶层单独的函数定义或类定义之间应间隔2个空白行。</p>
+
+<p>类中的函数定义应使用1个空白行间隔开。</p>
+
+<p>（谨慎地）使用额外的空白行来分隔一组相关的函数。一堆相关的单行代码间的空行应该被省略。</p>
+
+<p>在函数中，谨慎地使用空白行来划分逻辑段落。</p>
+
+<p>Python接收control-L换页符来作为空格。很多工具都把这些字符当作换页符，所以你可以使用它们来划分你代码文件中不同的段落。请注意，一些编辑器和基于Web的代码阅读器可能无法识别control-L为换页，将在其位置显示另一个字符。</p>
+
+<h3>编码（<a href="http://www.python.org/dev/peps/pep-0263/">PEP263</a>）</h3>
+
+<p>Python的主要发行版本代码中的编码应该一直使用ASCII或者latin-1（又名ISO-8859-1）。Python3.0及以后，将优先使用UTF-8。</p>
+
+<p>使用ASCII编码的文件不应该带有coding cookie（# &ndash;*&ndash; coding: utf-8 &ndash;*-，# coding=utf-8）。latin-1或者utf-8只应该在一段注释或者文档字符设计到包含latin-1或者utf-8字符的作者名字时才使用，其他情况使用\x, \u 或者 \U等转义字符来表示非ASCII编码的字符串。</p>
+
+<h3>导入</h3>
+
+<p>每个import应该单独一行使用，如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: import os
+</span><span class='line'>     import sys
+</span><span class='line'>No:  import sys, os</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如下使用是允许的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from subprocess import Popen, PIPE</span></code></pre></td></tr></table></div></figure>
+
+
+<p>import永远放在文件的顶部，仅仅在模块注释和文档字符串的后面，但在模块全局变量和常量的前面。</p>
+
+<p>import应该按以下顺序分组和排列：</p>
+
+<p>1.标准库导入</p>
+
+<p>2.相关的第三方库导入</p>
+
+<p>3.本地应用或库的特定导入</p>
+
+<p>你应该在每一个组之间用一个空白行分隔开。</p>
+
+<p>将任何相关联的<strong>all</strong>说明放到import后面。</p>
+
+<p>非常不推荐在包内导入中使用相对路径导入，应该永远使用绝对路径导入。尽管现在<a href="http://www.python.org/dev/peps/pep-0328/">PEP 328</a>已经在Python2.5中实现，但依旧不鼓励使用相对路径导入风格，绝对路径导入更容易移植，往往可读性也更好。</p>
+
+<p>从一个模块导入一个类时，往往这么写：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>from myclass import MyClass
+</span><span class='line'>from foo.bar.yourclass import YourClass</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果上述写法引起本地变量名冲突，那你应该这么写：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>import myclass
+</span><span class='line'>import foo.bar.yourclass</span></code></pre></td></tr></table></div></figure>
+
+
+<p>然后使用 &ldquo;myclass.MyClass&#8221;和&#8221;foo.bar.yourclass.YourClass&#8221;。</p>
+
+<h2>表达式和语句中的空格</h2>
+
+<h3>无法忍受的事</h3>
+
+<p>避免在下列情况中使用额外的空格</p>
+
+<ul>
+<li>紧贴圆括号、方括号、花括号</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(ham[1], {eggs: 2})
+</span><span class='line'>No:  spam( ham[ 1 ], { eggs: 2 } )</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>逗号、冒号和分号之前不要有空格</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if x == 4: print x, y; x, y = y, x
+</span><span class='line'>No:  if x == 4 : print x , y ; x , y = y , x</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>函数名与参数列表的左括号之间不要有空格</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(1)
+</span><span class='line'>No:  spam (1)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>索引或分片的方括号之前不要有空格</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: dict['key'] = list[index]
+</span><span class='line'>No:  dict ['key'] = list [index]</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x = 1
+</span><span class='line'>y = 2
+</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x             = 1
+</span><span class='line'>y             = 2
+</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>其他建议</h3>
+
+<ul>
+<li><p>永远在二元操作符的2边放置一个空格</p></li>
+<li><p>如果使用了不同优先级的多个操作符，可以考虑在最低优先级的操作符两边加空格。具体情况自己判断，然而不要使用超过一个空格，并且操作符两边的空格数量一定要一致。</p></li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>i = i + 1
+</span><span class='line'>submitted += 1
+</span><span class='line'>x = x*2 - 1
+</span><span class='line'>hypot2 = x*x + y*y
+</span><span class='line'>c = (a+b) * (a-b)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>i=i+1
+</span><span class='line'>submitted +=1
+</span><span class='line'>x = x * 2 - 1
+</span><span class='line'>hypot2 = x * x + y * y
+</span><span class='line'>c = (a + b) * (a - b)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>不要在一个关键字参数或者缺省参数的=号前后加空格</li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag=0.0):
+</span><span class='line'>    return magic(r=real, i=imag)</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+
+<p>No:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag = 0.0):
+</span><span class='line'>    return magic(r = real, i = imag)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>一般不建议在同一行使用混合语句</li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah':
+</span><span class='line'>    do_blah_thing()
+</span><span class='line'>do_one()
+</span><span class='line'>do_two()
+</span><span class='line'>do_three()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>宁愿不:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
+</span><span class='line'>do_one(); do_two(); do_three()</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>有时候将一个小的if/for/while块放在同一行是可以的，但是绝对不要将多个分句放在一行。不放在一行上，同时也能避免去折叠较长行。</li>
+</ul>
+
+
+<p>宁愿不:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
+</span><span class='line'>for x in lst: total += x
+</span><span class='line'>while t &lt; 10: t = delay()</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一定不要:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
+</span><span class='line'>else: do_non_blah_thing()
+</span><span class='line'>
+</span><span class='line'>try: something()
+</span><span class='line'>finally: cleanup()
+</span><span class='line'>
+</span><span class='line'>do_one(); do_two(); do_three(long, argument,
+</span><span class='line'>                             list, like, this)
+</span><span class='line'>
+</span><span class='line'>if foo == 'blah': one(); two(); three()</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>注释</h2>
+
+<p>与代码矛盾的注释比没有注释还糟糕。当代码改变时，永远优先更新注释。</p>
+
+<p>注释应该是一个完整的句子。当注释是一句短语或者一句完整的句子的时候，句子的首字母应该大写（英文注释），除非是个以小写字母开头的标识（永远不要改变标识的大小写！）。</p>
+
+<p>如果注释比较简单，最后的句号可以省略。注释块通常是由完整的语句构成的段落组成，每个语句都应该以句号结尾。</p>
+
+<p>你应该在一句以句号结尾的句子后面加2个空格。</p>
+
+<p>当写英文注释的时候，请使用“Strunk and White”<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>写作风格。</p>
+
+<p>如果是非英语母语国家的Python程序员，请使用英文写注释，除非你120%保证你的代码永远不会被不说你的语言的人阅读。</p>
+
+<h3>块注释</h3>
+
+<p>块注释往往放在一段代码或者所有代码的前面，它和代码处在同一级缩进上。块注释的每一行都以#和紧跟的空格开始（除非是注释块中的缩进文本）。</p>
+
+<p>块注释中的段落由以#开始的空白行分隔。</p>
+
+<h3>行内注释</h3>
+
+<p>谨慎使用行内注释</p>
+
+<p>行内注释是指跟语句处在同一行的注释。行内注释与语句使用至少2个空格来进行分隔。行内注释由#和紧跟的空格开始。</p>
+
+<p>如果行内注释描述的是显而易见的事，那么是不必要的甚至造成干扰：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Increment x</span></code></pre></td></tr></table></div></figure>
+
+
+<p>但有时候是有用的：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Compensate for border</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>文档字符串</h3>
+
+<p>如何写出良好的文档字符串的规范可以查看<a href="http://www.python.org/dev/peps/pep-0257/">PEP 257</a></p>
+
+<ul>
+<li>为所有公共的模块、函数、类和方法写文档字符串。对于非公共的方法，文档字符串不是必须的，但你应该写一个注释来描述该方法，这个注释应该放在def行后面。</li>
+<li>PEP 257描述了良好的文档字符串编写规范。其中最重要的是，&#8221;&ldquo;&#8221;作为多行文档字符串的结束时，应该单独起一行，之前还需要有一行空行。</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"""Return a foobang
+</span><span class='line'>
+</span><span class='line'>Optional plotz says to frobnicate the bizbaz first.
+</span><span class='line'>
+</span><span class='line'>"""</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>如果是单行的文档字符串，可以不用将结束的&#8221;&ldquo;&#8221;单独放置一行。</li>
+</ul>
+
+
+<h2>版本注记</h2>
+
+<p>如果在代码源文件中掺杂着Subversion，CVS或RCS注记，按照下面的规则书写。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>__version__ = "$Revision: cfd6d2cb1ca6 $"
+</span><span class='line'># $Source$</span></code></pre></td></tr></table></div></figure>
+
+
+<p>这些行应放在块注释之后，其他代码之前。前后各有一个空行。</p>
+
+<h2>命名规范</h2>
+
+<p>Python库中的命名规范有点混乱，所以我们永远无法将所有代码都保持一致。下面提供了当前比较推荐的命名标准。新的模块和包（包括第三方库）应该遵循这些标准，但是如果使用了不同风格的库，那么应该跟它们的风格保持一致。</p>
+
+<h3>非限制性的：命名风格</h3>
+
+<p>存在许许多多不同的命名风格，如果能识别出使用了哪种命名风格是很有用的，至于为什么要使用这种风格就不是那么重要了。</p>
+
+<p>下面是一些比较常见的命名风格，这些风格的特征比较明显：</p>
+
+<ul>
+<li>b（单个小些字母）</li>
+<li>B（单个大写字母）</li>
+<li>lowercase（纯小写单词）</li>
+<li>lower_case_with_underscores（使用下划线分隔的纯小写单词）</li>
+<li>UPPERCASE（纯大写单词）</li>
+<li>UPPER_CASE_WITH_UNDERSCORES（使用下划线分隔的纯大写单词）</li>
+<li>CapitalizedWords 驼峰命名法（或CapWords，或CamelCase &ndash; 这么命名是因为单词上下起伏类似骆驼的背）有时也称为StudlyCaps。</li>
+</ul>
+
+
+<p><em>注意</em>：在CapWords中使用缩写时，请将缩写都大写，如HTTPServerError比HttpServerError更好</p>
+
+<ul>
+<li>mixedCase（与CapitalizedWords不同的是，首字母是小写）</li>
+<li>Capitalized_Words_With_Underscores（就一个字，丑！）</li>
+</ul>
+
+
+<p>也有使用同一前缀来命名相关联名称的风格，但在Python中不常用，但为了表述的完整性还是要提一下。比如os.stat() 函数返回一个元组，包含了很多传统方式的命名如st_mode, st_size, st_mtime等（这么做是为了与POSIX系统调用结构体中字段保持一致，帮助程序员能够快速熟悉这些字段）。</p>
+
+<p>X11库为所有的函数使用了X前缀。在Python中，这个一般是不需要的，因为属性和方法名都有对象作前缀，而函数名有模块名作前缀。</p>
+
+<p>此外，下面的使用下划线为开头和结尾的特殊形式是公认的（通常能够跟任何风格兼容）
+&ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
+&ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Tkinter.Toplevel(master, class_='ClassName')</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>__double_leading_underscore：命名一个类属性时，触发调用“名字扩展”（inside class FooBar, __boo becomes _FooBar__boo）</li>
+<li>__double_leading_and_trailing_underscore__：神奇的对象或属性，只存在于用户控制的命名空间内，如__init__, __import__ 或 __file__，永远不要创建类似名字，只使用文档中已记载的名字。</li>
+</ul>
+
+
+<h3>规定的：命名规范</h3>
+
+<h4>避免使用的名字</h4>
+
+<p>永远不要使用字符“l”（小写字母el），“O”（大写字母oh）和 “I”（大写字母eye）作为单字符名字。</p>
+
+<p>在一些字体中，这些字符跟数字1和0很难区分，如果非要使用“l”，可以用“L”来代替。</p>
+
+<h4>包和模块名</h4>
+
+<p>模块名应该是较短，且全部由小写字母构成。如果能提升可读性，可以在模块名中增加下划线。包也同样使用较短的小写字母名字，但是不建议使用下划线。</p>
+
+<p>因为模块名是隐射到文件名，一些文件系统是不区分大小写并且会截断较长的文件名。选择一个短的名字作为模块名是很重要的&mdash;但在Unix下不会有问题，如果代码移植到老的Mac、windows或者DOS就可能引起问题。</p>
+
+<p>当一个C/C++编写的扩展模块，使用Python模块作为高层的接口时，C/C++模块名前应该加下划线（例如：_socket）。</p>
+
+<h4>类名</h4>
+
+<p>毫无例外，类名要使用CapWords规范，只是内部使用的类，需要额外在名字前面加上下划线。</p>
+
+<h4>异常名</h4>
+
+<p>异常也是类，应该应用类名的规则，但是你应该在异常名前面增加后缀“Error”（如果这个异常确实是个错误的话）</p>
+
+<h4>全局变量名</h4>
+
+<p>（我们希望这些变量只在模块内部使用），命名规格跟函数大体类似。</p>
+
+<p>被设计通过使用from M import * 来导入使用的模块，应该使用__all__来避免将所有名字全局导出，或者使用较老的前缀规范，即全局变量名前加下划线（来标识这些全局变量是模块非公有的）</p>
+
+<h4>函数名</h4>
+
+<p>函数名应该都小写，为了提高可读性，适当增加下划线。</p>
+
+<p>mixedCase这种风格只允许用在已使用该风格的地方，保持风格的一致性。</p>
+
+<h4>函数和方法参数</h4>
+
+<p>永远使用self作为实例方法的第一个参数名。</p>
+
+<p>永远使用cls作为类方法的第一个参数名。</p>
+
+<p>如果一个函数的参数名与现有的关键字冲突，最好的解决办法是在名字后面加一个下划线，而不是使用缩写和拼写变体，例如class_要好于clss（最好是能够使用同义词来编码出现类似的冲突）</p>
+
+<h4>方法名和实例成员变量</h4>
+
+<p>使用函数的命名规则：全部小写，为了提高可读性，适当增加下划线。</p>
+
+<p>使用一个前缀下划线来标识该方法和实例成员变量为非公有的。</p>
+
+<p>为了避免与子类的命名冲突，使用2个前缀下划线来触发Python的名字扩展机制。</p>
+
+<p>Python用类名来扩展这些名字：如果类Foo有一个属性__a，就不能通过Foo.<strong>a来访问(坚持要访问，则可以使用Foo._Foo</strong>a)。通常，双下划线前缀应该只用来避免与子类的名字冲突。</p>
+
+<h4>注意：关于__names的使用还存在一些争论（见下文）</h4>
+
+<h4>常量</h4>
+
+<p>常量通常定义在模块的顶层，使用全大写作为名称，适当使用下划线分隔。例如：MAX_OVERFLOW和TOTAL。</p>
+
+<h4>继承设计</h4>
+
+<p>永远要考虑好方法和实例成员变量应该是公有的还是非公有的。如果不能确定，就选择非公有；将一个非公有的变为公有的要比将非公有的改为公有的容易。</p>
+
+<p>公有属性是那些你期望与类无关的客户端来使用，并使用委托来保证向后兼容。非公有属性是那些不希望被第三方使用的属性，你不能保证这些非公有属性不会改变甚至移除。</p>
+
+<p>在这里我们没有使用术语“private”，因为在Python里没有真正的非公有（避免了大量不必要的工作）。</p>
+
+<p>另一类属性是那些成为子类API的部分（在其他语言中通常成为protected）。一些类是被设计用来作为其他的类的基类，要么被扩展要么被修改。当设计这样的类时，一定要弄清楚哪些属性是公有的，哪些属性是作为子类的API，而哪些是只被基类自己使用的。</p>
+
+<p>下面是比较Pythonic的一些指导建议：</p>
+
+<ul>
+<li>公有属性不应该带有前缀下划线</li>
+<li>如果你的公有属性名与关键字冲突，应该在名字后面加一个下划线后缀，而不是使用缩写和拼写变体（尽管如此，cls是一个最好的代表一个类的变量名，尤其类方法的第一个参数）</li>
+<li>如果是简单的数据属性，应该直接暴露该属性，而不是定义读写该属性的方法。如果你发现要将一个简单的数据属性扩展成为函数行为，请记住Python提供了非常简便的方法来做这些未来加强。这种情况下，使用特性来隐藏属性存取函数的实现。</li>
+</ul>
+
+
+<p><em>注意1</em>:特性只能在新类中使用</p>
+
+<p><em>注意2</em>:尽量避免使用函数行为引起的副作用，虽然例如缓存等副作用一般情况下不会有什么问题</p>
+
+<p><em>注意3</em>:避免使用特性来做开销大的操作，因为属性记法会使调用者认为访问属性是开销很小的。</p>
+
+<ul>
+<li>如果你的类是设计成被用来继承的，而且其中有些属性你不希望被子类使用，那么你应该在这些属性的名字前增加双下划线前缀，但没有下划线后缀。这会触发Python的名字扩展算法，将类名扩展到属性名中，这能避免与子类的同名属性的冲突。</li>
+</ul>
+
+
+<p><em>注意1</em>:注意只有简单的类名才能使用在名字扩展中，如果子类拥有相同的类名和属性名，名字冲突还是会发生。</p>
+
+<p><em>注意2</em>:名字扩展只能用在特定的用途中，比如调试和__getattr__()，不是很方便。然而名字扩展算法很详细的文档记载，而且很容易手工实现。</p>
+
+<p><em>注意3</em>:并不是所有人都喜欢名字扩展，根据实际需要来使用。</p>
+
+<h2>编程建议</h2>
+
+<ul>
+<li>不要以不利于某种Python实现的方式来写代码（PyPy, Jython, IronPython, Cython, Psyco等）</li>
+</ul>
+
+
+<p>比如，不要使用针对CPython优化过的字符串拼接语句，a += b 或者 a = a + b，这写语句在Jython中运行较慢。在一些注重性能的库中使用&#8217;&lsquo;.join()来代替。这样能保证在多种Python实现上运行都保证有线性时间。</p>
+
+<ul>
+<li>单个元素的比较例如None，应该永远使用is或者is not，不要使用等号。</li>
+</ul>
+
+
+<p>要小心if x的写法，如果你的本意是if x is not None。在测试一个默认为None的变量或者参数是否被设置为其他值时，这个值也许在布尔上下文中为false。</p>
+
+<ul>
+<li>当使用比较来实现排序操作时，最好是实现所有6个操作（__eq__, __ne__, __lt__, __le__, __gt__, __ge__），而不要依赖其他代码只会执行其中特定的比较。</li>
+</ul>
+
+
+<p>为了降低实现排序的复杂性，functools.total_ordering()装饰器提供了工具来生成缺失的比较操作。</p>
+
+<p><a href="http://www.python.org/dev/peps/pep-0207/">PEP 207</a>指出Python承担了自反规则，解释器会将y > x替换为x &lt; y，y >= x替换为x &lt;= y，也会交换x == y 和 x != y两边的参数，sort()和min()操作会确保使用&lt;操作符，max()函数会确保使用>操作符。但是最好还是全部实现6个操作符，避免在其他地方引起混乱。</p>
+
+<ul>
+<li>使用基于类的异常</li>
+</ul>
+
+
+<p>字符串异常在新的代码中是被禁止的，在Python2.6中这个语言特性就被移除了。</p>
+
+<p>模块或包应该定义它们自己特定域下面的异常基类。这些异常类应该继承自内置的Exception类，并且永远包含有文档字符串。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class MessageError(Exception):
+</span><span class='line'>    """Base class for errors in the email package."""</span></code></pre></td></tr></table></div></figure>
+
+
+<p>在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
+
+<ul>
+<li>当抛出异常时，使用raise ValueError(&lsquo;message&rsquo;)，而不是使用 raise ValueError, &lsquo;message&#8217;这种旧形式。</li>
+</ul>
+
+
+<p>之所以选择带括号的形式，是因为异常的参数一般比较长或者带有字符串格式化符号，由于有括号，所以你不需要使用“\”来续行。在Python3中，第二种形式是非法的。</p>
+
+<ul>
+<li>当捕获异常时，可能的话尽量指定需要捕获的异常名，少用except:来捕获所有异常.</li>
+</ul>
+
+
+<p>例如：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    import platform_specific_module
+</span><span class='line'>except ImportError:
+</span><span class='line'>    platform_specific_module = None</span></code></pre></td></tr></table></div></figure>
+
+
+<p>一个只有except的异常捕获会捕获SystemExit和KeyboardInterrupt异常，会使程序变得难以使用Control-C来结束，并且会掩盖其他问题。如果你想捕获所有错误，可以使用except Exception:（只有except的捕获相当于except BaseException:）</p>
+
+<p>比较好的做法是限制使用空except在以下2中情况下使用：</p>
+
+<p>1.如果异常处理会打印堆栈信息，至少用户能知道发生了错误</p>
+
+<p>2.如果代码需要做一些清理工作，但让异常继续往上抛出。其实在这种情况下使用try&hellip;finally是更好的选择</p>
+
+<ul>
+<li>此外，对所有使用 try/except语句的地方，要限制try中语句的数量，避免掩盖掉其他问题</li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    value = collection[key]
+</span><span class='line'>except KeyError:
+</span><span class='line'>    return key_not_found(key)
+</span><span class='line'>else:
+</span><span class='line'>    return handle_value(value)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>try:
+</span><span class='line'>    # Too broad!
+</span><span class='line'>    return handle_value(collection[key])
+</span><span class='line'>except KeyError:
+</span><span class='line'>    # Will also catch KeyError raised by handle_value()
+</span><span class='line'>    return key_not_found(key)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>如果要做除获取和释放资源外的事情，上下文操作符应该通过单独的函数或者方法来调用，例如：</li>
+</ul>
+
+
+<p>Yes:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>with conn.begin_transaction():
+</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>with conn:
+</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>后一个例子并没有提供任何信息来表明__enter__ 和 __exit__方法在一次处理以后做了除关闭连接以外的事情。在这个情况里，显示调用是比较重要的。</p>
+
+<ul>
+<li>使用字符串方法，而不要用string模块</li>
+</ul>
+
+
+<p>字符串方法总是运行地更快，而且跟unicode字符串使用同样的API，如果要跟Python2.0之前的代码做兼容可以不遵守这个规则。</p>
+
+<ul>
+<li>使用&#8217;&lsquo;.startswith() 和 &rsquo;&lsquo;.endswith()，而不要用字符串分片去检测字符串是否包含某个前缀或者后缀。</li>
+</ul>
+
+
+<p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if foo.startswith('bar'):
+</span><span class='line'>No:  if foo[:3] == 'bar':</span></code></pre></td></tr></table></div></figure>
+
+
+<p>有个例外是你的代码必须使用Python 1.5.2。</p>
+
+<ul>
+<li>用isinstance()来判断对象的类别，而不是用type()</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if isinstance(obj, int):
+</span><span class='line'>
+</span><span class='line'>No:  if type(obj) is type(1):</span></code></pre></td></tr></table></div></figure>
+
+
+<p>当检测一个对象是不是一个字符串的时候，要注意，字符串也可能是一个unicode字符串。在Python2.3中，str和unicode拥有一个共同基类basestring，所以你可以这样判断：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if isinstance(obj, basestring):</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if not seq:
+</span><span class='line'>     if seq:
+</span><span class='line'>
+</span><span class='line'>No: if len(seq)
+</span><span class='line'>    if not len(seq)</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><p>书写字符串常量时，不要依赖末尾的空格。这样的空格视觉上比较难区分，而且一些编辑器会去掉它们。</p></li>
+<li><p>不要使用==将一个布尔变量跟True和False比较：</p></li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Yes:   if greeting:
+</span><span class='line'>No:    if greeting == True:
+</span><span class='line'>Worse: if greeting is True:</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</li>
+</ul>
+
+<div class="footnotes">
+<hr/>
+<ol>
+<li id="fn:1">
+<p>“Python Enhancement Proposal”的缩写，意为Python提高建议<a href="#fnref:1" rev="footnote">&#8617;</a></p></li>
+<li id="fn:2">
+<p>美国作者威廉·特伦克在《风格的要素》一书中确立了精确的英文写作规则，该书也被俗称为“斯特伦克和怀特”（Strunk and White）。<a href="#fnref:2" rev="footnote">&#8617;</a></p></li>
+</ol>
+</div>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Python中的字符编码]]></title>
