@@ -4,11 +4,11 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-07-07T16:10:41+08:00</updated>
+  <updated>2013-07-07T17:59:49+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
-    
+    <email><![CDATA[zhouenjie@me.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
@@ -42,6 +42,9 @@
 <p>1.应用这个规则会降低代码的可读性，即使是对那些习惯了这个规则的代码阅读者</p>
 
 <p>2.为了与原有代码保持一致（也许是历史原因）&mdash; 虽然这是一个绝佳的机会来收拾别人的烂摊子（真正的XP风格，XP，Xtreme Programming，极限编程）</p>
+
+<!--more-->
+
 
 <h2>代码布局</h2>
 
@@ -914,6 +917,9 @@
 
 <p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块<strong>chardet</strong>，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
 
+<!--more-->
+
+
 <p>下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -1004,7 +1010,7 @@
 </span><span class='line'>                break
 </span><span class='line'>        detector.close()
 </span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>    # 3   
+</span><span class='line'>    # 3
 </span><span class='line'>    if not charset:
 </span><span class='line'>        INIT = 1
 </span><span class='line'>        MAX = 100
