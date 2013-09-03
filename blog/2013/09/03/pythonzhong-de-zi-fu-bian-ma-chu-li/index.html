@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Python中的字符编码 - iBlog</title>
+  <title>Python中的字符编码处理 - iBlog</title>
   <meta name="author" content="Ju6y">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Ju6y.github.io/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma">
+  <link rel="canonical" href="http://Ju6y.github.io/blog/2013/09/03/pythonzhong-de-zi-fu-bian-ma-chu-li">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iBlog" type="application/atom+xml">
@@ -30,18 +30,6 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
-  <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-42290300-1']);
-    _gaq.push(['_trackPageview']);
-
-    (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-    })();
-  </script>
-
 
 </head>
 
@@ -65,8 +53,8 @@
 </form>
   
 <ul class="main-navigation">
-  <li><a href="/">首页</a></li>
-  <li><a href="/blog/archives">所有文章</a></li>
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
 </ul>
 
 </nav>
@@ -77,7 +65,7 @@
   
   <header>
     
-      <h1 class="entry-title">Python中的字符编码</h1>
+      <h1 class="entry-title">Python中的字符编码处理</h1>
     
     
       <p class="meta">
@@ -93,7 +81,7 @@
   
 
 
-<time datetime="2013-06-29T23:18:00+08:00" pubdate data-updated="true">2013-06-29 23:18:00</time>
+<time datetime="2013-09-03T00:00:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2013</time>
         
       </p>
     
@@ -104,12 +92,9 @@
 
 <p>我们知道在Python内部和许多第三方模块内部，字符串都默认是使用unicode来表示的（Python 2.x中字符串分为str类型和unicode类型，本文提到的带编码的字符串都是指str类型，而提到的unicode编码的字符串都是指unicode类型），也就是说，你传入一个字符串给一个内置函数或者第三方模块的接口，它们内部会事先将字符串的编码转换为unicode，而unicode最常见的实现方式是utf8编码（关于更多的字符编码信息请自行谷歌），所以这些函数通常会将获得的字符串参数默认为utf8编码，并尝试解码为unicode，这就导致了如果你传入的是非utf8编码的字符串，调用这些接口就会抛出异常，终止你的代码。</p>
 
-<p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块<strong>chardet</strong>，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
+<p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块chardet，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
 
-<!--more-->
-
-
-<p>下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）：</p>
+<p>下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）<strong><em>(2013-09-03更新)</em></strong>：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -159,14 +144,8 @@
 <span class='line-number'>46</span>
 <span class='line-number'>47</span>
 <span class='line-number'>48</span>
-<span class='line-number'>49</span>
-<span class='line-number'>50</span>
-<span class='line-number'>51</span>
-<span class='line-number'>52</span>
-<span class='line-number'>53</span>
-<span class='line-number'>54</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>def to_unicode(string):
-</span><span class='line'>    # 1
+</span><span class='line'>    #1
 </span><span class='line'>    if isinstance(string, unicode):
 </span><span class='line'>        return string
 </span><span class='line'>    try:
@@ -174,18 +153,9 @@
 </span><span class='line'>        return string_uni
 </span><span class='line'>    except UnicodeDecodeError:
 </span><span class='line'>        pass
-</span><span class='line'>    try:
-</span><span class='line'>        string_uni = string.decode('big5')
-</span><span class='line'>        return string_uni
-</span><span class='line'>    except UnicodeDecodeError:
-</span><span class='line'>        pass
-</span><span class='line'>    try:
-</span><span class='line'>        string_uni = string.decode('GB18030')
-</span><span class='line'>        return string_uni
-</span><span class='line'>    except UnicodeDecodeError:
-</span><span class='line'>        pass
-</span><span class='line'>    # 2 
-</span><span class='line'>    INIT = 100
+</span><span class='line'>    
+</span><span class='line'>    #2
+</span><span class='line'>    INIT = 1000
 </span><span class='line'>    MAX = 10
 </span><span class='line'>    charset = None
 </span><span class='line'>    if len(string) &lt;= INIT: 
@@ -199,7 +169,7 @@
 </span><span class='line'>                break
 </span><span class='line'>        detector.close()
 </span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>    # 3
+</span><span class='line'>    #3
 </span><span class='line'>    if not charset:
 </span><span class='line'>        INIT = 1
 </span><span class='line'>        MAX = 100
@@ -211,9 +181,12 @@
 </span><span class='line'>                break
 </span><span class='line'>        detector.close()
 </span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>        if not charset:
-</span><span class='line'>            return string.decode('UTF-8', 'ignore')
-</span><span class='line'>    # 4   
+</span><span class='line'>    #4
+</span><span class='line'>    if not charset:
+</span><span class='line'>        return string.decode('UTF-8', 'ignore')
+</span><span class='line'>    elif charset[:2].upper() == 'GB':
+</span><span class='line'>        charset = 'GB18030'
+</span><span class='line'>    #5
 </span><span class='line'>    try:
 </span><span class='line'>        return string.decode(charset, 'replace')
 </span><span class='line'>    except UnicodeDecodeError:
@@ -221,8 +194,10 @@
 </span><span class='line'>        return string</span></code></pre></td></tr></table></div></figure>
 
 
-<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码：
-第一部分先用最常见的几个中文字符编码尝试去解码字符串，这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。</p>
+<p></p>
+
+<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： <del>第一部分先用最常见的几个中文字符编码尝试去解码字符串</del>，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。<del>如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。</del>
+<em>这里去掉了big5和gb18030编码的强行解码，因为发现gb18030编码的字符串可以被big5解码而不报错，反之亦然。至于原因目前还没搞懂，只知道gb2312是gbk的子集，gbk是gb18030的子集，各自都向下兼容。(2013-09-03更新)</em></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -238,20 +213,26 @@
 <span class='line-number'>12</span>
 <span class='line-number'>13</span>
 <span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; a = '中文'
 </span><span class='line'>&gt;&gt;&gt; a
 </span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87'
+</span><span class='line'>&gt;&gt;&gt; print a.decode('gb18030')
+</span><span class='line'>涓枃
 </span><span class='line'>&gt;&gt;&gt; b = a.decode('utf8').encode('big5')
 </span><span class='line'>&gt;&gt;&gt; b
 </span><span class='line'>'\xa4\xa4\xa4\xe5'
-</span><span class='line'>&gt;&gt;&gt; print b
-</span><span class='line'>????
 </span><span class='line'>&gt;&gt;&gt; b.decode('gb18030')
 </span><span class='line'>u'\u3044\u3085'
 </span><span class='line'>&gt;&gt;&gt; print b.decode('gb18030')
 </span><span class='line'>いゅ
-</span><span class='line'>&gt;&gt;&gt; print a.decode('gb18030')
-</span><span class='line'>涓枃</span></code></pre></td></tr></table></div></figure>
+</span><span class='line'>&gt;&gt;&gt; c = a.decode('utf8').encode('gb18030')
+</span><span class='line'>&gt;&gt;&gt; c
+</span><span class='line'>'\xd6\xd0\xce\xc4'
+</span><span class='line'>&gt;&gt;&gt; print c.decode('big5')
+</span><span class='line'>笢恅</span></code></pre></td></tr></table></div></figure>
 
 
 <p>如果是奇数个字节的utf8编码字符串就不能被gb18030解码：</p>
@@ -274,7 +255,7 @@
 
 <p>这里使用gb18030，而没有使用gbk或者gb2312，是因为gb18030是后两者的超集。</p>
 
-<p>第二部分中，对长度小于100的字符串直接使用detect函数进行编码检测，而超过100的同样是考虑性能问题，采用了每次增量检测长度100的字符串，最多增加9次，即限制检测的最大的长度为1000，如果能提前确定了编码，就会跳出循环，避免了对大字符串的整体检测，因为一个字符串往往都是同一种编码。</p>
+<p>第二部分中，对长度小于1000的字符串直接使用detect函数进行编码检测，而超过100的同样是考虑性能问题，采用了每次增量检测长度100的字符串，最多增加9次，即限制检测的最大的长度为1000，如果能提前确定了编码，就会跳出循环，避免了对大字符串的整体检测，因为一个字符串往往都是同一种编码。</p>
 
 <p>第三部分中，如果第二部检测不到编码结果，往往是遇到了字符串中混有错误编码的情况，那么对字符串的前100个字符逐个检测，直到检测出编码或者检测完100个字符为止。检测完毕如果还是未检测出编码，就使用utf8解码，并传入‘ignore’，跳过不能解码的字节，减小错误编码造成的影响。</p>
 
@@ -291,7 +272,7 @@
 <span class='line-number'>9</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>decode(...)
 </span><span class='line'>    S.decode([encoding[,errors]]) -&gt; object
-</span><span class='line'>    
+</span><span class='line'>      
 </span><span class='line'>    Decodes S using the codec registered for encoding. encoding defaults
 </span><span class='line'>    to the default encoding. errors may be given to set a different error
 </span><span class='line'>    handling scheme. Default is 'strict' meaning that encoding errors raise
@@ -366,7 +347,25 @@
 
 <p>发现，使用ignore正确地跳过了错误编码，使用replace则会将那个错误编码强制转换，造成乱码。</p>
 
-<p>再回到上面的函数代码，第四部分中，不管之前有没有检测出编码，都会对字符串进行强制解码，当然保险起见，这里还加了try，来捕获有可能抛出的异常。</p>
+<p><em>第4部分中，不知道是不是chardet的bug，如果是gb18030编码的字符串会被检测成为gb2312，而gb2312的字符集要比gb18030小，导致某些生僻字解码出错，这个函数里如果遇到是gb字符集都统一用gb18030去解码，保证解码成功。(2013-09-03更新)</em></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; a = '中文阿舒服的沙发法撒爹翻爾薾'.decode('utf8').encode('gb18030')
+</span><span class='line'>&gt;&gt;&gt; chardet.detect(a)
+</span><span class='line'>{'confidence': 0.99, 'encoding': 'GB2312'}
+</span><span class='line'>&gt;&gt;&gt; print a.decode('gb2312')
+</span><span class='line'>Traceback (most recent call last):
+</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+</span><span class='line'>UnicodeDecodeError: 'gb2312' codec can't decode bytes in position 24-25: illegal multibyte sequence</span></code></pre></td></tr></table></div></figure>
+
+
+<p>再回到上面的函数代码，第五部分中，不管之前有没有检测出编码，都会对字符串进行强制解码，当然保险起见，这里还加了try，来捕获有可能抛出的异常。</p>
 
 <p>最后，虽然字符编码问题很令人头疼，但只要耐心搞清楚背后的原理，处理起来也没有想象中那么困难。</p>
 </div>
@@ -391,12 +390,12 @@
   
 
 
-<time datetime="2013-06-29T23:18:00+08:00" pubdate data-updated="true">2013-06-29 23:18:00</time>
+<time datetime="2013-09-03T00:00:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2013</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/python/'>Python</a>
+    <a class='category' href='/blog/categories/python-zi-fu/'>python,字符</a>
   
 </span>
 
@@ -407,41 +406,15 @@
   
   
   
-  
-  <!-- JiaThis Button BEGIN -->
-<style>
-.flash-video{display:none;}
-</style>
-<div class="jiathis_style">
-	<span class="jiathis_txt">分享到：</span>
-	<a class="jiathis_button_tsina">新浪微博</a>
-	<a class="jiathis_button_douban">豆瓣</a>
-	<a class="jiathis_button_weixin">微信</a>
-	<a class="jiathis_button_twitter">Twitter</a>
-	<a class="jiathis_button_instapaper">Instapaper</a>
-	<a class="jiathis_button_tqq">腾讯微博</a>
-	<a href="http://www.jiathis.com/share?uid=1807891" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript">
-var jiathis_config = {data_track_clickback:'true'};
-</script>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1807891" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" id="UYScript" src="http://v1.uyan.cc/js/iframe.js?UYUserId=1807891" async=""></script>
-<!-- UY END -->
-
-  
 </div>
 
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/2013/09/03/pep-8/" title="Previous Post: Pep 8">&laquo; Pep 8</a>
       
-        <a class="basic-alignment right" href="/blog/2013/07/07/pep-8fan-yi/" title="Next Post: PEP 8翻译">PEP 8翻译 &raquo;</a>
+      
+        <a class="basic-alignment right" href="/blog/2013/09/03/tornado-plus-uwsgi/" title="Next Post: Tornado+uWSGI">Tornado+uWSGI &raquo;</a>
       
     </p>
   </footer>
@@ -452,28 +425,19 @@ var jiathis_config = {data_track_clickback:'true'};
 <aside class="sidebar">
   
     <section>
-  <h1>关于我</h1>
-  <p>Python程序员</p>
-  <iframe width="100%" height="75" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=0&isWeibo=0&isFans=0&uid=1762414755&verifier=f8370028&dpc=1"></iframe>
-</section>
-
-<section> 
-	<h1>文章分类</h1> 
-	<ul id="categories"> 
-		<li class='category'><a href='/blog/categories/python/'>Python (2)</a></li>
- 
-	</ul> 
-</section>
-<section>
-  <h1>最新文章</h1>
+  <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2013/07/07/pep-8fan-yi/">PEP 8翻译</a>
+        <a href="/blog/2013/09/03/tornado-plus-uwsgi/">Tornado+uWSGI</a>
       </li>
     
       <li class="post">
-        <a href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">Python中的字符编码</a>
+        <a href="/blog/2013/09/03/pythonzhong-de-zi-fu-bian-ma-chu-li/">Python中的字符编码处理</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/03/pep-8/">Pep 8</a>
       </li>
     
   </ul>

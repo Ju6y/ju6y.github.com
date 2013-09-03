@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: tornado,python,uwsgi | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/tornado-python-uwsgi/atom.xml" rel="self"/>
+  <link href="http://Ju6y.github.io/"/>
+  <updated>2013-09-03T23:01:28+08:00</updated>
+  <id>http://Ju6y.github.io/</id>
+  <author>
+    <name><![CDATA[Ju6y]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Tornado+uWSGI]]></title>
+    <link href="http://Ju6y.github.io/blog/2013/09/03/tornado-plus-uwsgi/"/>
+    <updated>2013-09-03T00:05:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2013/09/03/tornado-plus-uwsgi</id>
+    <content type="html"><![CDATA[<p>＃使用Tornado＋uWSGI来处理HTTP请求</p>
+
+<p>一个简单的响应“hello world”的例子如下：</p>
+
+<p>```</p>
+
+<h1>!/usr/bin/env python</h1>
+
+<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
+
+<p>import tornado.web
+import tornado.wsgi</p>
+
+<p>class handle(tornado.web.RequestHandler):</p>
+
+<pre><code>def initialize(self):
+    self.name = ''
+
+def get(self):
+    self.name = self.get_argument("name", "nobody")
+    uid = self.get_cookie("uid", 0) + 1
+    self.set_cookie("uid", str(uid))
+    self.set_header("New-Header", "Yes")
+    self.write("hello %s" % self.name)
+
+def post(self):
+    self.name = self.get_argument("name", "nobody")
+    self.set_status(405, "")
+    self.write("sorry, %s" % self.name)
+</code></pre>
+
+<p>application = tornado.wsgi.WSGIApplication([</p>
+
+<pre><code>(r'/hello', handle),
+</code></pre>
+
+<p>])
+```</p>
+
+<p>例子虽然比较简单，但一些常用的功能都覆盖到了，请求参数的获取、cookie的获取和设置、url map的定义等。获取请求参数的方式跟webpy类似，GET方式和POST方式都是通过一个API来获取，跟flask中的有点区别。</p>
+
+<p>另外需要说明的是，像上面例子中那样定义一个handle类来处理请求的话，必须要继承tornado.web.RequestHandler，并且不能自己在定义__init__函数，如果有初始化工作要做，就定义一个initialize函数，把初始化工作都放到这个函数里，这个函数会在tornado.web.RequestHandler的__init__函数的最后被调用。实际使用起来跟__init__函数没有太大区别。</p>
+
+<p>还有一点跟webpy不一样的是，例子中的handle不能是函数，必须是个继承tornado.web.RequestHandler的类。</p>
+]]></content>
+  </entry>
+  
+</feed>

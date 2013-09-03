@@ -1,23 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
-        <loc>http://Ju6y.github.io/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/</loc>
-        <lastmod>2013-07-07T17:31:56+08:00</lastmod>
+        <loc>http://Ju6y.github.io/blog/2013/09/03/pep-8/</loc>
+        <lastmod>2013-09-03T23:01:08+08:00</lastmod>
     </url>
     <url>
-        <loc>http://Ju6y.github.io/blog/2013/07/07/pep-8fan-yi/</loc>
-        <lastmod>2013-07-07T17:33:37+08:00</lastmod>
+        <loc>http://Ju6y.github.io/blog/2013/09/03/pythonzhong-de-zi-fu-bian-ma-chu-li/</loc>
+        <lastmod>2013-09-03T23:01:08+08:00</lastmod>
+    </url>
+    <url>
+        <loc>http://Ju6y.github.io/blog/2013/09/03/tornado-plus-uwsgi/</loc>
+        <lastmod>2013-09-03T23:00:42+08:00</lastmod>
     </url>
     <url>
         <loc>http://Ju6y.github.io/blog/archives/</loc>
-        <lastmod>2013-07-07T17:33:37+08:00</lastmod>
+        <lastmod>2013-09-03T23:01:08+08:00</lastmod>
     </url>
     <url>
         <loc>http://Ju6y.github.io/</loc>
-        <lastmod>2013-07-07T17:43:25+08:00</lastmod>
+        <lastmod>2013-09-03T23:01:08+08:00</lastmod>
     </url>
     <url>
         <loc>http://Ju6y.github.io/robots.txt</loc>
-        <lastmod>2013-05-31T00:27:06+08:00</lastmod>
+        <lastmod>2013-09-02T23:18:31+08:00</lastmod>
     </url>
 </urlset>
