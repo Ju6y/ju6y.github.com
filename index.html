@@ -9,34 +9,7 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="＃使用Tornado＋uWSGI来处理HTTP请求 一个简单的响应“hello world”的例子如下： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-#!/usr/bin/env python
-#-*- &hellip;">
+  <meta name="description" content="如果一个生产环境中部署了多个项目，每个项目使用不同版本的Python，或者不同项目依赖同一个模块的不同版本； 如果你有洁癖，希望保证服务器默认环境的干净； 如果你想尝试某些新工具，又不希望因为这些工具安装失败而搞乱整个服务器环境 如果你会遇到如上几种情况，那么virtualenv无疑是你最好的选择 &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -89,6 +62,86 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/09/03/virtualenv/">Virtualenv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-09-03T23:04:00+08:00" pubdate data-updated="true">Sep 3<span>rd</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>如果一个生产环境中部署了多个项目，每个项目使用不同版本的Python，或者不同项目依赖同一个模块的不同版本；</p>
+
+<p>如果你有洁癖，希望保证服务器默认环境的干净；</p>
+
+<p>如果你想尝试某些新工具，又不希望因为这些工具安装失败而搞乱整个服务器环境</p>
+
+<p>如果你会遇到如上几种情况，那么virtualenv无疑是你最好的选择。</p>
+
+<h3>安装</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo easy_install virtualenv</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install virtualenv</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>建立虚拟环境</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir myproject
+</span><span class='line'>$ cd myproject
+</span><span class='line'>$ virtualenv venv
+</span><span class='line'>New python executable in venv/bin/python
+</span><span class='line'>Installing distribute............done.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>使用虚拟环境</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ . venv/bin/activate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>virtualenv = myproject的全路径/venv</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -1439,6 +1492,10 @@ comments: true</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/09/03/virtualenv/">Virtualenv</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2013/09/03/tornado-plus-uwsgi/">Tornado+uWSGI</a>

@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-03T23:01:28+08:00</updated>
+  <updated>2013-09-03T23:07:57+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -12,6 +12,59 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[virtualenv]]></title>
+    <link href="http://Ju6y.github.io/blog/2013/09/03/virtualenv/"/>
+    <updated>2013-09-03T23:04:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2013/09/03/virtualenv</id>
+    <content type="html"><![CDATA[<p>如果一个生产环境中部署了多个项目，每个项目使用不同版本的Python，或者不同项目依赖同一个模块的不同版本；</p>
+
+<p>如果你有洁癖，希望保证服务器默认环境的干净；</p>
+
+<p>如果你想尝试某些新工具，又不希望因为这些工具安装失败而搞乱整个服务器环境</p>
+
+<p>如果你会遇到如上几种情况，那么virtualenv无疑是你最好的选择。</p>
+
+<h3>安装</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo easy_install virtualenv</span></code></pre></td></tr></table></div></figure>
+
+
+<p>或者</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install virtualenv</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>建立虚拟环境</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir myproject
+</span><span class='line'>$ cd myproject
+</span><span class='line'>$ virtualenv venv
+</span><span class='line'>New python executable in venv/bin/python
+</span><span class='line'>Installing distribute............done.</span></code></pre></td></tr></table></div></figure>
+
+
+<h3>使用虚拟环境</h3>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ . venv/bin/activate</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>virtualenv = myproject的全路径/venv</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Tornado+uWSGI]]></title>
