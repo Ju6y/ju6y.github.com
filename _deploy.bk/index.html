@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>iBlog</title>
+  <meta name="author" content="Ju6y">
+
+  
+  <meta name="description" content="PEP1 8 Python代码风格指导 原文链接http://www.python.org/dev/peps/pep-0008/#id8 介绍 这个文档提供了主要的Python发行版本中标准库代码的风格规范。可以同时参考C代码风格指南PEP 7。
+这个文档和PEP 257( &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Ju6y.github.io">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="iBlog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-42290300-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">iBlog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Ju6y.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">首页</a></li>
+  <li><a href="/blog/archives">所有文章</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/07/07/pep-8fan-yi/">PEP 8翻译</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-07-07T16:08:00+08:00" pubdate data-updated="true">2013-07-07 16:08:00</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h1>PEP<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 8</h1>
+
+<h3>Python代码风格指导</h3>
+
+<h3>原文链接<a href="http://www.python.org/dev/peps/pep-0008/#id8">http://www.python.org/dev/peps/pep-0008/#id8</a></h3>
+
+<h2>介绍</h2>
+
+<p>这个文档提供了主要的Python发行版本中标准库代码的风格规范。可以同时参考C代码风格指南<a href="http://www.python.org/dev/peps/pep-0007/">PEP 7</a>。
+这个文档和<a href="http://www.python.org/dev/peps/pep-0257/">PEP 257(docstring的编写指南)</a>是从Guido最早的Python编码风格指导论文改编而来，并在此之上增加了部分Barry的风格指导（<a href="http://barry.warsaw.us/software/STYLEGUIDE.txt">Barry&rsquo;s GNU Mailman style guide</a>）</p>
+
+<h2>愚蠢地坚持随波逐流是心胸狭窄的表现(A Foolish Consistency is the Hobgoblin of Little Minds)</h2>
+
+<p>Guido的主要观点之一是代码更多的时候是用来读的。这篇指南旨在提高代码的可读性，并使大部分的Python代码的风格都能够保持一致性。就像<a href="http://www.python.org/dev/peps/pep-0020/">PEP 20（Python之禅）</a>里提到的，“Readability counts”（可读性很重要）。</p>
+
+<p>一种代码风格指南说白了就是保持一致性。在代码风格指南中保持风格的一致性很重要，在一个项目中保持一致性更是如此，在一个模块或者一个函数中保持代码风格的一致性尤甚。</p>
+
+<p>但更重要的是要知道什么时候该放弃一致性，有的时候风格指南并不适用。当对是否要应用风格指南有疑问时，你应该相信自己的最佳判断，也可以查看其他例子，决定什么样的才是看上去最好的，还有要会及时提问。</p>
+
+<p>有2个理由可以让你不遵守某个规则：</p>
+
+<p>1.应用这个规则会降低代码的可读性，即使是对那些习惯了这个规则的代码阅读者</p>
+
+<p>2.为了与原有代码保持一致（也许是历史原因）&mdash; 虽然这是一个绝佳的机会来收拾别人的烂摊子（真正的XP风格，XP，Xtreme Programming，极限编程）</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/07/07/pep-8fan-yi/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">Python中的字符编码</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-29T23:18:00+08:00" pubdate data-updated="true">2013-06-29 23:18:00</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>相信那些经常使用Python处理中文或者其他非西文字符的人都多多少少被字符的编码转换困扰过。当然，只要是国内的程序员，不管你使用哪种编程语言都会遇到字符编码转换的问题，但这个问题在Python中更为突出。</p>
+
+<p>我们知道在Python内部和许多第三方模块内部，字符串都默认是使用unicode来表示的（Python 2.x中字符串分为str类型和unicode类型，本文提到的带编码的字符串都是指str类型，而提到的unicode编码的字符串都是指unicode类型），也就是说，你传入一个字符串给一个内置函数或者第三方模块的接口，它们内部会事先将字符串的编码转换为unicode，而unicode最常见的实现方式是utf8编码（关于更多的字符编码信息请自行谷歌），所以这些函数通常会将获得的字符串参数默认为utf8编码，并尝试解码为unicode，这就导致了如果你传入的是非utf8编码的字符串，调用这些接口就会抛出异常，终止你的代码。</p>
+
+<p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块<strong>chardet</strong>，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">阅读全文 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">所有文章</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>关于我</h1>
+  <p>Python程序员</p>
+  <iframe width="100%" height="75" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=0&isWeibo=0&isFans=0&uid=1762414755&verifier=f8370028&dpc=1"></iframe>
+</section>
+
+<section> 
+	<h1>文章分类</h1> 
+	<ul id="categories"> 
+		<li class='category'><a href='/blog/categories/python/'>Python (2)</a></li>
+ 
+	</ul> 
+</section>
+<section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2013/07/07/pep-8fan-yi/">PEP 8翻译</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/06/29/pythonzhong-de-zi-fu-bian-ma/">Python中的字符编码</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Ju6y -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
