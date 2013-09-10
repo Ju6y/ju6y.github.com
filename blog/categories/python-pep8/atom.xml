@@ -1,12 +1,24 @@
-<p>&mdash;
-layout: post
-title: &ldquo;PEP 8翻译&rdquo;
-date: 2013-07-07 16:08
-comments: true</p>
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<h2>categories: python,pep8</h2>
+  <title><![CDATA[Category: python,pep8 | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/python-pep8/atom.xml" rel="self"/>
+  <link href="http://Ju6y.github.io/"/>
+  <updated>2013-09-10T14:06:23+08:00</updated>
+  <id>http://Ju6y.github.io/</id>
+  <author>
+    <name><![CDATA[Ju6y]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
-<h1>PEP<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 8</h1>
+  
+  <entry>
+    <title type="html"><![CDATA[PEP 8翻译]]></title>
+    <link href="http://Ju6y.github.io/blog/2013/07/07/pep-8/"/>
+    <updated>2013-07-07T16:08:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2013/07/07/pep-8</id>
+    <content type="html"><![CDATA[<h1>PEP<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup> 8</h1>
 
 <h3>Python代码风格指导</h3>
 
@@ -42,95 +54,96 @@ comments: true</p>
 
 <p>YES：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#跟开始的圆括号对齐
-</span><span class='line'>foo = long_function_name(var_one, var_two,
-</span><span class='line'>                         var_three, var_four)
-</span><span class='line'>#多缩进一次来进行区分
-</span><span class='line'>def long_function_name(
-</span><span class='line'>        var_one, var_two, var_three,
-</span><span class='line'>        var_four):
-</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+<p>```</p>
 
+<h1>跟开始的圆括号对齐</h1>
+
+<p>foo = long_function_name(var_one, var_two,</p>
+
+<pre><code>                     var_three, var_four)
+</code></pre>
+
+<h1>多缩进一次来进行区分</h1>
+
+<p>def long_function_name(</p>
+
+<pre><code>    var_one, var_two, var_three,
+    var_four):
+print(var_one)
+</code></pre>
+
+<p>```</p>
 
 <p>NO：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#当没有垂直对齐时，是不允许将参数放在第一行的
-</span><span class='line'>foo = long_function_name(var_one, var_two,
-</span><span class='line'>    var_three, var_four)
-</span><span class='line'>#需要更进一步的缩进来与其他正常行的缩进区分开
-</span><span class='line'>def long_function_name(
-</span><span class='line'>    var_one, var_two, var_three,
-</span><span class='line'>    var_four):
-</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+<p>```</p>
 
+<h1>当没有垂直对齐时，是不允许将参数放在第一行的</h1>
+
+<p>foo = long_function_name(var_one, var_two,</p>
+
+<pre><code>var_three, var_four)
+</code></pre>
+
+<h1>需要更进一步的缩进来与其他正常行的缩进区分开</h1>
+
+<p>def long_function_name(</p>
+
+<pre><code>var_one, var_two, var_three,
+var_four):
+print(var_one)
+</code></pre>
+
+<p>```</p>
 
 <p>Optional：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 更多的缩进也不是必须的
-</span><span class='line'>foo = long_function_name(
-</span><span class='line'>  var_one, var_two,
-</span><span class='line'>  var_three, var_four)</span></code></pre></td></tr></table></div></figure>
+<p>```</p>
 
+<h1>更多的缩进也不是必须的</h1>
+
+<p>foo = long_function_name(
+  var_one, var_two,
+  var_three, var_four)
+```</p>
 
 <p>多行结构的右括号（包括圆括号、方括号、花括号）可以放在在列表中最后一个元素的下面，如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
-</span><span class='line'>    1, 2, 3,
-</span><span class='line'>    4, 5, 6,
-</span><span class='line'>    ]
-</span><span class='line'>result = some_function_that_takes_arguments(
-</span><span class='line'>    'a', 'b', 'c',
-</span><span class='line'>    'd', 'e', 'f',
-</span><span class='line'>    )</span></code></pre></td></tr></table></div></figure>
+<p>```
+my_list = [</p>
 
+<pre><code>1, 2, 3,
+4, 5, 6,
+]
+</code></pre>
+
+<p>result = some_function_that_takes_arguments(</p>
+
+<pre><code>'a', 'b', 'c',
+'d', 'e', 'f',
+)
+</code></pre>
+
+<p>```</p>
 
 <p>也可以放在多行结构的行头下面，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
-</span><span class='line'>    1, 2, 3,
-</span><span class='line'>    4, 5, 6,
-</span><span class='line'>]
-</span><span class='line'>result = some_function_that_takes_arguments(
-</span><span class='line'>    'a', 'b', 'c',
-</span><span class='line'>    'd', 'e', 'f',
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+<p>```
+my_list = [</p>
 
+<pre><code>1, 2, 3,
+4, 5, 6,
+</code></pre>
+
+<p>]
+result = some_function_that_takes_arguments(</p>
+
+<pre><code>'a', 'b', 'c',
+'d', 'e', 'f',
+</code></pre>
+
+<p>)
+```</p>
 
 <h3>制表符还是空格</h3>
 
@@ -148,35 +161,24 @@ comments: true</p>
 
 <p>较长行折行的首选方式是在圆括号、方括号、花括号中使用Python隐式续行。较长行可以在圆括号中分解为多行显示。这些操作应比反斜杠优先使用。同时要对续行进行适当地缩进。应该优先在二元操作符的后面对较长行进行折行，而不是二元操作符的前面，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Rectangle(Blob):
-</span><span class='line'>
-</span><span class='line'>    def __init__(self, width, height,
-</span><span class='line'>                 color='black', emphasis=None, highlight=0):
-</span><span class='line'>        if (width == 0 and height == 0 and
-</span><span class='line'>            color == 'red' and emphasis == 'strong' or
-</span><span class='line'>            highlight &gt; 100):
-</span><span class='line'>            raise ValueError("sorry, you lose")
-</span><span class='line'>        if width == 0 and height == 0 and (color == 'red' or
-</span><span class='line'>                                           emphasis is None):
-</span><span class='line'>            raise ValueError("I don't think so -- values are %s, %s" %
-</span><span class='line'>                             (width, height))
-</span><span class='line'>        Blob.__init__(self, width, height,
-</span><span class='line'>                      color, emphasis, highlight)</span></code></pre></td></tr></table></div></figure>
+<p>```
+class Rectangle(Blob):</p>
 
+<pre><code>def __init__(self, width, height,
+             color='black', emphasis=None, highlight=0):
+    if (width == 0 and height == 0 and
+        color == 'red' and emphasis == 'strong' or
+        highlight &gt; 100):
+        raise ValueError("sorry, you lose")
+    if width == 0 and height == 0 and (color == 'red' or
+                                       emphasis is None):
+        raise ValueError("I don't think so -- values are %s, %s" %
+                         (width, height))
+    Blob.__init__(self, width, height,
+                  color, emphasis, highlight)
+</code></pre>
+
+<p>```</p>
 
 <h3>空行</h3>
 
@@ -200,19 +202,20 @@ comments: true</p>
 
 <p>每个import应该单独一行使用，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: import os
-</span><span class='line'>     import sys
-</span><span class='line'>No:  import sys, os</span></code></pre></td></tr></table></div></figure>
+<p>```
+Yes: import os</p>
 
+<pre><code> import sys
+</code></pre>
+
+<p>No:  import sys, os
+```</p>
 
 <p>如下使用是允许的：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from subprocess import Popen, PIPE</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+from subprocess import Popen, PIPE
+</code></p>
 
 <p>import永远放在文件的顶部，仅仅在模块注释和文档字符串的后面，但在模块全局变量和常量的前面。</p>
 
@@ -232,21 +235,19 @@ comments: true</p>
 
 <p>从一个模块导入一个类时，往往这么写：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from myclass import MyClass
-</span><span class='line'>from foo.bar.yourclass import YourClass</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+from myclass import MyClass
+from foo.bar.yourclass import YourClass
+</code></p>
 
 <p>如果上述写法引起本地变量名冲突，那你应该这么写：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import myclass
-</span><span class='line'>import foo.bar.yourclass</span></code></pre></td></tr></table></div></figure>
+<p><code>
+import myclass
+import foo.bar.yourclass
+</code></p>
 
-
-<p>然后使用 &ldquo;myclass.MyClass&#8221;和&#8221;foo.bar.yourclass.YourClass&#8221;。</p>
+<p>然后使用 &ldquo;myclass.MyClass"和"foo.bar.yourclass.YourClass"。</p>
 
 <h2>表达式和语句中的空格</h2>
 
@@ -259,44 +260,40 @@ comments: true</p>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(ham[1], {eggs: 2})
-</span><span class='line'>No:  spam( ham[ 1 ], { eggs: 2 } )</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Yes: spam(ham[1], {eggs: 2})
+No:  spam( ham[ 1 ], { eggs: 2 } )
+</code></p>
 
 <ul>
 <li>逗号、冒号和分号之前不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if x == 4: print x, y; x, y = y, x
-</span><span class='line'>No:  if x == 4 : print x , y ; x , y = y , x</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Yes: if x == 4: print x, y; x, y = y, x
+No:  if x == 4 : print x , y ; x , y = y , x
+</code></p>
 
 <ul>
 <li>函数名与参数列表的左括号之间不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(1)
-</span><span class='line'>No:  spam (1)</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Yes: spam(1)
+No:  spam (1)
+</code></p>
 
 <ul>
 <li>索引或分片的方括号之前不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: dict['key'] = list[index]
-</span><span class='line'>No:  dict ['key'] = list [index]</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Yes: dict['key'] = list[index]
+No:  dict ['key'] = list [index]
+</code></p>
 
 <ul>
 <li>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</li>
@@ -305,23 +302,19 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = 1
-</span><span class='line'>y = 2
-</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+x = 1
+y = 2
+long_variable = 3
+</code></p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x             = 1
-</span><span class='line'>y             = 2
-</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+x             = 1
+y             = 2
+long_variable = 3
+</code></p>
 
 <h3>其他建议</h3>
 
@@ -333,31 +326,23 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>i = i + 1
-</span><span class='line'>submitted += 1
-</span><span class='line'>x = x*2 - 1
-</span><span class='line'>hypot2 = x*x + y*y
-</span><span class='line'>c = (a+b) * (a-b)</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+i = i + 1
+submitted += 1
+x = x*2 - 1
+hypot2 = x*x + y*y
+c = (a+b) * (a-b)
+</code></p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>i=i+1
-</span><span class='line'>submitted +=1
-</span><span class='line'>x = x * 2 - 1
-</span><span class='line'>hypot2 = x * x + y * y
-</span><span class='line'>c = (a + b) * (a - b)</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+i=i+1
+submitted +=1
+x = x * 2 - 1
+hypot2 = x * x + y * y
+c = (a + b) * (a - b)
+</code></p>
 
 <ul>
 <li>不要在一个关键字参数或者缺省参数的=号前后加空格</li>
@@ -366,21 +351,23 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag=0.0):
-</span><span class='line'>    return magic(r=real, i=imag)</span></code></pre></td></tr></table></div></figure>
+<p>```
+def complex(real, imag=0.0):</p>
 
+<pre><code>return magic(r=real, i=imag)
+</code></pre>
 
-<p></p>
+<p>```</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag = 0.0):
-</span><span class='line'>    return magic(r = real, i = imag)</span></code></pre></td></tr></table></div></figure>
+<p>```
+def complex(real, imag = 0.0):</p>
 
+<pre><code>return magic(r = real, i = imag)
+</code></pre>
+
+<p>```</p>
 
 <ul>
 <li>一般不建议在同一行使用混合语句</li>
@@ -389,25 +376,23 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah':
-</span><span class='line'>    do_blah_thing()
-</span><span class='line'>do_one()
-</span><span class='line'>do_two()
-</span><span class='line'>do_three()</span></code></pre></td></tr></table></div></figure>
+<p>```
+if foo == &lsquo;blah&rsquo;:</p>
 
+<pre><code>do_blah_thing()
+</code></pre>
+
+<p>do_one()
+do_two()
+do_three()
+```</p>
 
 <p>宁愿不:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>do_one(); do_two(); do_three()</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+if foo == 'blah': do_blah_thing()
+do_one(); do_two(); do_three()
+</code></p>
 
 <ul>
 <li>有时候将一个小的if/for/while块放在同一行是可以的，但是绝对不要将多个分句放在一行。不放在一行上，同时也能避免去折叠较长行。</li>
@@ -416,37 +401,28 @@ comments: true</p>
 
 <p>宁愿不:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>for x in lst: total += x
-</span><span class='line'>while t &lt; 10: t = delay()</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+if foo == 'blah': do_blah_thing()
+for x in lst: total += x
+while t &lt; 10: t = delay()
+</code></p>
 
 <p>一定不要:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>else: do_non_blah_thing()
-</span><span class='line'>
-</span><span class='line'>try: something()
-</span><span class='line'>finally: cleanup()
-</span><span class='line'>
-</span><span class='line'>do_one(); do_two(); do_three(long, argument,
-</span><span class='line'>                             list, like, this)
-</span><span class='line'>
-</span><span class='line'>if foo == 'blah': one(); two(); three()</span></code></pre></td></tr></table></div></figure>
+<p>```
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
+else: do_non_blah_thing()</p>
 
+<p>try: something()
+finally: cleanup()</p>
+
+<p>do_one(); do_two(); do_three(long, argument,</p>
+
+<pre><code>                         list, like, this)
+</code></pre>
+
+<p>if foo == &lsquo;blah&rsquo;: one(); two(); three()
+```</p>
 
 <h2>注释</h2>
 
@@ -476,15 +452,14 @@ comments: true</p>
 
 <p>如果行内注释描述的是显而易见的事，那么是不必要的甚至造成干扰：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Increment x</span></code></pre></td></tr></table></div></figure>
+<p><code>
+x = x + 1                 # Increment x
+</code>
+但有时候是有用的：</p>
 
-
-<p>但有时候是有用的：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Compensate for border</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+x = x + 1                 # Compensate for border
+</code></p>
 
 <h3>文档字符串</h3>
 
@@ -492,24 +467,20 @@ comments: true</p>
 
 <ul>
 <li>为所有公共的模块、函数、类和方法写文档字符串。对于非公共的方法，文档字符串不是必须的，但你应该写一个注释来描述该方法，这个注释应该放在def行后面。</li>
-<li>PEP 257描述了良好的文档字符串编写规范。其中最重要的是，&#8221;&ldquo;&#8221;作为多行文档字符串的结束时，应该单独起一行，之前还需要有一行空行。</li>
+<li>PEP 257描述了良好的文档字符串编写规范。其中最重要的是，"&ldquo;"作为多行文档字符串的结束时，应该单独起一行，之前还需要有一行空行。</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"""Return a foobang
-</span><span class='line'>
-</span><span class='line'>Optional plotz says to frobnicate the bizbaz first.
-</span><span class='line'>
-</span><span class='line'>"""</span></code></pre></td></tr></table></div></figure>
+<p>```
+&ldquo;&rdquo;&ldquo;Return a foobang</p>
 
+<p>Optional plotz says to frobnicate the bizbaz first.</p>
+
+<p>&ldquo;&rdquo;&ldquo;
+```</p>
 
 <ul>
-<li>如果是单行的文档字符串，可以不用将结束的&#8221;&ldquo;&#8221;单独放置一行。</li>
+<li>如果是单行的文档字符串，可以不用将结束的"&ldquo;"单独放置一行。</li>
 </ul>
 
 
@@ -517,11 +488,12 @@ comments: true</p>
 
 <p>如果在代码源文件中掺杂着Subversion，CVS或RCS注记，按照下面的规则书写。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>__version__ = "$Revision: cfd6d2cb1ca6 $"
-</span><span class='line'># $Source$</span></code></pre></td></tr></table></div></figure>
+<p>```
+<strong>version</strong> = &ldquo;$Revision: cfd6d2cb1ca6 $&rdquo;</p>
 
+<h1>$Source$</h1>
+
+<p>```</p>
 
 <p>这些行应放在块注释之后，其他代码之前。前后各有一个空行。</p>
 
@@ -562,9 +534,9 @@ comments: true</p>
 &ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
 &ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Tkinter.Toplevel(master, class_='ClassName')</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Tkinter.Toplevel(master, class_='ClassName')
+</code></p>
 
 <ul>
 <li>__double_leading_underscore：命名一个类属性时，触发调用“名字扩展”（inside class FooBar, __boo becomes _FooBar__boo）</li>
@@ -675,7 +647,7 @@ comments: true</p>
 </ul>
 
 
-<p>比如，不要使用针对CPython优化过的字符串拼接语句，a += b 或者 a = a + b，这写语句在Jython中运行较慢。在一些注重性能的库中使用&#8217;&lsquo;.join()来代替。这样能保证在多种Python实现上运行都保证有线性时间。</p>
+<p>比如，不要使用针对CPython优化过的字符串拼接语句，a += b 或者 a = a + b，这写语句在Jython中运行较慢。在一些注重性能的库中使用'&lsquo;.join()来代替。这样能保证在多种Python实现上运行都保证有线性时间。</p>
 
 <ul>
 <li>单个元素的比较例如None，应该永远使用is或者is not，不要使用等号。</li>
@@ -702,16 +674,17 @@ comments: true</p>
 
 <p>模块或包应该定义它们自己特定域下面的异常基类。这些异常类应该继承自内置的Exception类，并且永远包含有文档字符串。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MessageError(Exception):
-</span><span class='line'>    """Base class for errors in the email package."""</span></code></pre></td></tr></table></div></figure>
+<p>```
+class MessageError(Exception):</p>
 
+<pre><code>"""Base class for errors in the email package."""
+</code></pre>
 
-<p>在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
+<p>```
+在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
 
 <ul>
-<li>当抛出异常时，使用raise ValueError(&lsquo;message&rsquo;)，而不是使用 raise ValueError, &lsquo;message&#8217;这种旧形式。</li>
+<li>当抛出异常时，使用raise ValueError(&lsquo;message&rsquo;)，而不是使用 raise ValueError, &lsquo;message'这种旧形式。</li>
 </ul>
 
 
@@ -724,15 +697,18 @@ comments: true</p>
 
 <p>例如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    import platform_specific_module
-</span><span class='line'>except ImportError:
-</span><span class='line'>    platform_specific_module = None</span></code></pre></td></tr></table></div></figure>
+<p>```
+try:</p>
 
+<pre><code>import platform_specific_module
+</code></pre>
+
+<p>except ImportError:</p>
+
+<pre><code>platform_specific_module = None
+</code></pre>
+
+<p>```</p>
 
 <p>一个只有except的异常捕获会捕获SystemExit和KeyboardInterrupt异常，会使程序变得难以使用Control-C来结束，并且会掩盖其他问题。如果你想捕获所有错误，可以使用except Exception:（只有except的捕获相当于except BaseException:）</p>
 
@@ -749,35 +725,40 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    value = collection[key]
-</span><span class='line'>except KeyError:
-</span><span class='line'>    return key_not_found(key)
-</span><span class='line'>else:
-</span><span class='line'>    return handle_value(value)</span></code></pre></td></tr></table></div></figure>
+<p>```
+try:</p>
 
+<pre><code>value = collection[key]
+</code></pre>
+
+<p>except KeyError:</p>
+
+<pre><code>return key_not_found(key)
+</code></pre>
+
+<p>else:</p>
+
+<pre><code>return handle_value(value)
+</code></pre>
+
+<p>```</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    # Too broad!
-</span><span class='line'>    return handle_value(collection[key])
-</span><span class='line'>except KeyError:
-</span><span class='line'>    # Will also catch KeyError raised by handle_value()
-</span><span class='line'>    return key_not_found(key)</span></code></pre></td></tr></table></div></figure>
+<p>```
+try:</p>
 
+<pre><code># Too broad!
+return handle_value(collection[key])
+</code></pre>
+
+<p>except KeyError:</p>
+
+<pre><code># Will also catch KeyError raised by handle_value()
+return key_not_found(key)
+</code></pre>
+
+<p>```</p>
 
 <ul>
 <li>如果要做除获取和释放资源外的事情，上下文操作符应该通过单独的函数或者方法来调用，例如：</li>
@@ -786,19 +767,23 @@ comments: true</p>
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with conn.begin_transaction():
-</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+<p>```
+with conn.begin_transaction():</p>
 
+<pre><code>do_stuff_in_transaction(conn)
+</code></pre>
+
+<p>```</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with conn:
-</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+<p>```
+with conn:</p>
 
+<pre><code>do_stuff_in_transaction(conn)
+</code></pre>
+
+<p>```</p>
 
 <p>后一个例子并没有提供任何信息来表明__enter__ 和 __exit__方法在一次处理以后做了除关闭连接以外的事情。在这个情况里，显示调用是比较重要的。</p>
 
@@ -810,55 +795,52 @@ comments: true</p>
 <p>字符串方法总是运行地更快，而且跟unicode字符串使用同样的API，如果要跟Python2.0之前的代码做兼容可以不遵守这个规则。</p>
 
 <ul>
-<li>使用&#8217;&lsquo;.startswith() 和 &rsquo;&lsquo;.endswith()，而不要用字符串分片去检测字符串是否包含某个前缀或者后缀。</li>
+<li>使用'&lsquo;.startswith() 和 &rsquo;&lsquo;.endswith()，而不要用字符串分片去检测字符串是否包含某个前缀或者后缀。</li>
 </ul>
 
 
 <p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if foo.startswith('bar'):
-</span><span class='line'>No:  if foo[:3] == 'bar':</span></code></pre></td></tr></table></div></figure>
-
-
-<p>有个例外是你的代码必须使用Python 1.5.2。</p>
+<p><code>
+Yes: if foo.startswith('bar'):
+No:  if foo[:3] == 'bar':
+</code>
+有个例外是你的代码必须使用Python 1.5.2。</p>
 
 <ul>
 <li>用isinstance()来判断对象的类别，而不是用type()</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if isinstance(obj, int):
-</span><span class='line'>
-</span><span class='line'>No:  if type(obj) is type(1):</span></code></pre></td></tr></table></div></figure>
+<p>```
+Yes: if isinstance(obj, int):</p>
 
+<p>No:  if type(obj) is type(1):
+```</p>
 
 <p>当检测一个对象是不是一个字符串的时候，要注意，字符串也可能是一个unicode字符串。在Python2.3中，str和unicode拥有一个共同基类basestring，所以你可以这样判断：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if isinstance(obj, basestring):</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+if isinstance(obj, basestring):
+</code></p>
 
 <ul>
 <li>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if not seq:
-</span><span class='line'>     if seq:
-</span><span class='line'>
-</span><span class='line'>No: if len(seq)
-</span><span class='line'>    if not len(seq)</span></code></pre></td></tr></table></div></figure>
+<p>```
+Yes: if not seq:</p>
 
+<pre><code> if seq:
+</code></pre>
+
+<p>No: if len(seq)</p>
+
+<pre><code>if not len(seq)
+</code></pre>
+
+<p>```</p>
 
 <ul>
 <li><p>书写字符串常量时，不要依赖末尾的空格。这样的空格视觉上比较难区分，而且一些编辑器会去掉它们。</p></li>
@@ -866,13 +848,11 @@ comments: true</p>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes:   if greeting:
-</span><span class='line'>No:    if greeting == True:
-</span><span class='line'>Worse: if greeting is True:</span></code></pre></td></tr></table></div></figure>
-
+<p><code>
+Yes:   if greeting:
+No:    if greeting == True:
+Worse: if greeting is True:
+</code></p>
 
 <ul>
 <li>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</li>
@@ -888,3 +868,7 @@ comments: true</p>
 </ol>
 </div>
 
+]]></content>
+  </entry>
+  
+</feed>
