@@ -4,7 +4,7 @@
   <title><![CDATA[Category: git | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/git/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-26T17:12:19+08:00</updated>
+  <updated>2013-09-26T18:09:22+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>最近在看《Pro Git》，还没看完，命令实在太多，先把目前遇到的git命令画到思维导图里了，以后查找能方便些。</p>
 
 <p>后面遇到其他命令再进行补充。</p>
+
+<!--more-->
+
 
 <p><a href="https://raw.github.com/Ju6y/screenshots/master/git.png"><img src="https://raw.github.com/Ju6y/screenshots/master/git.png" alt="git mind map" /></a></p>
 ]]></content>

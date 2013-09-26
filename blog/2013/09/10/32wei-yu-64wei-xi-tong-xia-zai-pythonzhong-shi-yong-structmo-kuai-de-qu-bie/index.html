@@ -99,6 +99,9 @@ strData = struct. &hellip;">
 
 <p>第一眼看了代码，觉得是pack &ldquo;Q&#8221;有问题，也就是打包<strong>unsigned long long</strong>类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。</p>
 
+<!--more-->
+
+
 <p>看了会儿源码找到了打包<strong>unsigned long long</strong>类型的函数，发现了一个<strong>ifdef</strong>，这个<strong>ifdef</strong>来判断系统是否支持<strong>unsigned long long</strong>类型数据的pack，并且还附有一段注释：</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -294,7 +297,7 @@ strData = struct. &hellip;">
 <aside class="sidebar">
   
     <section>
-  <h1>Recent Posts</h1>
+  <h1>最新文章</h1>
   <ul id="recent_posts">
     
       <li class="post">
@@ -323,6 +326,14 @@ strData = struct. &hellip;">
 
 
 
+<section>
+  <h1>关于我</h1>
+  <p>Pythoner, 苹果脑残粉, 有轻微洁癖, 强迫症患者。</p>
+</section>
+<section>
+  <h1>Sina围脖</h1>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1762414755&verifier=f8370028&dpc=1"></iframe>
+</section>
 
   
 </aside>

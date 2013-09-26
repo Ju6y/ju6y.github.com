@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python,字符 | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/python-zi-fu/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-26T17:12:19+08:00</updated>
+  <updated>2013-09-26T18:09:22+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -25,6 +25,9 @@
 <p>所以为了能正常调度这些接口，需要每次传入正确编码的字符串。众所周知，有个比较强大的Python第三方模块chardet，使用这个模块就能很方便的检测出大部分的字符串的字符编码。但这个模块存在2个问题，至少是我工作中遇到的比较显著的2个问题：第一，检测较长的字符串时（例如一个文本文件的编码）性能不太好，比较慢；第二，只要一个字符串中混入了一个字节的错误编码就会导致整个字符串的字符编码检测不出来。</p>
 
 <p>下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）<strong><em>(2013-09-03更新)</em></strong>：</p>
+
+<!--more-->
+
 
 <p>```
 def to_unicode(string):</p>

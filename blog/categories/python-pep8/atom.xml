@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python,pep8 | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/python-pep8/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-26T17:12:19+08:00</updated>
+  <updated>2013-09-26T18:09:22+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -42,6 +42,9 @@
 <p>1.应用这个规则会降低代码的可读性，即使是对那些习惯了这个规则的代码阅读者</p>
 
 <p>2.为了与原有代码保持一致（也许是历史原因）&mdash; 虽然这是一个绝佳的机会来收拾别人的烂摊子（真正的XP风格，XP，Xtreme Programming，极限编程）</p>
+
+<!--more-->
+
 
 <h2>代码布局</h2>
 

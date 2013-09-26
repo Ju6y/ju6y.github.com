@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tornado,python,uwsgi | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/tornado-python-uwsgi/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-26T17:12:19+08:00</updated>
+  <updated>2013-09-26T18:09:22+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -56,6 +56,9 @@ def post(self):
 
 <p>])
 ```</p>
+
+<!--more-->
+
 
 <p>例子虽然比较简单，但一些常用的功能都覆盖到了，请求参数的获取、cookie的获取和设置、url map的定义等。获取请求参数的方式跟webpy类似，GET方式和POST方式都是通过一个API来获取，跟flask中的有点区别。</p>
 
