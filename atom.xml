@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2013-09-10T17:47:10+08:00</updated>
+  <updated>2013-09-26T16:31:39+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -12,6 +12,63 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[python正则匹配中match与search的区别]]></title>
+    <link href="http://Ju6y.github.io/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie/"/>
+    <updated>2013-09-26T16:28:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie</id>
+    <content type="html"><![CDATA[<p>这2个函数的区别简单来说就是match是从目标字符串开头开始匹配起，而search是会匹配目标字符串的任意位置。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")  # No match
+</span><span class='line'>&gt;&gt;&gt; re.search("c", "abcdef") # Match
+</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")    # No match
+</span><span class='line'>&gt;&gt;&gt; re.search("^c", "abcdef")  # No match
+</span><span class='line'>&gt;&gt;&gt; re.search("^a", "abcdef")  # Match
+</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>如果使用match是在匹配字符串前增加&#8221;.*&ldquo;，那结果也跟search一样了。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")    # No match
+</span><span class='line'>&gt;&gt;&gt; re.match(".*c", "abcdef")  # Match
+</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;
+</span><span class='line'>&gt;&gt;&gt; re.search("c", "abcdef")   # Match
+</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>前文提到的不完全相同主要是存在与匹配多行字符串的情况下，match只会搜索一行，而search会逐行搜索。</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match('X', 'A\nB\nX', re.MULTILINE)    # No match
+</span><span class='line'>&gt;&gt;&gt; re.search('^X', 'A\nB\nX', re.MULTILINE)  # Match
+</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;
+</span><span class='line'>&gt;&gt;&gt; re.match('.*X', 'A\nB\nX', re.MULTILINE)  # No match</span></code></pre></td></tr></table></div></figure>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[32位与64位系统下在python中使用struct模块的区别]]></title>
