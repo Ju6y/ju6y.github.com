@@ -15,6 +15,8 @@ categories: python,正则表达式
 ```
 也可以理解为，match是比search在匹配时多加了个"^"，也就是说使用search的时候在匹配字符串前加个"^"，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。
 
+<!--more-->
+
 ```
 >>> re.match("c", "abcdef")    # No match
 >>> re.search("^c", "abcdef")  # No match

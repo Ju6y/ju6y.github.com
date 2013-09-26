@@ -25,6 +25,8 @@ $ sudo easy_install virtualenv
 $ sudo pip install virtualenv
 ```
 
+<!--more-->
+
 ###建立虚拟环境
 
 ```

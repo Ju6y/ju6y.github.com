@@ -38,6 +38,7 @@ application = tornado.wsgi.WSGIApplication([
     (r'/hello', handle),
 ])
 ```
+<!--more-->
  
 例子虽然比较简单，但一些常用的功能都覆盖到了，请求参数的获取、cookie的获取和设置、url map的定义等。获取请求参数的方式跟webpy类似，GET方式和POST方式都是通过一个API来获取，跟flask中的有点区别。
 

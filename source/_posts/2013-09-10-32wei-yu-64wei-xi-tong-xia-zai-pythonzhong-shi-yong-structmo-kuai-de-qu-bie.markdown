@@ -14,6 +14,8 @@ strData = struct.pack("36sQQ", strSession, llChips, 0)
 
 第一眼看了代码，觉得是pack "Q"有问题，也就是打包**unsigned long long**类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。
 
+<!--more-->
+
 看了会儿源码找到了打包**unsigned long long**类型的函数，发现了一个**ifdef**，这个**ifdef**来判断系统是否支持**unsigned long long**类型数据的pack，并且还附有一段注释：
 
 ```

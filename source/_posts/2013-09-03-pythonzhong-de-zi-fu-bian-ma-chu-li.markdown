@@ -14,6 +14,8 @@ categories: python,字符
 
 下面是我针对这2个问题的优化方案（所有测试都是在Python 2.7.2中进行，系统OS X 10.8.4）__*(2013-09-03更新)*__：
 
+<!--more-->
+
 ```
 def to_unicode(string):
     #1

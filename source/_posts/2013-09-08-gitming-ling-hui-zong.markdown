@@ -10,4 +10,6 @@ categories: git
 
 后面遇到其他命令再进行补充。
 
+<!--more-->
+
 [![git mind map](https://raw.github.com/Ju6y/screenshots/master/git.png)](https://raw.github.com/Ju6y/screenshots/master/git.png)
