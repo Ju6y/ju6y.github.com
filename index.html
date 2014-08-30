@@ -9,11 +9,8 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="这2个函数的区别简单来说就是match是从目标字符串开头开始匹配起，而search是会匹配目标字符串的任意位置。 1
-2
-3
-&gt;&gt;&gt; re.match("c", "abcdef") # No match
-&gt;&gt;&gt; re.search("c", "abcdef &hellip;">
+  <meta name="description" content="NAME socket &ndash; 创建一个通信端点 SYNOPSIS #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt;
+int socket(int domain, int type, int protocal); &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,6 +65,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-30T20:35:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>NAME</h3>
+
+<p>socket &ndash; 创建一个通信端点</p>
+
+<h3>SYNOPSIS</h3>
+
+<pre><code>#include &lt;sys/types.h&gt;
+
+#include &lt;sys/socket.h&gt;
+int socket(int domain, int type, int protocal);   
+</code></pre>
+
+<h3>DESCRIPTION</h3>
+
+<p>socket函数创建一个通信端点，并返回这个端点的描述符。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2014/08/30/socketxiang-jie/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -492,6 +544,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie/">Python正则匹配中match与search的区别</a>
       </li>
     
@@ -505,10 +561,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/03/virtualenv/">Virtualenv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/03/tornado-plus-uwsgi/">Tornado+uWSGI</a>
       </li>
     
   </ul>
@@ -532,7 +584,7 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2013 - Ju6y -
+  Copyright &copy; 2014 - Ju6y -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
