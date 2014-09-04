@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>git命令汇总 - iBlog</title>
+  <title>在Terminal中拷贝文件到剪贴板 - iBlog</title>
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="最近在看《Pro Git》，还没看完，命令实在太多，先把目前遇到的git命令画到思维导图里了，以后查找能方便些。 后面遇到其他命令再进行补充。 ">
+  <meta name="description" content="工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://Ju6y.github.io/blog/2013/09/08/gitming-ling-hui-zong">
+  <link rel="canonical" href="http://Ju6y.github.io/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="iBlog" type="application/atom+xml">
@@ -67,7 +67,7 @@
   
   <header>
     
-      <h1 class="entry-title">Git命令汇总</h1>
+      <h1 class="entry-title">在Terminal中拷贝文件到剪贴板</h1>
     
     
       <p class="meta">
@@ -83,21 +83,24 @@
   
 
 
-<time datetime="2013-09-08T22:28:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2013</time>
+<time datetime="2014-09-04T12:36:00+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>最近在看《Pro Git》，还没看完，命令实在太多，先把目前遇到的git命令画到思维导图里了，以后查找能方便些。</p>
+<div class="entry-content"><p>工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads，再打开Finder到Downloads下拷贝文件。
+你会发现，要完成上面的一整套操作就必须在Terminal和Finder之间进行一次切换（这还不包括复制完文件后再到Mail或者RTX的一次切换），这个切换很影响操作流畅度，即会打断工作流（workflow），毕竟一个是纯命令行的交互，一个是GUI的交互。
+其实为了去掉那一次切换也是很简单的，就是在终端中完成将文件拷贝到剪贴板（clipboard）就行了，于是google了一下，得出了下面的shell命令：</p>
 
-<p>后面遇到其他命令再进行补充。</p>
+<pre><code>ftc() {
+    dir=$(pwd)
+    osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'$dir/$1'" )'
+}
+</code></pre>
 
-<!--more-->
-
-
-<p><a href="https://raw.github.com/Ju6y/screenshots/master/git.png"><img src="https://raw.github.com/Ju6y/screenshots/master/git.png" alt="git mind map" /></a></p>
+<p>只要把上面的这个函数复制到.bash_profile里，然后就能使用ftc这个命令了，用法比较简单就是ftc后面跟要拷贝的文件名（必须在文件所在的目录下执行），另外这个命令还比较简陋，不支持带全路径的文件名和多个文件拷贝。</p>
 </div>
 
 
@@ -120,12 +123,12 @@
   
 
 
-<time datetime="2013-09-08T22:28:00+08:00" pubdate data-updated="true">Sep 8<span>th</span>, 2013</time>
+<time datetime="2014-09-04T12:36:00+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/git/'>git</a>
+    <a class='category' href='/blog/categories/mac/'>Mac</a>, <a class='category' href='/blog/categories/terminal/'>Terminal</a>, <a class='category' href='/blog/categories/workflow/'>Workflow</a>
   
 </span>
 
@@ -164,10 +167,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2013/09/03/virtualenv/" title="Previous Post: virtualenv">&laquo; virtualenv</a>
+        <a class="basic-alignment left" href="/blog/2014/08/30/socketxiang-jie/" title="Previous Post: socket详解">&laquo; socket详解</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2013/09/10/32wei-yu-64wei-xi-tong-xia-zai-pythonzhong-shi-yong-structmo-kuai-de-qu-bie/" title="Next Post: 32位与64位系统下在python中使用struct模块的区别">32位与64位系统下在python中使用struct模块的区别 &raquo;</a>
       
     </p>
   </footer>

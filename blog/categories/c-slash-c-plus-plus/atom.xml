@@ -1,97 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
 
-<!DOCTYPE html>
-<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
-<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
-<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<head>
-  <meta charset="utf-8">
-  <title>socket详解 - iBlog</title>
-  <meta name="author" content="Ju6y">
-
-  
-  <meta name="description" content="NAME socket &ndash; 创建一个通信端点 SYNOPSIS #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt;
-int socket(int domain, int type, int protocal); &hellip;">
-  
-
-  <!-- http://t.co/dKP3o1e -->
-  <meta name="HandheldFriendly" content="True">
-  <meta name="MobileOptimized" content="320">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  
-  <link rel="canonical" href="http://Ju6y.github.io/blog/2014/08/30/socketxiang-jie">
-  <link href="/favicon.png" rel="icon">
-  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="iBlog" type="application/atom+xml">
-  <script src="/javascripts/modernizr-2.0.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/javascripts/octopress.js" type="text/javascript"></script>
-  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
-
-  
-
-  <!-- for markdown table syntax -->
-  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
-</head>
-
-<body   >
-  <header role="banner"><hgroup>
-  <h1><a href="/">iBlog</a></h1>
-  
-</hgroup>
-
-</header>
-  <nav role="navigation"><ul class="subscription" data-subscription="rss">
-  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
-  
-</ul>
-  
-<form action="http://google.com/search" method="get">
-  <fieldset role="search">
-    <input type="hidden" name="q" value="site:Ju6y.github.io" />
-    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
-  </fieldset>
-</form>
-  
-<ul class="main-navigation">
-  <li><a href="/">Blog</a></li>
-  <li><a href="/blog/archives">Archives</a></li>
-</ul>
-
-</nav>
-  <div id="main">
-    <div id="content">
-      <div>
-<article class="hentry" role="article">
-  
-  <header>
+  <title><![CDATA[Category: c/c++ | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/c-slash-c-plus-plus/atom.xml" rel="self"/>
+  <link href="http://Ju6y.github.io/"/>
+  <updated>2014-09-04T13:02:16+08:00</updated>
+  <id>http://Ju6y.github.io/</id>
+  <author>
+    <name><![CDATA[Ju6y]]></name>
     
-      <h1 class="entry-title">Socket详解</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
 
   
-
-
-<time datetime="2014-08-30T20:35:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-<div class="entry-content"><h3>NAME</h3>
+  <entry>
+    <title type="html"><![CDATA[socket详解]]></title>
+    <link href="http://Ju6y.github.io/blog/2014/08/30/socketxiang-jie/"/>
+    <updated>2014-08-30T20:35:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2014/08/30/socketxiang-jie</id>
+    <content type="html"><![CDATA[<h3>NAME</h3>
 
 <p>socket &ndash; 创建一个通信端点</p>
 
@@ -204,147 +131,7 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 </ol>
 </div>
 
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
+]]></content>
+  </entry>
   
-
-<span class="byline author vcard">Posted by <span class="fn">Ju6y</span></span>
-
-      
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-30T20:35:00+08:00" pubdate data-updated="true">Aug 30<span>th</span>, 2014</time>
-      
-
-<span class="categories">
-  
-    <a class='category' href='/blog/categories/c-slash-c-plus-plus/'>c/c++</a>, <a class='category' href='/blog/categories/linux/'>linux</a>, <a class='category' href='/blog/categories/wang-luo-bian-cheng/'>网络编程</a>
-  
-</span>
-
-
-    </p>
-    
-      <div class="sharing">
-  
-  
-  
-  
-	<!-- JiaThis Button BEGIN -->
-<div class="jiathis_style">
-	<span class="jiathis_txt">分享到：</span>
-	<a class="jiathis_button_tsina">新浪微博</a>
-	<a class="jiathis_button_weixin">微信</a>
-	<a class="jiathis_button_instapaper">Instapaper</a>
-	<a class="jiathis_button_pocket">Pocket</a>
-	<a class="jiathis_button_evernote">EverNote</a>
-	<a class="jiathis_button_twitter">Twitter</a>
-	<a class="jiathis_button_douban">豆瓣</a>
-	<a href="http://www.jiathis.com/share?uid=1807891" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
-	<a class="jiathis_counter_style"></a>
-</div>
-<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1807891" charset="utf-8"></script>
-<!-- JiaThis Button END -->
-
-<!-- UY BEGIN -->
-<div id="uyan_frame"></div>
-<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1807891"></script>
-<!-- UY END -->
-
-  
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie/" title="Previous Post: python正则匹配中match与search的区别">&laquo; python正则匹配中match与search的区别</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/" title="Next Post: 在Terminal中拷贝文件到剪贴板">在Terminal中拷贝文件到剪贴板 &raquo;</a>
-      
-    </p>
-  </footer>
-</article>
-
-</div>
-
-<aside class="sidebar">
-  
-    <section>
-  <h1>最新文章</h1>
-  <ul id="recent_posts">
-    
-      <li class="post">
-        <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie/">Python正则匹配中match与search的区别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/10/32wei-yu-64wei-xi-tong-xia-zai-pythonzhong-shi-yong-structmo-kuai-de-qu-bie/">32位与64位系统下在python中使用struct模块的区别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/08/gitming-ling-hui-zong/">Git命令汇总</a>
-      </li>
-    
-  </ul>
-</section>
-
-
-
-
-<section>
-  <h1>关于我</h1>
-  <p>Pythoner, 苹果脑残粉, 有轻微洁癖, 强迫症患者。</p>
-</section>
-<section>
-  <h1>Sina围脖</h1>
-	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1762414755&verifier=f8370028&dpc=1"></iframe>
-</section>
-
-  
-</aside>
-
-
-    </div>
-  </div>
-  <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Ju6y -
-  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
-</p>
-
-</footer>
-  
-
-
-
-
-
-
-
-
-
-
-
-</body>
-</html>
+</feed>

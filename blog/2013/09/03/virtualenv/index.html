@@ -100,46 +100,38 @@
 
 <h3>安装</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo easy_install virtualenv</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+$ sudo easy_install virtualenv
+&#8220;`
+或者</p>
 
-
-<p>或者</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install virtualenv</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p>&#8220;`
+$ sudo pip install virtualenv
+&#8220;`</p>
 
 <!--more-->
 
 
 <h3>建立虚拟环境</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir myproject
-</span><span class='line'>$ cd myproject
-</span><span class='line'>$ virtualenv venv
-</span><span class='line'>New python executable in venv/bin/python
-</span><span class='line'>Installing distribute............done.</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+$ mkdir myproject
+$ cd myproject
+$ virtualenv venv
+New python executable in venv/bin/python
+Installing distribute&hellip;&hellip;&hellip;&hellip;done.
+&#8220;`</p>
 
 <h3>使用虚拟环境</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ . venv/bin/activate</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+$ . venv/bin/activate
+&#8220;`
+如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
 
-
-<p>如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>virtualenv = myproject的全路径/venv</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+virtualenv = myproject的全路径/venv
+&#8220;`</p>
 </div>
 
 
@@ -167,7 +159,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/virtualenv-python/'>virtualenv,python</a>
+    <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/virtualenv/'>virtualenv</a>
   
 </span>
 
@@ -224,6 +216,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
       </li>
     
@@ -237,10 +233,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/08/gitming-ling-hui-zong/">Git命令汇总</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/03/virtualenv/">Virtualenv</a>
       </li>
     
   </ul>

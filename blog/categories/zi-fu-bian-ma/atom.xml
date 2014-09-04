@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python,字符 | iBlog]]></title>
-  <link href="http://Ju6y.github.io/blog/categories/python-zi-fu/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 字符编码 | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/zi-fu-bian-ma/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -83,7 +83,7 @@ except UnicodeDecodeError:
 
 <p>```</p>
 
-<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： <del>第一部分先用最常见的几个中文字符编码尝试去解码字符串</del>，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。<del>如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。</del>
+<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： \~\~第一部分先用最常见的几个中文字符编码尝试去解码字符串\~\~，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。\~\~如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。\~\~
 <em>这里去掉了big5和gb18030编码的强行解码，因为发现gb18030编码的字符串可以被big5解码而不报错，反之亦然。至于原因目前还没搞懂，只知道gb2312是gbk的子集，gbk是gb18030的子集，各自都向下兼容。(2013-09-03更新)</em></p>
 
 <p>```</p>
@@ -141,9 +141,8 @@ as well as any other name registered with codecs.register_error that is
 able to handle UnicodeDecodeErrors.
 </code></pre>
 
-<p>```</p>
-
-<p>上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
+<p>```
+上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
 
 <p>例：</p>
 

@@ -9,34 +9,8 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="＃使用Tornado＋uWSGI来处理HTTP请求 一个简单的响应“hello world”的例子如下： 1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-#!/usr/bin/env python
-#-*- &hellip;">
+  <meta name="description" content="＃使用Tornado＋uWSGI来处理HTTP请求 一个简单的响应“hello world”的例子如下： &#8220;` !/usr/bin/env python &ndash;-coding:utf-8-&ndash; import tornado.web
+import tornado. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,59 +95,40 @@
 
 <p>一个简单的响应“hello world”的例子如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
-</span><span class='line'>#-*-coding:utf-8-*-
-</span><span class='line'>
-</span><span class='line'>import tornado.web
-</span><span class='line'>import tornado.wsgi
-</span><span class='line'>
-</span><span class='line'>class handle(tornado.web.RequestHandler):
-</span><span class='line'>    def initialize(self):
-</span><span class='line'>        self.name = ''
-</span><span class='line'>
-</span><span class='line'>    def get(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        uid = self.get_cookie("uid", 0) + 1
-</span><span class='line'>        self.set_cookie("uid", str(uid))
-</span><span class='line'>        self.set_header("New-Header", "Yes")
-</span><span class='line'>        self.write("hello %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>    def post(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        self.set_status(405, "")
-</span><span class='line'>        self.write("sorry, %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>application = tornado.wsgi.WSGIApplication([
-</span><span class='line'>    (r'/hello', handle),
-</span><span class='line'>])</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>!/usr/bin/env python</h1>
+
+<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
+
+<p>import tornado.web
+import tornado.wsgi</p>
+
+<p>class handle(tornado.web.RequestHandler):</p>
+
+<pre><code>def initialize(self):
+    self.name = ''
+
+def get(self):
+    self.name = self.get_argument("name", "nobody")
+    uid = self.get_cookie("uid", 0) + 1
+    self.set_cookie("uid", str(uid))
+    self.set_header("New-Header", "Yes")
+    self.write("hello %s" % self.name)
+
+def post(self):
+    self.name = self.get_argument("name", "nobody")
+    self.set_status(405, "")
+    self.write("sorry, %s" % self.name)
+</code></pre>
+
+<p>application = tornado.wsgi.WSGIApplication([</p>
+
+<pre><code>(r'/hello', handle),
+</code></pre>
+
+<p>])
+&#8220;`</p>
 
 <!--more-->
 
@@ -210,7 +165,7 @@
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/tornado-python-uwsgi/'>tornado,python,uwsgi</a>
+    <a class='category' href='/blog/categories/python/'>python</a>, <a class='category' href='/blog/categories/tornado/'>tornado</a>, <a class='category' href='/blog/categories/uwsgi/'>uwsgi</a>
   
 </span>
 
@@ -267,6 +222,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
       </li>
     
@@ -280,10 +239,6 @@
     
       <li class="post">
         <a href="/blog/2013/09/08/gitming-ling-hui-zong/">Git命令汇总</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/03/virtualenv/">Virtualenv</a>
       </li>
     
   </ul>

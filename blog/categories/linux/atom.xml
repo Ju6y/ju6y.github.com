@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: linux,c/c++,网络编程 | iBlog]]></title>
-  <link href="http://Ju6y.github.io/blog/categories/linux-c-slash-c-plus-plus-wang-luo-bian-cheng/atom.xml" rel="self"/>
+  <title><![CDATA[Category: linux | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/linux/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>

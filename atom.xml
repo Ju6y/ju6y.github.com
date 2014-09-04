@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -12,6 +12,25 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[在Terminal中拷贝文件到剪贴板]]></title>
+    <link href="http://Ju6y.github.io/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/"/>
+    <updated>2014-09-04T12:36:00+08:00</updated>
+    <id>http://Ju6y.github.io/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban</id>
+    <content type="html"><![CDATA[<p>工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads，再打开Finder到Downloads下拷贝文件。
+你会发现，要完成上面的一整套操作就必须在Terminal和Finder之间进行一次切换（这还不包括复制完文件后再到Mail或者RTX的一次切换），这个切换很影响操作流畅度，即会打断工作流（workflow），毕竟一个是纯命令行的交互，一个是GUI的交互。
+其实为了去掉那一次切换也是很简单的，就是在终端中完成将文件拷贝到剪贴板（clipboard）就行了，于是google了一下，得出了下面的shell命令：</p>
+
+<pre><code>ftc() {
+    dir=$(pwd)
+    osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'$dir/$1'" )'
+}
+</code></pre>
+
+<p>只要把上面的这个函数复制到.bash_profile里，然后就能使用ftc这个命令了，用法比较简单就是ftc后面跟要拷贝的文件名（必须在文件所在的目录下执行），另外这个命令还比较简陋，不支持带全路径的文件名和多个文件拷贝。</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[socket详解]]></title>
@@ -141,58 +160,43 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
     <id>http://Ju6y.github.io/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie</id>
     <content type="html"><![CDATA[<p>这2个函数的区别简单来说就是match是从目标字符串开头开始匹配起，而search是会匹配目标字符串的任意位置。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")  # No match
-</span><span class='line'>&gt;&gt;&gt; re.search("c", "abcdef") # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
-
-<p>也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p>
+<blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)  # No match
+re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;) # Match
+&lt;_sre.SRE_Match object at 0x2b1f072946b0>
+&#8220;`
+也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p></blockquote></blockquote></blockquote>
 
 <!--more-->
 
 
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)    # No match
+re.search(&ldquo;^c&rdquo;, &ldquo;abcdef&rdquo;)  # No match
+re.search(&ldquo;^a&rdquo;, &ldquo;abcdef&rdquo;)  # Match
+&lt;_sre.SRE_Match object at 0x2b1f07294718>
+&#8220;`
+如果使用match是在匹配字符串前增加&#8221;.*&ldquo;，那结果也跟search一样了。</p></blockquote></blockquote></blockquote>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")    # No match
-</span><span class='line'>&gt;&gt;&gt; re.search("^c", "abcdef")  # No match
-</span><span class='line'>&gt;&gt;&gt; re.search("^a", "abcdef")  # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)    # No match
+re.match(&ldquo;.*c&rdquo;, &ldquo;abcdef&rdquo;)  # Match
+&lt;_sre.SRE_Match object at 0x2b1f07294718>
+re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)   # Match
+&lt;_sre.SRE_Match object at 0x2b1f072946b0>
+&#8220;`
+前文提到的不完全相同主要是存在与匹配多行字符串的情况下，match只会搜索一行，而search会逐行搜索。</p></blockquote></blockquote></blockquote>
 
-<p>如果使用match是在匹配字符串前增加&#8221;.*&ldquo;，那结果也跟search一样了。</p>
+<p>&#8220;`</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")    # No match
-</span><span class='line'>&gt;&gt;&gt; re.match(".*c", "abcdef")  # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;
-</span><span class='line'>&gt;&gt;&gt; re.search("c", "abcdef")   # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>前文提到的不完全相同主要是存在与匹配多行字符串的情况下，match只会搜索一行，而search会逐行搜索。</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match('X', 'A\nB\nX', re.MULTILINE)    # No match
-</span><span class='line'>&gt;&gt;&gt; re.search('^X', 'A\nB\nX', re.MULTILINE)  # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f07294718&gt;
-</span><span class='line'>&gt;&gt;&gt; re.match('.*X', 'A\nB\nX', re.MULTILINE)  # No match</span></code></pre></td></tr></table></div></figure>
-
-
-
+<blockquote><blockquote><blockquote><p>re.match(&lsquo;X&rsquo;, &lsquo;A\nB\nX&rsquo;, re.MULTILINE)    # No match
+re.search(&lsquo;^X&rsquo;, &lsquo;A\nB\nX&rsquo;, re.MULTILINE)  # Match
+&lt;_sre.SRE_Match object at 0x2b1f07294718>
+re.match(&lsquo;.*X&rsquo;, &lsquo;A\nB\nX&rsquo;, re.MULTILINE)  # No match
+&#8220;`</p></blockquote></blockquote></blockquote>
 ]]></content>
   </entry>
   
@@ -203,9 +207,9 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
     <id>http://Ju6y.github.io/blog/2013/09/10/32wei-yu-64wei-xi-tong-xia-zai-pythonzhong-shi-yong-structmo-kuai-de-qu-bie</id>
     <content type="html"><![CDATA[<p>今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>strData = struct.pack("36sQQ", strSession, llChips, 0)</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+strData = struct.pack(&ldquo;36sQQ&rdquo;, strSession, llChips, 0)
+&#8220;`</p>
 
 <p>第一眼看了代码，觉得是pack &ldquo;Q&#8221;有问题，也就是打包<strong>unsigned long long</strong>类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。</p>
 
@@ -214,19 +218,17 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>看了会儿源码找到了打包<strong>unsigned long long</strong>类型的函数，发现了一个<strong>ifdef</strong>，这个<strong>ifdef</strong>来判断系统是否支持<strong>unsigned long long</strong>类型数据的pack，并且还附有一段注释：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>/* We can't support q and Q in native mode unless the compiler does;
-</span><span class='line'>   in std mode, they're 8 bytes on all platforms. */
-</span><span class='line'>ifdef HAVE_LONG_LONG
-</span><span class='line'>typedef struct { char c; PY_LONG_LONG x; } s_long_long;
-</span><span class='line'>#define LONG_LONG_ALIGN (sizeof(s_long_long) - sizeof(PY_LONG_LONG))
-</span><span class='line'>#endif </span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+/* We can&rsquo;t support q and Q in native mode unless the compiler does;
+   in std mode, they&rsquo;re 8 bytes on all platforms. */
+ifdef HAVE_LONG_LONG
+typedef struct { char c; PY_LONG_LONG x; } s_long_long;</p>
 
+<h1>define LONG_LONG_ALIGN (sizeof(s_long_long) &ndash; sizeof(PY_LONG_LONG))</h1>
+
+<h1>endif</h1>
+
+<p>&#8220;`</p>
 
 <p>注释中说，标准模式下，所有平台的<strong>unsigned long long</strong>类型都是8字节，完全没提到32位或者64位，我心里一想不会是记错了吧，赶紧谷歌了一下，发现struct的官方文档对&#8221;Q&#8221;这个类型的平台支持进行了说明，如下：</p>
 
@@ -234,49 +236,13 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>同样没提及64位和32位，我一想既然这样索性自己试一下就知道是不是支持了。于是找来了32位机器，在python命令行下试验了一下pack &ldquo;Q&#8221;类型数据，并对比了64位下的结果，完全没有区别，事实证明我之前对<strong>unsigned long long</strong>类型的理解是错的。既然打包“Q”类型没有问题，那这个unpack不了的问题又出在哪里呢，我猜想是不是字节对齐的问题，因为pack的时候会对数据进行字节补齐，于是继续看struct文档，下面是pack时，可以指定的字节序和对齐方式的标识：</p>
 
-<table>
-<thead>
-<tr>
-<th>Character </th>
-<th> Byte order             </th>
-<th> Size     </th>
-<th> Alignment </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>@         </td>
-<td> native                 </td>
-<td> native   </td>
-<td> native    </td>
-</tr>
-<tr>
-<td>=         </td>
-<td> native                 </td>
-<td> standard </td>
-<td> none      </td>
-</tr>
-<tr>
-<td>&lt;         </td>
-<td> little-endian          </td>
-<td> standard </td>
-<td> none      </td>
-</tr>
-<tr>
-<td>>        </td>
-<td> big-endian             </td>
-<td> standard </td>
-<td> none      </td>
-</tr>
-<tr>
-<td>!         </td>
-<td> network (= big-endian) </td>
-<td> standard </td>
-<td> none      </td>
-</tr>
-</tbody>
-</table>
-
+<p>Character | Byte order             | Size     | Alignment
+-&mdash;&mdash;&mdash;&mdash; | &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash; | &mdash;&mdash;&mdash;&mdash; | &mdash;&mdash;&mdash;&mdash;&mdash;
+@         | native                 | native   | native<br/>
+=         | native                 | standard | none<br/>
+&lt;         | little-endian          | standard | none<br/>
+>        | big-endian             | standard | none<br/>
+!         | network (= big-endian) | standard | none</p>
 
 <p>我们可以看到跟对齐关系有关的也就是2种，对齐和不对齐（这不废话么）。如果在pack函数的第一个参数fmt字符串最前面加了@就会使用字节对齐，另外需要注意的是，如果没有上面的任何一个符号，默认就是使用@，原文如下:</p>
 
@@ -296,37 +262,34 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>32位:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; struct.pack('36sQQ', '1'*36, 1, 0)
-</span><span class='line'>'111111111111111111111111111111111111\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
+&lsquo;111111111111111111111111111111111111\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
+&#8220;`
+64位：</p></blockquote></blockquote></blockquote>
 
-<p>64位：</p>
+<p>&#8220;`</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; struct.pack('36sQQ', '1'*36, 1, 0)
-</span><span class='line'>'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</span></code></pre></td></tr></table></div></figure>
-
+<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
+&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>可以发现，64位的&#8217;\x01&#8217;前多了4个空字节，这其实就是字节补齐的结果，到这里其实就知道怎么解决这个问题了，就是给32位的pack结果增加4个空白字节就行，可以用字符串拼接，如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; struct.pack('36s', '1'*36) + '\x00\x00\x00\x00' + struct.pack('QQ', 1, 0)
-</span><span class='line'>'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36s&rsquo;, &lsquo;1&rsquo;*36) + &lsquo;\x00\x00\x00\x00&rsquo; + struct.pack(&lsquo;QQ&rsquo;, 1, 0)
+&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>也可以直接指定为40个字符的字符串，如下:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; struct.pack('40sQQ', '1'*36, 1, 0)
-</span><span class='line'>'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
-
-
+<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;40sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
+&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
+&#8220;`</p></blockquote></blockquote></blockquote>
 ]]></content>
   </entry>
   
@@ -361,46 +324,38 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <h3>安装</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo easy_install virtualenv</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+$ sudo easy_install virtualenv
+&#8220;`
+或者</p>
 
-
-<p>或者</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install virtualenv</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p>&#8220;`
+$ sudo pip install virtualenv
+&#8220;`</p>
 
 <!--more-->
 
 
 <h3>建立虚拟环境</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ mkdir myproject
-</span><span class='line'>$ cd myproject
-</span><span class='line'>$ virtualenv venv
-</span><span class='line'>New python executable in venv/bin/python
-</span><span class='line'>Installing distribute............done.</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+$ mkdir myproject
+$ cd myproject
+$ virtualenv venv
+New python executable in venv/bin/python
+Installing distribute&hellip;&hellip;&hellip;&hellip;done.
+&#8220;`</p>
 
 <h3>使用虚拟环境</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ . venv/bin/activate</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+$ . venv/bin/activate
+&#8220;`
+如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
 
-
-<p>如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>virtualenv = myproject的全路径/venv</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+virtualenv = myproject的全路径/venv
+&#8220;`</p>
 ]]></content>
   </entry>
   
@@ -413,59 +368,40 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>一个简单的响应“hello world”的例子如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
-</span><span class='line'>#-*-coding:utf-8-*-
-</span><span class='line'>
-</span><span class='line'>import tornado.web
-</span><span class='line'>import tornado.wsgi
-</span><span class='line'>
-</span><span class='line'>class handle(tornado.web.RequestHandler):
-</span><span class='line'>    def initialize(self):
-</span><span class='line'>        self.name = ''
-</span><span class='line'>
-</span><span class='line'>    def get(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        uid = self.get_cookie("uid", 0) + 1
-</span><span class='line'>        self.set_cookie("uid", str(uid))
-</span><span class='line'>        self.set_header("New-Header", "Yes")
-</span><span class='line'>        self.write("hello %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>    def post(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        self.set_status(405, "")
-</span><span class='line'>        self.write("sorry, %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>application = tornado.wsgi.WSGIApplication([
-</span><span class='line'>    (r'/hello', handle),
-</span><span class='line'>])</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>!/usr/bin/env python</h1>
+
+<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
+
+<p>import tornado.web
+import tornado.wsgi</p>
+
+<p>class handle(tornado.web.RequestHandler):</p>
+
+<pre><code>def initialize(self):
+    self.name = ''
+
+def get(self):
+    self.name = self.get_argument("name", "nobody")
+    uid = self.get_cookie("uid", 0) + 1
+    self.set_cookie("uid", str(uid))
+    self.set_header("New-Header", "Yes")
+    self.write("hello %s" % self.name)
+
+def post(self):
+    self.name = self.get_argument("name", "nobody")
+    self.set_status(405, "")
+    self.write("sorry, %s" % self.name)
+</code></pre>
+
+<p>application = tornado.wsgi.WSGIApplication([</p>
+
+<pre><code>(r'/hello', handle),
+</code></pre>
+
+<p>])
+&#8220;`</p>
 
 <!--more-->
 
@@ -494,164 +430,96 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 <!--more-->
 
 
+<p>&#8220;`
+def to_unicode(string):</p>
 
+<pre><code>#1
+if isinstance(string, unicode):
+    return string
+try:
+    string_uni = string.decode("UTF-8")
+    return string_uni
+except UnicodeDecodeError:
+    pass
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-<span class='line-number'>42</span>
-<span class='line-number'>43</span>
-<span class='line-number'>44</span>
-<span class='line-number'>45</span>
-<span class='line-number'>46</span>
-<span class='line-number'>47</span>
-<span class='line-number'>48</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def to_unicode(string):
-</span><span class='line'>    #1
-</span><span class='line'>    if isinstance(string, unicode):
-</span><span class='line'>        return string
-</span><span class='line'>    try:
-</span><span class='line'>        string_uni = string.decode("UTF-8")
-</span><span class='line'>        return string_uni
-</span><span class='line'>    except UnicodeDecodeError:
-</span><span class='line'>        pass
-</span><span class='line'>    
-</span><span class='line'>    #2
-</span><span class='line'>    INIT = 1000
-</span><span class='line'>    MAX = 10
-</span><span class='line'>    charset = None
-</span><span class='line'>    if len(string) &lt;= INIT: 
-</span><span class='line'>        encoding_info = chardet.detect(string)
-</span><span class='line'>        charset = encoding_info['encoding']
-</span><span class='line'>    else:
-</span><span class='line'>        detector = UniversalDetector()
-</span><span class='line'>        for i in range(MAX):
-</span><span class='line'>            detector.feed(string[INIT*i:INIT*(i+1)])
-</span><span class='line'>            if detector.done:
-</span><span class='line'>                break
-</span><span class='line'>        detector.close()
-</span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>    #3
-</span><span class='line'>    if not charset:
-</span><span class='line'>        INIT = 1
-</span><span class='line'>        MAX = 100
-</span><span class='line'>        detector = UniversalDetector()
-</span><span class='line'>        for i in range(MAX):
-</span><span class='line'>            detector.feed(string[INIT*i:INIT*(i+1)])
-</span><span class='line'>            if detector.done:
-</span><span class='line'>                mylog.LOG.ERROR("decode char one by one worked!")
-</span><span class='line'>                break
-</span><span class='line'>        detector.close()
-</span><span class='line'>        charset = detector.result.get('encoding')
-</span><span class='line'>    #4
-</span><span class='line'>    if not charset:
-</span><span class='line'>        return string.decode('UTF-8', 'ignore')
-</span><span class='line'>    elif charset[:2].upper() == 'GB':
-</span><span class='line'>        charset = 'GB18030'
-</span><span class='line'>    #5
-</span><span class='line'>    try:
-</span><span class='line'>        return string.decode(charset, 'replace')
-</span><span class='line'>    except UnicodeDecodeError:
-</span><span class='line'>        mylog.LOG.ERROR(traceback.format_exc())
-</span><span class='line'>        return string</span></code></pre></td></tr></table></div></figure>
+#2
+INIT = 1000
+MAX = 10
+charset = None
+if len(string) &lt;= INIT: 
+    encoding_info = chardet.detect(string)
+    charset = encoding_info['encoding']
+else:
+    detector = UniversalDetector()
+    for i in range(MAX):
+        detector.feed(string[INIT*i:INIT*(i+1)])
+        if detector.done:
+            break
+    detector.close()
+    charset = detector.result.get('encoding')
+#3
+if not charset:
+    INIT = 1
+    MAX = 100
+    detector = UniversalDetector()
+    for i in range(MAX):
+        detector.feed(string[INIT*i:INIT*(i+1)])
+        if detector.done:
+            mylog.LOG.ERROR("decode char one by one worked!")
+            break
+    detector.close()
+    charset = detector.result.get('encoding')
+#4
+if not charset:
+    return string.decode('UTF-8', 'ignore')
+elif charset[:2].upper() == 'GB':
+    charset = 'GB18030'
+#5
+try:
+    return string.decode(charset, 'replace')
+except UnicodeDecodeError:
+    mylog.LOG.ERROR(traceback.format_exc())
+    return string
+</code></pre>
 
+<p>&#8220;`</p>
 
-<p></p>
-
-<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： <del>第一部分先用最常见的几个中文字符编码尝试去解码字符串</del>，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。<del>如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。</del>
+<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： \~\~第一部分先用最常见的几个中文字符编码尝试去解码字符串\~\~，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。\~\~如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。\~\~
 <em>这里去掉了big5和gb18030编码的强行解码，因为发现gb18030编码的字符串可以被big5解码而不报错，反之亦然。至于原因目前还没搞懂，只知道gb2312是gbk的子集，gbk是gb18030的子集，各自都向下兼容。(2013-09-03更新)</em></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; a = '中文'
-</span><span class='line'>&gt;&gt;&gt; a
-</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87'
-</span><span class='line'>&gt;&gt;&gt; print a.decode('gb18030')
-</span><span class='line'>涓枃
-</span><span class='line'>&gt;&gt;&gt; b = a.decode('utf8').encode('big5')
-</span><span class='line'>&gt;&gt;&gt; b
-</span><span class='line'>'\xa4\xa4\xa4\xe5'
-</span><span class='line'>&gt;&gt;&gt; b.decode('gb18030')
-</span><span class='line'>u'\u3044\u3085'
-</span><span class='line'>&gt;&gt;&gt; print b.decode('gb18030')
-</span><span class='line'>いゅ
-</span><span class='line'>&gt;&gt;&gt; c = a.decode('utf8').encode('gb18030')
-</span><span class='line'>&gt;&gt;&gt; c
-</span><span class='line'>'\xd6\xd0\xce\xc4'
-</span><span class='line'>&gt;&gt;&gt; print c.decode('big5')
-</span><span class='line'>笢恅</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>a = &lsquo;中文&rsquo;
+a
+&lsquo;\xe4\xb8\xad\xe6\x96\x87&rsquo;
+print a.decode(&lsquo;gb18030&rsquo;)
+涓枃
+b = a.decode(&lsquo;utf8&rsquo;).encode(&lsquo;big5&rsquo;)
+b
+&lsquo;\xa4\xa4\xa4\xe5&rsquo;
+b.decode(&lsquo;gb18030&rsquo;)
+u&#8217;\u3044\u3085&#8217;
+print b.decode(&lsquo;gb18030&rsquo;)
+いゅ
+c = a.decode(&lsquo;utf8&rsquo;).encode(&lsquo;gb18030&rsquo;)
+c
+&lsquo;\xd6\xd0\xce\xc4&rsquo;
+print c.decode(&lsquo;big5&rsquo;)
+笢恅
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>如果是奇数个字节的utf8编码字符串就不能被gb18030解码：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; c = '中文字'
-</span><span class='line'>&gt;&gt;&gt; c
-</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87\xe5\xad\x97'
-</span><span class='line'>&gt;&gt;&gt; c.decode('gb18030')
-</span><span class='line'>Traceback (most recent call last):
-</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-</span><span class='line'>UnicodeDecodeError: 'gb18030' codec can't decode byte 0x97 in position 8: incomplete multibyte sequence</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>c = &lsquo;中文字&rsquo;
+c
+&lsquo;\xe4\xb8\xad\xe6\x96\x87\xe5\xad\x97&rsquo;
+c.decode(&lsquo;gb18030&rsquo;)
+Traceback (most recent call last):
+  File &ldquo;<stdin>&rdquo;, line 1, in <module>
+UnicodeDecodeError: &lsquo;gb18030&rsquo; codec can&rsquo;t decode byte 0x97 in position 8: incomplete multibyte sequence
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>这里使用gb18030，而没有使用gbk或者gb2312，是因为gb18030是后两者的超集。</p>
 
@@ -661,109 +529,82 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>这里补充下decode函数的说明：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>decode(...)
-</span><span class='line'>    S.decode([encoding[,errors]]) -&gt; object
-</span><span class='line'>      
-</span><span class='line'>    Decodes S using the codec registered for encoding. encoding defaults
-</span><span class='line'>    to the default encoding. errors may be given to set a different error
-</span><span class='line'>    handling scheme. Default is 'strict' meaning that encoding errors raise
-</span><span class='line'>    a UnicodeDecodeError. Other possible values are 'ignore' and 'replace'
-</span><span class='line'>    as well as any other name registered with codecs.register_error that is
-</span><span class='line'>    able to handle UnicodeDecodeErrors.</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+decode(&hellip;)</p>
 
+<pre><code>S.decode([encoding[,errors]]) -&gt; object
 
-<p>上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
+Decodes S using the codec registered for encoding. encoding defaults
+to the default encoding. errors may be given to set a different error
+handling scheme. Default is 'strict' meaning that encoding errors raise
+a UnicodeDecodeError. Other possible values are 'ignore' and 'replace'
+as well as any other name registered with codecs.register_error that is
+able to handle UnicodeDecodeErrors.
+</code></pre>
+
+<p>&#8220;`
+上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
 
 <p>例：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; '中文'
-</span><span class='line'>'\xe4\xb8\xad\xe6\x96\x87'
-</span><span class='line'>&gt;&gt;&gt; '中文'.decode('utf8')
-</span><span class='line'>u'\u4e2d\u6587'</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>&lsquo;中文&rsquo;
+&lsquo;\xe4\xb8\xad\xe6\x96\x87&rsquo;
+&lsquo;中文&rsquo;.decode(&lsquo;utf8&rsquo;)
+u&#8217;\u4e2d\u6587&#8217;
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>手动在上面utf8编码的字符串中混入一个错误编码，并且已经无法正常使用utf8解码</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; d = '\xe4\xb8\xad\xdd\xe6\x96\x87'
-</span><span class='line'>&gt;&gt;&gt; d
-</span><span class='line'>'\xe4\xb8\xad\xdd\xe6\x96\x87'
-</span><span class='line'>&gt;&gt;&gt; print d
-</span><span class='line'>中?文
-</span><span class='line'>&gt;&gt;&gt; d.decode('utf8')
-</span><span class='line'>Traceback (most recent call last):
-</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-</span><span class='line'>  File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py", line 16, in decode
-</span><span class='line'>    return codecs.utf_8_decode(input, errors, True)
-</span><span class='line'>UnicodeDecodeError: 'utf8' codec can't decode byte 0xdd in position 3: invalid continuation byte</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>d = &lsquo;\xe4\xb8\xad\xdd\xe6\x96\x87&rsquo;
+d
+&lsquo;\xe4\xb8\xad\xdd\xe6\x96\x87&rsquo;
+print d
+中?文
+d.decode(&lsquo;utf8&rsquo;)
+Traceback (most recent call last):
+  File &ldquo;<stdin>&rdquo;, line 1, in <module>
+  File &ldquo;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py&rdquo;, line 16, in decode</p>
+
+<pre><code>return codecs.utf_8_decode(input, errors, True)
+</code></pre>
+
+<p>UnicodeDecodeError: &lsquo;utf8&rsquo; codec can&rsquo;t decode byte 0xdd in position 3: invalid continuation byte
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>下面测试下使用ingore和replace后的不同</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; d.decode('utf8', 'ignore')
-</span><span class='line'>u'\u4e2d\u6587'
-</span><span class='line'>&gt;&gt;&gt; print d.decode('utf8', 'ignore')
-</span><span class='line'>中文
-</span><span class='line'>&gt;&gt;&gt; d.decode('utf8', 'replace')
-</span><span class='line'>u'\u4e2d\ufffd\u6587'
-</span><span class='line'>&gt;&gt;&gt; print d.decode('utf8', 'replace')
-</span><span class='line'>中�文
-</span><span class='line'>&gt;&gt;&gt; '中文'.decode('utf8')
-</span><span class='line'>u'\u4e2d\u6587'</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>d.decode(&lsquo;utf8&rsquo;, &lsquo;ignore&rsquo;)
+u&#8217;\u4e2d\u6587&#8217;
+print d.decode(&lsquo;utf8&rsquo;, &lsquo;ignore&rsquo;)
+中文
+d.decode(&lsquo;utf8&rsquo;, &lsquo;replace&rsquo;)
+u&#8217;\u4e2d\ufffd\u6587&#8217;
+print d.decode(&lsquo;utf8&rsquo;, &lsquo;replace&rsquo;)
+中�文
+&lsquo;中文&rsquo;.decode(&lsquo;utf8&rsquo;)
+u&#8217;\u4e2d\u6587&#8217;
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>发现，使用ignore正确地跳过了错误编码，使用replace则会将那个错误编码强制转换，造成乱码。</p>
 
 <p><em>第4部分中，不知道是不是chardet的bug，如果是gb18030编码的字符串会被检测成为gb2312，而gb2312的字符集要比gb18030小，导致某些生僻字解码出错，这个函数里如果遇到是gb字符集都统一用gb18030去解码，保证解码成功。(2013-09-03更新)</em></p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; a = '中文阿舒服的沙发法撒爹翻爾薾'.decode('utf8').encode('gb18030')
-</span><span class='line'>&gt;&gt;&gt; chardet.detect(a)
-</span><span class='line'>{'confidence': 0.99, 'encoding': 'GB2312'}
-</span><span class='line'>&gt;&gt;&gt; print a.decode('gb2312')
-</span><span class='line'>Traceback (most recent call last):
-</span><span class='line'>  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
-</span><span class='line'>UnicodeDecodeError: 'gb2312' codec can't decode bytes in position 24-25: illegal multibyte sequence</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<blockquote><blockquote><blockquote><p>a = &lsquo;中文阿舒服的沙发法撒爹翻爾薾&rsquo;.decode(&lsquo;utf8&rsquo;).encode(&lsquo;gb18030&rsquo;)
+chardet.detect(a)
+{&lsquo;confidence&rsquo;: 0.99, &lsquo;encoding&rsquo;: &lsquo;GB2312&rsquo;}
+print a.decode(&lsquo;gb2312&rsquo;)
+Traceback (most recent call last):
+  File &ldquo;<stdin>&rdquo;, line 1, in <module>
+UnicodeDecodeError: &lsquo;gb2312&rsquo; codec can&rsquo;t decode bytes in position 24-25: illegal multibyte sequence
+&#8220;`</p></blockquote></blockquote></blockquote>
 
 <p>再回到上面的函数代码，第五部分中，不管之前有没有检测出编码，都会对字符串进行强制解码，当然保险起见，这里还加了try，来捕获有可能抛出的异常。</p>
 
@@ -815,95 +656,96 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>YES：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#跟开始的圆括号对齐
-</span><span class='line'>foo = long_function_name(var_one, var_two,
-</span><span class='line'>                         var_three, var_four)
-</span><span class='line'>#多缩进一次来进行区分
-</span><span class='line'>def long_function_name(
-</span><span class='line'>        var_one, var_two, var_three,
-</span><span class='line'>        var_four):
-</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>跟开始的圆括号对齐</h1>
+
+<p>foo = long_function_name(var_one, var_two,</p>
+
+<pre><code>                     var_three, var_four)
+</code></pre>
+
+<h1>多缩进一次来进行区分</h1>
+
+<p>def long_function_name(</p>
+
+<pre><code>    var_one, var_two, var_three,
+    var_four):
+print(var_one)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>NO：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#当没有垂直对齐时，是不允许将参数放在第一行的
-</span><span class='line'>foo = long_function_name(var_one, var_two,
-</span><span class='line'>    var_three, var_four)
-</span><span class='line'>#需要更进一步的缩进来与其他正常行的缩进区分开
-</span><span class='line'>def long_function_name(
-</span><span class='line'>    var_one, var_two, var_three,
-</span><span class='line'>    var_four):
-</span><span class='line'>    print(var_one)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>当没有垂直对齐时，是不允许将参数放在第一行的</h1>
+
+<p>foo = long_function_name(var_one, var_two,</p>
+
+<pre><code>var_three, var_four)
+</code></pre>
+
+<h1>需要更进一步的缩进来与其他正常行的缩进区分开</h1>
+
+<p>def long_function_name(</p>
+
+<pre><code>var_one, var_two, var_three,
+var_four):
+print(var_one)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>Optional：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># 更多的缩进也不是必须的
-</span><span class='line'>foo = long_function_name(
-</span><span class='line'>  var_one, var_two,
-</span><span class='line'>  var_three, var_four)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>更多的缩进也不是必须的</h1>
+
+<p>foo = long_function_name(
+  var_one, var_two,
+  var_three, var_four)
+&#8220;`</p>
 
 <p>多行结构的右括号（包括圆括号、方括号、花括号）可以放在在列表中最后一个元素的下面，如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
-</span><span class='line'>    1, 2, 3,
-</span><span class='line'>    4, 5, 6,
-</span><span class='line'>    ]
-</span><span class='line'>result = some_function_that_takes_arguments(
-</span><span class='line'>    'a', 'b', 'c',
-</span><span class='line'>    'd', 'e', 'f',
-</span><span class='line'>    )</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+my_list = [</p>
 
+<pre><code>1, 2, 3,
+4, 5, 6,
+]
+</code></pre>
+
+<p>result = some_function_that_takes_arguments(</p>
+
+<pre><code>'a', 'b', 'c',
+'d', 'e', 'f',
+)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>也可以放在多行结构的行头下面，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>my_list = [
-</span><span class='line'>    1, 2, 3,
-</span><span class='line'>    4, 5, 6,
-</span><span class='line'>]
-</span><span class='line'>result = some_function_that_takes_arguments(
-</span><span class='line'>    'a', 'b', 'c',
-</span><span class='line'>    'd', 'e', 'f',
-</span><span class='line'>)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+my_list = [</p>
 
+<pre><code>1, 2, 3,
+4, 5, 6,
+</code></pre>
+
+<p>]
+result = some_function_that_takes_arguments(</p>
+
+<pre><code>'a', 'b', 'c',
+'d', 'e', 'f',
+</code></pre>
+
+<p>)
+&#8220;`</p>
 
 <h3>制表符还是空格</h3>
 
@@ -921,35 +763,24 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>较长行折行的首选方式是在圆括号、方括号、花括号中使用Python隐式续行。较长行可以在圆括号中分解为多行显示。这些操作应比反斜杠优先使用。同时要对续行进行适当地缩进。应该优先在二元操作符的后面对较长行进行折行，而不是二元操作符的前面，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class Rectangle(Blob):
-</span><span class='line'>
-</span><span class='line'>    def __init__(self, width, height,
-</span><span class='line'>                 color='black', emphasis=None, highlight=0):
-</span><span class='line'>        if (width == 0 and height == 0 and
-</span><span class='line'>            color == 'red' and emphasis == 'strong' or
-</span><span class='line'>            highlight &gt; 100):
-</span><span class='line'>            raise ValueError("sorry, you lose")
-</span><span class='line'>        if width == 0 and height == 0 and (color == 'red' or
-</span><span class='line'>                                           emphasis is None):
-</span><span class='line'>            raise ValueError("I don't think so -- values are %s, %s" %
-</span><span class='line'>                             (width, height))
-</span><span class='line'>        Blob.__init__(self, width, height,
-</span><span class='line'>                      color, emphasis, highlight)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+class Rectangle(Blob):</p>
 
+<pre><code>def __init__(self, width, height,
+             color='black', emphasis=None, highlight=0):
+    if (width == 0 and height == 0 and
+        color == 'red' and emphasis == 'strong' or
+        highlight &gt; 100):
+        raise ValueError("sorry, you lose")
+    if width == 0 and height == 0 and (color == 'red' or
+                                       emphasis is None):
+        raise ValueError("I don't think so -- values are %s, %s" %
+                         (width, height))
+    Blob.__init__(self, width, height,
+                  color, emphasis, highlight)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <h3>空行</h3>
 
@@ -973,19 +804,20 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>每个import应该单独一行使用，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: import os
-</span><span class='line'>     import sys
-</span><span class='line'>No:  import sys, os</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+Yes: import os</p>
 
+<pre><code> import sys
+</code></pre>
+
+<p>No:  import sys, os
+&#8220;`</p>
 
 <p>如下使用是允许的：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from subprocess import Popen, PIPE</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+from subprocess import Popen, PIPE
+&#8220;`</p>
 
 <p>import永远放在文件的顶部，仅仅在模块注释和文档字符串的后面，但在模块全局变量和常量的前面。</p>
 
@@ -999,25 +831,23 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>你应该在每一个组之间用一个空白行分隔开。</p>
 
-<p>将任何相关联的<strong>all</strong>说明放到import后面。</p>
+<p>将任何相关联的__all__说明放到import后面。</p>
 
 <p>非常不推荐在包内导入中使用相对路径导入，应该永远使用绝对路径导入。尽管现在<a href="http://www.python.org/dev/peps/pep-0328/">PEP 328</a>已经在Python2.5中实现，但依旧不鼓励使用相对路径导入风格，绝对路径导入更容易移植，往往可读性也更好。</p>
 
 <p>从一个模块导入一个类时，往往这么写：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>from myclass import MyClass
-</span><span class='line'>from foo.bar.yourclass import YourClass</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+from myclass import MyClass
+from foo.bar.yourclass import YourClass
+&#8220;`</p>
 
 <p>如果上述写法引起本地变量名冲突，那你应该这么写：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>import myclass
-</span><span class='line'>import foo.bar.yourclass</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+import myclass
+import foo.bar.yourclass
+&#8220;`</p>
 
 <p>然后使用 &ldquo;myclass.MyClass&#8221;和&#8221;foo.bar.yourclass.YourClass&#8221;。</p>
 
@@ -1032,44 +862,40 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(ham[1], {eggs: 2})
-</span><span class='line'>No:  spam( ham[ 1 ], { eggs: 2 } )</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Yes: spam(ham<a href="http://www.python.org/dev/peps/pep-0008/#id8">1</a>, {eggs: 2})
+No:  spam( ham[ 1 ], { eggs: 2 } )
+&#8220;`</p>
 
 <ul>
 <li>逗号、冒号和分号之前不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if x == 4: print x, y; x, y = y, x
-</span><span class='line'>No:  if x == 4 : print x , y ; x , y = y , x</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Yes: if x == 4: print x, y; x, y = y, x
+No:  if x == 4 : print x , y ; x , y = y , x
+&#8220;`</p>
 
 <ul>
 <li>函数名与参数列表的左括号之间不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: spam(1)
-</span><span class='line'>No:  spam (1)</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Yes: spam(1)
+No:  spam (1)
+&#8220;`</p>
 
 <ul>
 <li>索引或分片的方括号之前不要有空格</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: dict['key'] = list[index]
-</span><span class='line'>No:  dict ['key'] = list [index]</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Yes: dict[&lsquo;key&rsquo;] = list[index]
+No:  dict [&lsquo;key&rsquo;] = list [index]
+&#8220;`</p>
 
 <ul>
 <li>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</li>
@@ -1078,23 +904,19 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = 1
-</span><span class='line'>y = 2
-</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+x = 1
+y = 2
+long_variable = 3
+&#8220;`</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x             = 1
-</span><span class='line'>y             = 2
-</span><span class='line'>long_variable = 3</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+x             = 1
+y             = 2
+long_variable = 3
+&#8220;`</p>
 
 <h3>其他建议</h3>
 
@@ -1106,31 +928,23 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>i = i + 1
-</span><span class='line'>submitted += 1
-</span><span class='line'>x = x*2 - 1
-</span><span class='line'>hypot2 = x*x + y*y
-</span><span class='line'>c = (a+b) * (a-b)</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+i = i + 1
+submitted += 1
+x = x*2 &ndash; 1
+hypot2 = x<em>x + y</em>y
+c = (a+b) * (a-b)
+&#8220;`</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>i=i+1
-</span><span class='line'>submitted +=1
-</span><span class='line'>x = x * 2 - 1
-</span><span class='line'>hypot2 = x * x + y * y
-</span><span class='line'>c = (a + b) * (a - b)</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+i=i+1
+submitted +=1
+x = x * 2 &ndash; 1
+hypot2 = x * x + y * y
+c = (a + b) * (a &ndash; b)
+&#8220;`</p>
 
 <ul>
 <li>不要在一个关键字参数或者缺省参数的=号前后加空格</li>
@@ -1139,21 +953,22 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag=0.0):
-</span><span class='line'>    return magic(r=real, i=imag)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+def complex(real, imag=0.0):</p>
 
+<pre><code>return magic(r=real, i=imag)
+</code></pre>
 
-<p></p>
+<p>&#8220;`  <br/>
+No:</p>
 
-<p>No:</p>
+<p>&#8220;`
+def complex(real, imag = 0.0):</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def complex(real, imag = 0.0):
-</span><span class='line'>    return magic(r = real, i = imag)</span></code></pre></td></tr></table></div></figure>
+<pre><code>return magic(r = real, i = imag)
+</code></pre>
 
+<p>&#8220;`</p>
 
 <ul>
 <li>一般不建议在同一行使用混合语句</li>
@@ -1162,25 +977,23 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah':
-</span><span class='line'>    do_blah_thing()
-</span><span class='line'>do_one()
-</span><span class='line'>do_two()
-</span><span class='line'>do_three()</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+if foo == &lsquo;blah&rsquo;:</p>
 
+<pre><code>do_blah_thing()
+</code></pre>
+
+<p>do_one()
+do_two()
+do_three()
+&#8220;`</p>
 
 <p>宁愿不:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>do_one(); do_two(); do_three()</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
+do_one(); do_two(); do_three()
+&#8220;`</p>
 
 <ul>
 <li>有时候将一个小的if/for/while块放在同一行是可以的，但是绝对不要将多个分句放在一行。不放在一行上，同时也能避免去折叠较长行。</li>
@@ -1189,37 +1002,28 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>宁愿不:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>for x in lst: total += x
-</span><span class='line'>while t &lt; 10: t = delay()</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
+for x in lst: total += x
+while t &lt; 10: t = delay()
+&#8220;`</p>
 
 <p>一定不要:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if foo == 'blah': do_blah_thing()
-</span><span class='line'>else: do_non_blah_thing()
-</span><span class='line'>
-</span><span class='line'>try: something()
-</span><span class='line'>finally: cleanup()
-</span><span class='line'>
-</span><span class='line'>do_one(); do_two(); do_three(long, argument,
-</span><span class='line'>                             list, like, this)
-</span><span class='line'>
-</span><span class='line'>if foo == 'blah': one(); two(); three()</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
+else: do_non_blah_thing()</p>
 
+<p>try: something()
+finally: cleanup()</p>
+
+<p>do_one(); do_two(); do_three(long, argument,</p>
+
+<pre><code>                         list, like, this)
+</code></pre>
+
+<p>if foo == &lsquo;blah&rsquo;: one(); two(); three()
+&#8220;`</p>
 
 <h2>注释</h2>
 
@@ -1249,15 +1053,14 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>如果行内注释描述的是显而易见的事，那么是不必要的甚至造成干扰：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Increment x</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+x = x + 1                 # Increment x
+&#8220;`
+但有时候是有用的：</p>
 
-
-<p>但有时候是有用的：</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>x = x + 1                 # Compensate for border</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+x = x + 1                 # Compensate for border
+&#8220;`</p>
 
 <h3>文档字符串</h3>
 
@@ -1269,17 +1072,13 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>"""Return a foobang
-</span><span class='line'>
-</span><span class='line'>Optional plotz says to frobnicate the bizbaz first.
-</span><span class='line'>
-</span><span class='line'>"""</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+&ldquo;&rdquo;&ldquo;Return a foobang</p>
 
+<p>Optional plotz says to frobnicate the bizbaz first.</p>
+
+<p>&ldquo;&rdquo;&ldquo;
+&#8220;`</p>
 
 <ul>
 <li>如果是单行的文档字符串，可以不用将结束的&#8221;&ldquo;&#8221;单独放置一行。</li>
@@ -1290,11 +1089,12 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>如果在代码源文件中掺杂着Subversion，CVS或RCS注记，按照下面的规则书写。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>__version__ = "$Revision: cfd6d2cb1ca6 $"
-</span><span class='line'># $Source$</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+<strong>version</strong> = &ldquo;$Revision: cfd6d2cb1ca6 $&rdquo;</p>
 
+<h1>$Source$</h1>
+
+<p>&#8220;`</p>
 
 <p>这些行应放在块注释之后，其他代码之前。前后各有一个空行。</p>
 
@@ -1335,9 +1135,9 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 &ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
 &ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Tkinter.Toplevel(master, class_='ClassName')</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Tkinter.Toplevel(master, class_=&lsquo;ClassName&rsquo;)
+&#8220;`</p>
 
 <ul>
 <li>__double_leading_underscore：命名一个类属性时，触发调用“名字扩展”（inside class FooBar, __boo becomes _FooBar__boo）</li>
@@ -1397,7 +1197,7 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>为了避免与子类的命名冲突，使用2个前缀下划线来触发Python的名字扩展机制。</p>
 
-<p>Python用类名来扩展这些名字：如果类Foo有一个属性__a，就不能通过Foo.<strong>a来访问(坚持要访问，则可以使用Foo._Foo</strong>a)。通常，双下划线前缀应该只用来避免与子类的名字冲突。</p>
+<p>Python用类名来扩展这些名字：如果类Foo有一个属性__a，就不能通过Foo.__a来访问(坚持要访问，则可以使用Foo._Foo__a)。通常，双下划线前缀应该只用来避免与子类的名字冲突。</p>
 
 <h4>注意：关于__names的使用还存在一些争论（见下文）</h4>
 
@@ -1475,13 +1275,14 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>模块或包应该定义它们自己特定域下面的异常基类。这些异常类应该继承自内置的Exception类，并且永远包含有文档字符串。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>class MessageError(Exception):
-</span><span class='line'>    """Base class for errors in the email package."""</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+class MessageError(Exception):</p>
 
+<pre><code>"""Base class for errors in the email package."""
+</code></pre>
 
-<p>在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
+<p>&#8220;`
+在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
 
 <ul>
 <li>当抛出异常时，使用raise ValueError(&lsquo;message&rsquo;)，而不是使用 raise ValueError, &lsquo;message&#8217;这种旧形式。</li>
@@ -1497,15 +1298,18 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>例如：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    import platform_specific_module
-</span><span class='line'>except ImportError:
-</span><span class='line'>    platform_specific_module = None</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+try:</p>
 
+<pre><code>import platform_specific_module
+</code></pre>
+
+<p>except ImportError:</p>
+
+<pre><code>platform_specific_module = None
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>一个只有except的异常捕获会捕获SystemExit和KeyboardInterrupt异常，会使程序变得难以使用Control-C来结束，并且会掩盖其他问题。如果你想捕获所有错误，可以使用except Exception:（只有except的捕获相当于except BaseException:）</p>
 
@@ -1522,35 +1326,40 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    value = collection[key]
-</span><span class='line'>except KeyError:
-</span><span class='line'>    return key_not_found(key)
-</span><span class='line'>else:
-</span><span class='line'>    return handle_value(value)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+try:</p>
 
+<pre><code>value = collection[key]
+</code></pre>
+
+<p>except KeyError:</p>
+
+<pre><code>return key_not_found(key)
+</code></pre>
+
+<p>else:</p>
+
+<pre><code>return handle_value(value)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>try:
-</span><span class='line'>    # Too broad!
-</span><span class='line'>    return handle_value(collection[key])
-</span><span class='line'>except KeyError:
-</span><span class='line'>    # Will also catch KeyError raised by handle_value()
-</span><span class='line'>    return key_not_found(key)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+try:</p>
 
+<pre><code># Too broad!
+return handle_value(collection[key])
+</code></pre>
+
+<p>except KeyError:</p>
+
+<pre><code># Will also catch KeyError raised by handle_value()
+return key_not_found(key)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <ul>
 <li>如果要做除获取和释放资源外的事情，上下文操作符应该通过单独的函数或者方法来调用，例如：</li>
@@ -1559,19 +1368,23 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>Yes:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with conn.begin_transaction():
-</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+with conn.begin_transaction():</p>
 
+<pre><code>do_stuff_in_transaction(conn)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>No:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>with conn:
-</span><span class='line'>    do_stuff_in_transaction(conn)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+with conn:</p>
 
+<pre><code>do_stuff_in_transaction(conn)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <p>后一个例子并没有提供任何信息来表明__enter__ 和 __exit__方法在一次处理以后做了除关闭连接以外的事情。在这个情况里，显示调用是比较重要的。</p>
 
@@ -1589,49 +1402,46 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 
 <p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if foo.startswith('bar'):
-</span><span class='line'>No:  if foo[:3] == 'bar':</span></code></pre></td></tr></table></div></figure>
-
-
-<p>有个例外是你的代码必须使用Python 1.5.2。</p>
+<p>&#8220;`
+Yes: if foo.startswith(&lsquo;bar&rsquo;):
+No:  if foo[:3] == &lsquo;bar&rsquo;:
+&#8220;`
+有个例外是你的代码必须使用Python 1.5.2。</p>
 
 <ul>
 <li>用isinstance()来判断对象的类别，而不是用type()</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if isinstance(obj, int):
-</span><span class='line'>
-</span><span class='line'>No:  if type(obj) is type(1):</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+Yes: if isinstance(obj, int):</p>
 
+<p>No:  if type(obj) is type(1):
+&#8220;`</p>
 
 <p>当检测一个对象是不是一个字符串的时候，要注意，字符串也可能是一个unicode字符串。在Python2.3中，str和unicode拥有一个共同基类basestring，所以你可以这样判断：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>if isinstance(obj, basestring):</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+if isinstance(obj, basestring):
+&#8220;`</p>
 
 <ul>
 <li>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</li>
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes: if not seq:
-</span><span class='line'>     if seq:
-</span><span class='line'>
-</span><span class='line'>No: if len(seq)
-</span><span class='line'>    if not len(seq)</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+Yes: if not seq:</p>
 
+<pre><code> if seq:
+</code></pre>
+
+<p>No: if len(seq)</p>
+
+<pre><code>if not len(seq)
+</code></pre>
+
+<p>&#8220;`</p>
 
 <ul>
 <li><p>书写字符串常量时，不要依赖末尾的空格。这样的空格视觉上比较难区分，而且一些编辑器会去掉它们。</p></li>
@@ -1639,13 +1449,11 @@ domain这个参数是用来指定socket的通信域，即通信所用的协议�
 </ul>
 
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Yes:   if greeting:
-</span><span class='line'>No:    if greeting == True:
-</span><span class='line'>Worse: if greeting is True:</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+Yes:   if greeting:
+No:    if greeting == True:
+Worse: if greeting is True:
+&#8220;`</p>
 
 <ul>
 <li>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</li>

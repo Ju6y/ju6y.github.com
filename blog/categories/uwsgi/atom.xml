@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: tornado,python,uwsgi | iBlog]]></title>
-  <link href="http://Ju6y.github.io/blog/categories/tornado-python-uwsgi/atom.xml" rel="self"/>
+  <title><![CDATA[Category: uwsgi | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/uwsgi/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>

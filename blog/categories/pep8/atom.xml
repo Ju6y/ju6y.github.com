@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python,pep8 | iBlog]]></title>
-  <link href="http://Ju6y.github.io/blog/categories/python-pep8/atom.xml" rel="self"/>
+  <title><![CDATA[Category: pep8 | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/pep8/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -216,9 +216,9 @@ Yes: import os</p>
 
 <p>如下使用是允许的：</p>
 
-<p><code>
+<p>```
 from subprocess import Popen, PIPE
-</code></p>
+```</p>
 
 <p>import永远放在文件的顶部，仅仅在模块注释和文档字符串的后面，但在模块全局变量和常量的前面。</p>
 
@@ -232,23 +232,23 @@ from subprocess import Popen, PIPE
 
 <p>你应该在每一个组之间用一个空白行分隔开。</p>
 
-<p>将任何相关联的<strong>all</strong>说明放到import后面。</p>
+<p>将任何相关联的__all__说明放到import后面。</p>
 
 <p>非常不推荐在包内导入中使用相对路径导入，应该永远使用绝对路径导入。尽管现在<a href="http://www.python.org/dev/peps/pep-0328/">PEP 328</a>已经在Python2.5中实现，但依旧不鼓励使用相对路径导入风格，绝对路径导入更容易移植，往往可读性也更好。</p>
 
 <p>从一个模块导入一个类时，往往这么写：</p>
 
-<p><code>
+<p>```
 from myclass import MyClass
 from foo.bar.yourclass import YourClass
-</code></p>
+```</p>
 
 <p>如果上述写法引起本地变量名冲突，那你应该这么写：</p>
 
-<p><code>
+<p>```
 import myclass
 import foo.bar.yourclass
-</code></p>
+```</p>
 
 <p>然后使用 &ldquo;myclass.MyClass"和"foo.bar.yourclass.YourClass"。</p>
 
@@ -263,40 +263,40 @@ import foo.bar.yourclass
 </ul>
 
 
-<p><code>
-Yes: spam(ham[1], {eggs: 2})
+<p>```
+Yes: spam(ham<a href="http://www.python.org/dev/peps/pep-0008/#id8">1</a>, {eggs: 2})
 No:  spam( ham[ 1 ], { eggs: 2 } )
-</code></p>
+```</p>
 
 <ul>
 <li>逗号、冒号和分号之前不要有空格</li>
 </ul>
 
 
-<p><code>
+<p>```
 Yes: if x == 4: print x, y; x, y = y, x
 No:  if x == 4 : print x , y ; x , y = y , x
-</code></p>
+```</p>
 
 <ul>
 <li>函数名与参数列表的左括号之间不要有空格</li>
 </ul>
 
 
-<p><code>
+<p>```
 Yes: spam(1)
 No:  spam (1)
-</code></p>
+```</p>
 
 <ul>
 <li>索引或分片的方括号之前不要有空格</li>
 </ul>
 
 
-<p><code>
-Yes: dict['key'] = list[index]
-No:  dict ['key'] = list [index]
-</code></p>
+<p>```
+Yes: dict[&lsquo;key&rsquo;] = list[index]
+No:  dict [&lsquo;key&rsquo;] = list [index]
+```</p>
 
 <ul>
 <li>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</li>
@@ -305,19 +305,19 @@ No:  dict ['key'] = list [index]
 
 <p>Yes:</p>
 
-<p><code>
+<p>```
 x = 1
 y = 2
 long_variable = 3
-</code></p>
+```</p>
 
 <p>No:</p>
 
-<p><code>
+<p>```
 x             = 1
 y             = 2
 long_variable = 3
-</code></p>
+```</p>
 
 <h3>其他建议</h3>
 
@@ -329,23 +329,23 @@ long_variable = 3
 
 <p>Yes:</p>
 
-<p><code>
+<p>```
 i = i + 1
 submitted += 1
-x = x*2 - 1
-hypot2 = x*x + y*y
+x = x*2 &ndash; 1
+hypot2 = x<em>x + y</em>y
 c = (a+b) * (a-b)
-</code></p>
+```</p>
 
 <p>No:</p>
 
-<p><code>
+<p>```
 i=i+1
 submitted +=1
-x = x * 2 - 1
+x = x * 2 &ndash; 1
 hypot2 = x * x + y * y
-c = (a + b) * (a - b)
-</code></p>
+c = (a + b) * (a &ndash; b)
+```</p>
 
 <ul>
 <li>不要在一个关键字参数或者缺省参数的=号前后加空格</li>
@@ -360,9 +360,8 @@ def complex(real, imag=0.0):</p>
 <pre><code>return magic(r=real, i=imag)
 </code></pre>
 
-<p>```</p>
-
-<p>No:</p>
+<p>```  <br/>
+No:</p>
 
 <p>```
 def complex(real, imag = 0.0):</p>
@@ -392,10 +391,10 @@ do_three()
 
 <p>宁愿不:</p>
 
-<p><code>
-if foo == 'blah': do_blah_thing()
+<p>```
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
 do_one(); do_two(); do_three()
-</code></p>
+```</p>
 
 <ul>
 <li>有时候将一个小的if/for/while块放在同一行是可以的，但是绝对不要将多个分句放在一行。不放在一行上，同时也能避免去折叠较长行。</li>
@@ -404,11 +403,11 @@ do_one(); do_two(); do_three()
 
 <p>宁愿不:</p>
 
-<p><code>
-if foo == 'blah': do_blah_thing()
+<p>```
+if foo == &lsquo;blah&rsquo;: do_blah_thing()
 for x in lst: total += x
 while t &lt; 10: t = delay()
-</code></p>
+```</p>
 
 <p>一定不要:</p>
 
@@ -455,14 +454,14 @@ finally: cleanup()</p>
 
 <p>如果行内注释描述的是显而易见的事，那么是不必要的甚至造成干扰：</p>
 
-<p><code>
+<p>```
 x = x + 1                 # Increment x
-</code>
+```
 但有时候是有用的：</p>
 
-<p><code>
+<p>```
 x = x + 1                 # Compensate for border
-</code></p>
+```</p>
 
 <h3>文档字符串</h3>
 
@@ -537,9 +536,9 @@ x = x + 1                 # Compensate for border
 &ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
 &ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
 
-<p><code>
-Tkinter.Toplevel(master, class_='ClassName')
-</code></p>
+<p>```
+Tkinter.Toplevel(master, class_=&lsquo;ClassName&rsquo;)
+```</p>
 
 <ul>
 <li>__double_leading_underscore：命名一个类属性时，触发调用“名字扩展”（inside class FooBar, __boo becomes _FooBar__boo）</li>
@@ -599,7 +598,7 @@ Tkinter.Toplevel(master, class_='ClassName')
 
 <p>为了避免与子类的命名冲突，使用2个前缀下划线来触发Python的名字扩展机制。</p>
 
-<p>Python用类名来扩展这些名字：如果类Foo有一个属性__a，就不能通过Foo.<strong>a来访问(坚持要访问，则可以使用Foo._Foo</strong>a)。通常，双下划线前缀应该只用来避免与子类的名字冲突。</p>
+<p>Python用类名来扩展这些名字：如果类Foo有一个属性__a，就不能通过Foo.__a来访问(坚持要访问，则可以使用Foo._Foo__a)。通常，双下划线前缀应该只用来避免与子类的名字冲突。</p>
 
 <h4>注意：关于__names的使用还存在一些争论（见下文）</h4>
 
@@ -804,10 +803,10 @@ with conn:</p>
 
 <p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
 
-<p><code>
-Yes: if foo.startswith('bar'):
-No:  if foo[:3] == 'bar':
-</code>
+<p>```
+Yes: if foo.startswith(&lsquo;bar&rsquo;):
+No:  if foo[:3] == &lsquo;bar&rsquo;:
+```
 有个例外是你的代码必须使用Python 1.5.2。</p>
 
 <ul>
@@ -823,9 +822,9 @@ Yes: if isinstance(obj, int):</p>
 
 <p>当检测一个对象是不是一个字符串的时候，要注意，字符串也可能是一个unicode字符串。在Python2.3中，str和unicode拥有一个共同基类basestring，所以你可以这样判断：</p>
 
-<p><code>
+<p>```
 if isinstance(obj, basestring):
-</code></p>
+```</p>
 
 <ul>
 <li>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</li>
@@ -851,11 +850,11 @@ Yes: if not seq:</p>
 </ul>
 
 
-<p><code>
+<p>```
 Yes:   if greeting:
 No:    if greeting == True:
 Worse: if greeting is True:
-</code></p>
+```</p>
 
 <ul>
 <li>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</li>

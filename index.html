@@ -9,8 +9,7 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="NAME socket &ndash; 创建一个通信端点 SYNOPSIS #include &lt;sys/types.h&gt; #include &lt;sys/socket.h&gt;
-int socket(int domain, int type, int protocal); &hellip;">
+  <meta name="description" content="工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -65,6 +64,52 @@ int socket(int domain, int type, int protocal); &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-04T12:36:00+08:00" pubdate data-updated="true">Sep 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads，再打开Finder到Downloads下拷贝文件。
+你会发现，要完成上面的一整套操作就必须在Terminal和Finder之间进行一次切换（这还不包括复制完文件后再到Mail或者RTX的一次切换），这个切换很影响操作流畅度，即会打断工作流（workflow），毕竟一个是纯命令行的交互，一个是GUI的交互。
+其实为了去掉那一次切换也是很简单的，就是在终端中完成将文件拷贝到剪贴板（clipboard）就行了，于是google了一下，得出了下面的shell命令：</p>
+
+<pre><code>ftc() {
+    dir=$(pwd)
+    osascript -e 'tell app "Finder" to set the clipboard to ( POSIX file "'$dir/$1'" )'
+}
+</code></pre>
+
+<p>只要把上面的这个函数复制到.bash_profile里，然后就能使用ftc这个命令了，用法比较简单就是ftc后面跟要拷贝的文件名（必须在文件所在的目录下执行），另外这个命令还比较简陋，不支持带全路径的文件名和多个文件拷贝。</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -151,15 +196,13 @@ int socket(int domain, int type, int protocal);
 
   <div class="entry-content"><p>这2个函数的区别简单来说就是match是从目标字符串开头开始匹配起，而search是会匹配目标字符串的任意位置。</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;&gt;&gt; re.match("c", "abcdef")  # No match
-</span><span class='line'>&gt;&gt;&gt; re.search("c", "abcdef") # Match
-</span><span class='line'>&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
-
-<p>也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p>
+<blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)  # No match
+re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;) # Match
+&lt;_sre.SRE_Match object at 0x2b1f072946b0>
+&#8220;`
+也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p></blockquote></blockquote></blockquote>
 
 </div>
   
@@ -202,9 +245,9 @@ int socket(int domain, int type, int protocal);
 
   <div class="entry-content"><p>今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>strData = struct.pack("36sQQ", strSession, llChips, 0)</span></code></pre></td></tr></table></div></figure>
-
+<p>&#8220;`
+strData = struct.pack(&ldquo;36sQQ&rdquo;, strSession, llChips, 0)
+&#8220;`</p>
 
 <p>第一眼看了代码，觉得是pack &ldquo;Q&#8221;有问题，也就是打包<strong>unsigned long long</strong>类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。</p>
 
@@ -300,17 +343,14 @@ int socket(int domain, int type, int protocal);
 
 <h3>安装</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo easy_install virtualenv</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`
+$ sudo easy_install virtualenv
+&#8220;`
+或者</p>
 
-
-<p>或者</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ sudo pip install virtualenv</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p>&#8220;`
+$ sudo pip install virtualenv
+&#8220;`</p>
 
 </div>
   
@@ -355,59 +395,40 @@ int socket(int domain, int type, int protocal);
 
 <p>一个简单的响应“hello world”的例子如下：</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>#!/usr/bin/env python
-</span><span class='line'>#-*-coding:utf-8-*-
-</span><span class='line'>
-</span><span class='line'>import tornado.web
-</span><span class='line'>import tornado.wsgi
-</span><span class='line'>
-</span><span class='line'>class handle(tornado.web.RequestHandler):
-</span><span class='line'>    def initialize(self):
-</span><span class='line'>        self.name = ''
-</span><span class='line'>
-</span><span class='line'>    def get(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        uid = self.get_cookie("uid", 0) + 1
-</span><span class='line'>        self.set_cookie("uid", str(uid))
-</span><span class='line'>        self.set_header("New-Header", "Yes")
-</span><span class='line'>        self.write("hello %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>    def post(self):
-</span><span class='line'>        self.name = self.get_argument("name", "nobody")
-</span><span class='line'>        self.set_status(405, "")
-</span><span class='line'>        self.write("sorry, %s" % self.name)
-</span><span class='line'>
-</span><span class='line'>
-</span><span class='line'>application = tornado.wsgi.WSGIApplication([
-</span><span class='line'>    (r'/hello', handle),
-</span><span class='line'>])</span></code></pre></td></tr></table></div></figure>
+<p>&#8220;`</p>
 
+<h1>!/usr/bin/env python</h1>
+
+<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
+
+<p>import tornado.web
+import tornado.wsgi</p>
+
+<p>class handle(tornado.web.RequestHandler):</p>
+
+<pre><code>def initialize(self):
+    self.name = ''
+
+def get(self):
+    self.name = self.get_argument("name", "nobody")
+    uid = self.get_cookie("uid", 0) + 1
+    self.set_cookie("uid", str(uid))
+    self.set_header("New-Header", "Yes")
+    self.write("hello %s" % self.name)
+
+def post(self):
+    self.name = self.get_argument("name", "nobody")
+    self.set_status(405, "")
+    self.write("sorry, %s" % self.name)
+</code></pre>
+
+<p>application = tornado.wsgi.WSGIApplication([</p>
+
+<pre><code>(r'/hello', handle),
+</code></pre>
+
+<p>])
+&#8220;`</p>
 
 </div>
   
@@ -544,6 +565,10 @@ int socket(int domain, int type, int protocal);
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
       </li>
     
@@ -557,10 +582,6 @@ int socket(int domain, int type, int protocal);
     
       <li class="post">
         <a href="/blog/2013/09/08/gitming-ling-hui-zong/">Git命令汇总</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/03/virtualenv/">Virtualenv</a>
       </li>
     
   </ul>

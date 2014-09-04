@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: python,正则表达式 | iBlog]]></title>
-  <link href="http://Ju6y.github.io/blog/categories/python-zheng-ze-biao-da-shi/atom.xml" rel="self"/>
+  <title><![CDATA[Category: 正则表达式 | iBlog]]></title>
+  <link href="http://Ju6y.github.io/blog/categories/zheng-ze-biao-da-shi/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-08-30T20:56:59+08:00</updated>
+  <updated>2014-09-04T13:02:16+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -44,9 +44,9 @@ re.search(&ldquo;^a&rdquo;, &ldquo;abcdef&rdquo;)  # Match
 
 <blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)    # No match
 re.match(&ldquo;.*c&rdquo;, &ldquo;abcdef&rdquo;)  # Match
-&lt;<em>sre.SRE_Match object at 0x2b1f07294718>
+&lt;_sre.SRE_Match object at 0x2b1f07294718>
 re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)   # Match
-&lt;</em>sre.SRE_Match object at 0x2b1f072946b0>
+&lt;_sre.SRE_Match object at 0x2b1f072946b0>
 ```
 前文提到的不完全相同主要是存在与匹配多行字符串的情况下，match只会搜索一行，而search会逐行搜索。</p></blockquote></blockquote></blockquote>
 
