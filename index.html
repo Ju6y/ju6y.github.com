@@ -196,13 +196,12 @@ int socket(int domain, int type, int protocal);
 
   <div class="entry-content"><p>这2个函数的区别简单来说就是match是从目标字符串开头开始匹配起，而search是会匹配目标字符串的任意位置。</p>
 
-<p>&#8220;`</p>
+<pre><code>&gt;&gt;&gt; re.match("c", "abcdef")  # No match
+&gt;&gt;&gt; re.search("c", "abcdef") # Match
+&lt;_sre.SRE_Match object at 0x2b1f072946b0&gt;
+</code></pre>
 
-<blockquote><blockquote><blockquote><p>re.match(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;)  # No match
-re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;) # Match
-&lt;_sre.SRE_Match object at 0x2b1f072946b0>
-&#8220;`
-也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p></blockquote></blockquote></blockquote>
+<p>也可以理解为，match是比search在匹配时多加了个&#8221;^&ldquo;，也就是说使用search的时候在匹配字符串前加个&rdquo;^&ldquo;，那结果就跟match一致了。但是大部分情况下如此，但不完全相同，后文详解。</p>
 
 </div>
   
@@ -245,9 +244,8 @@ re.search(&ldquo;c&rdquo;, &ldquo;abcdef&rdquo;) # Match
 
   <div class="entry-content"><p>今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下：</p>
 
-<p>&#8220;`
-strData = struct.pack(&ldquo;36sQQ&rdquo;, strSession, llChips, 0)
-&#8220;`</p>
+<pre><code>strData = struct.pack("36sQQ", strSession, llChips, 0)
+</code></pre>
 
 <p>第一眼看了代码，觉得是pack &ldquo;Q&#8221;有问题，也就是打包<strong>unsigned long long</strong>类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。</p>
 
@@ -395,18 +393,14 @@ $ sudo pip install virtualenv
 
 <p>一个简单的响应“hello world”的例子如下：</p>
 
-<p>&#8220;`</p>
+<pre><code>!/usr/bin/env python
+-*-coding:utf-8-*-
 
-<h1>!/usr/bin/env python</h1>
+import tornado.web
+import tornado.wsgi
 
-<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
-
-<p>import tornado.web
-import tornado.wsgi</p>
-
-<p>class handle(tornado.web.RequestHandler):</p>
-
-<pre><code>def initialize(self):
+class handle(tornado.web.RequestHandler):
+def initialize(self):
     self.name = ''
 
 def get(self):
@@ -420,15 +414,12 @@ def post(self):
     self.name = self.get_argument("name", "nobody")
     self.set_status(405, "")
     self.write("sorry, %s" % self.name)
+
+
+application = tornado.wsgi.WSGIApplication(\[
+(r'/hello', handle),
+])
 </code></pre>
-
-<p>application = tornado.wsgi.WSGIApplication([</p>
-
-<pre><code>(r'/hello', handle),
-</code></pre>
-
-<p>])
-&#8220;`</p>
 
 </div>
   

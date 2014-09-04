@@ -9,8 +9,9 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="＃使用Tornado＋uWSGI来处理HTTP请求 一个简单的响应“hello world”的例子如下： &#8220;` !/usr/bin/env python &ndash;-coding:utf-8-&ndash; import tornado.web
-import tornado. &hellip;">
+  <meta name="description" content="＃使用Tornado＋uWSGI来处理HTTP请求 一个简单的响应“hello world”的例子如下： !/usr/bin/env python
+-*-coding:utf-8-*- import tornado.web
+import tornado.wsgi class handle( &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -95,18 +96,14 @@ import tornado. &hellip;">
 
 <p>一个简单的响应“hello world”的例子如下：</p>
 
-<p>&#8220;`</p>
+<pre><code>!/usr/bin/env python
+-*-coding:utf-8-*-
 
-<h1>!/usr/bin/env python</h1>
+import tornado.web
+import tornado.wsgi
 
-<h1>&ndash;<em>-coding:utf-8-</em>&ndash;</h1>
-
-<p>import tornado.web
-import tornado.wsgi</p>
-
-<p>class handle(tornado.web.RequestHandler):</p>
-
-<pre><code>def initialize(self):
+class handle(tornado.web.RequestHandler):
+def initialize(self):
     self.name = ''
 
 def get(self):
@@ -120,15 +117,12 @@ def post(self):
     self.name = self.get_argument("name", "nobody")
     self.set_status(405, "")
     self.write("sorry, %s" % self.name)
+
+
+application = tornado.wsgi.WSGIApplication(\[
+(r'/hello', handle),
+])
 </code></pre>
-
-<p>application = tornado.wsgi.WSGIApplication([</p>
-
-<pre><code>(r'/hello', handle),
-</code></pre>
-
-<p>])
-&#8220;`</p>
 
 <!--more-->
 

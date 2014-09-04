@@ -9,8 +9,7 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下： &#8220;`
-strData = &hellip;">
+  <meta name="description" content="今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下： strData = struct.pack &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -93,9 +92,8 @@ strData = &hellip;">
 
 <div class="entry-content"><p>今天有人问我，在32位系统下使用struct pack了一个数据在64位系统下unpack时报错，应该怎么解决。并且该32位系统部署了其他服务没法重装系统，同时运行在64位系统下的unpack代码也访问不到，唯一能做就是修改pack部分代码。代码如下：</p>
 
-<p>&#8220;`
-strData = struct.pack(&ldquo;36sQQ&rdquo;, strSession, llChips, 0)
-&#8220;`</p>
+<pre><code>strData = struct.pack("36sQQ", strSession, llChips, 0)
+</code></pre>
 
 <p>第一眼看了代码，觉得是pack &ldquo;Q&#8221;有问题，也就是打包<strong>unsigned long long</strong>类型的数据，即8个字节的无符号整型，映像中好像是32位系统不支持这么大的整型，于是决定下个python源码看看struct是怎么pack数据的。</p>
 
@@ -104,17 +102,13 @@ strData = struct.pack(&ldquo;36sQQ&rdquo;, strSession, llChips, 0)
 
 <p>看了会儿源码找到了打包<strong>unsigned long long</strong>类型的函数，发现了一个<strong>ifdef</strong>，这个<strong>ifdef</strong>来判断系统是否支持<strong>unsigned long long</strong>类型数据的pack，并且还附有一段注释：</p>
 
-<p>&#8220;`
-/* We can&rsquo;t support q and Q in native mode unless the compiler does;
-   in std mode, they&rsquo;re 8 bytes on all platforms. */
+<pre><code>/* We can't support q and Q in native mode unless the compiler does;
+   in std mode, they're 8 bytes on all platforms. */
 ifdef HAVE_LONG_LONG
-typedef struct { char c; PY_LONG_LONG x; } s_long_long;</p>
-
-<h1>define LONG_LONG_ALIGN (sizeof(s_long_long) &ndash; sizeof(PY_LONG_LONG))</h1>
-
-<h1>endif</h1>
-
-<p>&#8220;`</p>
+typedef struct { char c; PY_LONG_LONG x; } s_long_long;
+define LONG_LONG_ALIGN (sizeof(s_long_long) - sizeof(PY_LONG_LONG))
+endif
+</code></pre>
 
 <p>注释中说，标准模式下，所有平台的<strong>unsigned long long</strong>类型都是8字节，完全没提到32位或者64位，我心里一想不会是记错了吧，赶紧谷歌了一下，发现struct的官方文档对&#8221;Q&#8221;这个类型的平台支持进行了说明，如下：</p>
 
@@ -148,34 +142,27 @@ typedef struct { char c; PY_LONG_LONG x; } s_long_long;</p>
 
 <p>32位:</p>
 
-<p>&#8220;`</p>
+<pre><code>&gt;&gt;&gt; struct.pack('36sQQ', '1'\*36, 1, 0)
+'111111111111111111111111111111111111\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+</code></pre>
 
-<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
-&lsquo;111111111111111111111111111111111111\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
-&#8220;`
-64位：</p></blockquote></blockquote></blockquote>
+<p>64位：</p>
 
-<p>&#8220;`</p>
-
-<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
-&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
-&#8220;`</p></blockquote></blockquote></blockquote>
+<pre><code>&gt;&gt;&gt; struct.pack('36sQQ', '1'\*36, 1, 0)
+'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+</code></pre>
 
 <p>可以发现，64位的&#8217;\x01&#8217;前多了4个空字节，这其实就是字节补齐的结果，到这里其实就知道怎么解决这个问题了，就是给32位的pack结果增加4个空白字节就行，可以用字符串拼接，如下：</p>
 
-<p>&#8220;`</p>
-
-<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;36s&rsquo;, &lsquo;1&rsquo;*36) + &lsquo;\x00\x00\x00\x00&rsquo; + struct.pack(&lsquo;QQ&rsquo;, 1, 0)
-&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
-&#8220;`</p></blockquote></blockquote></blockquote>
+<pre><code>&gt;&gt;&gt; struct.pack('36s', '1'\*36) + '\x00\x00\x00\x00' + struct.pack('QQ', 1, 0)
+'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+</code></pre>
 
 <p>也可以直接指定为40个字符的字符串，如下:</p>
 
-<p>&#8220;`</p>
-
-<blockquote><blockquote><blockquote><p>struct.pack(&lsquo;40sQQ&rsquo;, &lsquo;1&rsquo;*36, 1, 0)
-&lsquo;111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00&rsquo;
-&#8220;`</p></blockquote></blockquote></blockquote>
+<pre><code>&gt;&gt;&gt; struct.pack('40sQQ', '1'\*36, 1, 0)
+'111111111111111111111111111111111111\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+</code></pre>
 </div>
 
 
