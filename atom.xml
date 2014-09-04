@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-09-04T13:17:35+08:00</updated>
+  <updated>2014-09-04T13:43:40+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -629,96 +629,60 @@ UnicodeDecodeError: &lsquo;gb2312&rsquo; codec can&rsquo;t decode bytes in posit
 
 <p>YES：</p>
 
-<p>&#8220;`</p>
-
-<h1>跟开始的圆括号对齐</h1>
-
-<p>foo = long_function_name(var_one, var_two,</p>
-
-<pre><code>                     var_three, var_four)
+<pre><code>跟开始的圆括号对齐
+foo = long_function_name(var_one, var_two,
+                        var_three, var_four)
+多缩进一次来进行区分
+def long_function_name(
+        var_one, var_two, var_three,
+       var_four):
+        print(var_one)
 </code></pre>
-
-<h1>多缩进一次来进行区分</h1>
-
-<p>def long_function_name(</p>
-
-<pre><code>    var_one, var_two, var_three,
-    var_four):
-print(var_one)
-</code></pre>
-
-<p>&#8220;`</p>
 
 <p>NO：</p>
 
-<p>&#8220;`</p>
-
-<h1>当没有垂直对齐时，是不允许将参数放在第一行的</h1>
-
-<p>foo = long_function_name(var_one, var_two,</p>
-
-<pre><code>var_three, var_four)
+<pre><code>当没有垂直对齐时，是不允许将参数放在第一行的
+foo = long_function_name(var_one, var_two,
+    var_three, var_four)
+需要更进一步的缩进来与其他正常行的缩进区分开
+def long_function_name(
+    var_one, var_two, var_three,
+    var_four):
+    print(var_one)
 </code></pre>
-
-<h1>需要更进一步的缩进来与其他正常行的缩进区分开</h1>
-
-<p>def long_function_name(</p>
-
-<pre><code>var_one, var_two, var_three,
-var_four):
-print(var_one)
-</code></pre>
-
-<p>&#8220;`</p>
 
 <p>Optional：</p>
 
-<p>&#8220;`</p>
-
 <h1>更多的缩进也不是必须的</h1>
 
-<p>foo = long_function_name(
+<pre><code>foo = long_function_name(
   var_one, var_two,
   var_three, var_four)
-&#8220;`</p>
+</code></pre>
 
 <p>多行结构的右括号（包括圆括号、方括号、花括号）可以放在在列表中最后一个元素的下面，如下：</p>
 
-<p>&#8220;`
-my_list = [</p>
-
-<pre><code>1, 2, 3,
-4, 5, 6,
-]
+<pre><code>my_list = [
+    1, 2, 3,
+    4, 5, 6,
+    ]
+result = some_function_that_takes_arguments(
+    'a', 'b', 'c',
+    'd', 'e', 'f',
+    )
 </code></pre>
-
-<p>result = some_function_that_takes_arguments(</p>
-
-<pre><code>'a', 'b', 'c',
-'d', 'e', 'f',
-)
-</code></pre>
-
-<p>&#8220;`</p>
 
 <p>也可以放在多行结构的行头下面，如：</p>
 
-<p>&#8220;`
-my_list = [</p>
-
-<pre><code>1, 2, 3,
-4, 5, 6,
+<pre><code>my_list = [
+    1, 2, 3,
+    4, 5, 6,
+]
+result = some\_function\_that\_takes\_arguments(
+    'a', 'b', 'c',
+    'd', 'e', 'f',
+)
 </code></pre>
-
-<p>]
-result = some_function_that_takes_arguments(</p>
-
-<pre><code>'a', 'b', 'c',
-'d', 'e', 'f',
-</code></pre>
-
-<p>)
-&#8220;`</p>
 
 <h3>制表符还是空格</h3>
 
@@ -736,14 +700,13 @@ result = some_function_that_takes_arguments(</p>
 
 <p>较长行折行的首选方式是在圆括号、方括号、花括号中使用Python隐式续行。较长行可以在圆括号中分解为多行显示。这些操作应比反斜杠优先使用。同时要对续行进行适当地缩进。应该优先在二元操作符的后面对较长行进行折行，而不是二元操作符的前面，如：</p>
 
-<p>&#8220;`
-class Rectangle(Blob):</p>
+<pre><code>class Rectangle(Blob):
 
-<pre><code>def __init__(self, width, height,
+def __init__(self, width, height,
              color='black', emphasis=None, highlight=0):
     if (width == 0 and height == 0 and
-        color == 'red' and emphasis == 'strong' or
-        highlight &gt; 100):
+            color == 'red' and emphasis == 'strong' or
+            highlight &gt; 100):
         raise ValueError("sorry, you lose")
     if width == 0 and height == 0 and (color == 'red' or
                                        emphasis is None):
@@ -752,8 +715,6 @@ class Rectangle(Blob):</p>
     Blob.__init__(self, width, height,
                   color, emphasis, highlight)
 </code></pre>
-
-<p>&#8220;`</p>
 
 <h3>空行</h3>
 
@@ -777,20 +738,15 @@ class Rectangle(Blob):</p>
 
 <p>每个import应该单独一行使用，如：</p>
 
-<p>&#8220;`
-Yes: import os</p>
-
-<pre><code> import sys
+<pre><code>Yes: import os
+    import sys
+No:  import sys, os
 </code></pre>
-
-<p>No:  import sys, os
-&#8220;`</p>
 
 <p>如下使用是允许的：</p>
 
-<p>&#8220;`
-from subprocess import Popen, PIPE
-&#8220;`</p>
+<pre><code>from subprocess import Popen, PIPE
+</code></pre>
 
 <p>import永远放在文件的顶部，仅仅在模块注释和文档字符串的后面，但在模块全局变量和常量的前面。</p>
 
@@ -810,17 +766,15 @@ from subprocess import Popen, PIPE
 
 <p>从一个模块导入一个类时，往往这么写：</p>
 
-<p>&#8220;`
-from myclass import MyClass
+<pre><code>from myclass import MyClass
 from foo.bar.yourclass import YourClass
-&#8220;`</p>
+</code></pre>
 
 <p>如果上述写法引起本地变量名冲突，那你应该这么写：</p>
 
-<p>&#8220;`
-import myclass
+<pre><code>import myclass
 import foo.bar.yourclass
-&#8220;`</p>
+</code></pre>
 
 <p>然后使用 &ldquo;myclass.MyClass&#8221;和&#8221;foo.bar.yourclass.YourClass&#8221;。</p>
 
@@ -831,65 +785,39 @@ import foo.bar.yourclass
 <p>避免在下列情况中使用额外的空格</p>
 
 <ul>
-<li>紧贴圆括号、方括号、花括号</li>
-</ul>
+<li><p>紧贴圆括号、方括号、花括号</p>
 
+<p>  Yes: spam(ham[1], {eggs: 2})
+  No:  spam( ham[ 1 ], { eggs: 2 } )</p></li>
+<li><p>逗号、冒号和分号之前不要有空格</p>
 
-<p>&#8220;`
-Yes: spam(ham<a href="http://www.python.org/dev/peps/pep-0008/#id8">1</a>, {eggs: 2})
-No:  spam( ham[ 1 ], { eggs: 2 } )
-&#8220;`</p>
+<p>  Yes: if x == 4: print x, y; x, y = y, x
+  No:  if x == 4 : print x , y ; x , y = y , x</p></li>
+<li><p>函数名与参数列表的左括号之间不要有空格</p>
 
-<ul>
-<li>逗号、冒号和分号之前不要有空格</li>
-</ul>
+<p>  Yes: spam(1)
+  No:  spam (1)</p></li>
+<li><p>索引或分片的方括号之前不要有空格</p>
 
-
-<p>&#8220;`
-Yes: if x == 4: print x, y; x, y = y, x
-No:  if x == 4 : print x , y ; x , y = y , x
-&#8220;`</p>
-
-<ul>
-<li>函数名与参数列表的左括号之间不要有空格</li>
-</ul>
-
-
-<p>&#8220;`
-Yes: spam(1)
-No:  spam (1)
-&#8220;`</p>
-
-<ul>
-<li>索引或分片的方括号之前不要有空格</li>
-</ul>
-
-
-<p>&#8220;`
-Yes: dict[&lsquo;key&rsquo;] = list[index]
-No:  dict [&lsquo;key&rsquo;] = list [index]
-&#8220;`</p>
-
-<ul>
-<li>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</li>
+<p>  Yes: dict[&lsquo;key&rsquo;] = list[index]
+  No:  dict [&lsquo;key&rsquo;] = list [index]</p></li>
+<li><p>不要为了对齐而在赋值（或其他）运算符的两边增加多个空格</p></li>
 </ul>
 
 
 <p>Yes:</p>
 
-<p>&#8220;`
-x = 1
+<pre><code>x = 1
 y = 2
 long_variable = 3
-&#8220;`</p>
+</code></pre>
 
 <p>No:</p>
 
-<p>&#8220;`
-x             = 1
+<pre><code>x             = 1
 y             = 2
 long_variable = 3
-&#8220;`</p>
+</code></pre>
 
 <h3>其他建议</h3>
 
@@ -901,23 +829,21 @@ long_variable = 3
 
 <p>Yes:</p>
 
-<p>&#8220;`
-i = i + 1
+<pre><code>i = i + 1
 submitted += 1
-x = x*2 &ndash; 1
-hypot2 = x<em>x + y</em>y
+x = x*2 - 1
+hypot2 = x*x + y*y
 c = (a+b) * (a-b)
-&#8220;`</p>
+</code></pre>
 
 <p>No:</p>
 
-<p>&#8220;`
-i=i+1
+<pre><code>i=i+1
 submitted +=1
-x = x * 2 &ndash; 1
+x = x * 2 - 1
 hypot2 = x * x + y * y
-c = (a + b) * (a &ndash; b)
-&#8220;`</p>
+c = (a + b) * (a - b)
+</code></pre>
 
 <ul>
 <li>不要在一个关键字参数或者缺省参数的=号前后加空格</li>
@@ -926,22 +852,15 @@ c = (a + b) * (a &ndash; b)
 
 <p>Yes:</p>
 
-<p>&#8220;`
-def complex(real, imag=0.0):</p>
-
-<pre><code>return magic(r=real, i=imag)
+<pre><code>def complex(real, imag=0.0):
+    return magic(r=real, i=imag)
 </code></pre>
 
-<p>&#8220;`  <br/>
-No:</p>
+<p>No:</p>
 
-<p>&#8220;`
-def complex(real, imag = 0.0):</p>
-
-<pre><code>return magic(r = real, i = imag)
+<pre><code>def complex(real, imag = 0.0):
+    return magic(r = real, i = imag)
 </code></pre>
-
-<p>&#8220;`</p>
 
 <ul>
 <li>一般不建议在同一行使用混合语句</li>
@@ -950,23 +869,18 @@ def complex(real, imag = 0.0):</p>
 
 <p>Yes:</p>
 
-<p>&#8220;`
-if foo == &lsquo;blah&rsquo;:</p>
-
-<pre><code>do_blah_thing()
-</code></pre>
-
-<p>do_one()
+<pre><code>if foo == 'blah':
+    do_blah_thing()
+do_one()
 do_two()
 do_three()
-&#8220;`</p>
+</code></pre>
 
 <p>宁愿不:</p>
 
-<p>&#8220;`
-if foo == &lsquo;blah&rsquo;: do_blah_thing()
+<pre><code>if foo == 'blah': do_blah_thing()
 do_one(); do_two(); do_three()
-&#8220;`</p>
+</code></pre>
 
 <ul>
 <li>有时候将一个小的if/for/while块放在同一行是可以的，但是绝对不要将多个分句放在一行。不放在一行上，同时也能避免去折叠较长行。</li>
@@ -975,28 +889,24 @@ do_one(); do_two(); do_three()
 
 <p>宁愿不:</p>
 
-<p>&#8220;`
-if foo == &lsquo;blah&rsquo;: do_blah_thing()
+<pre><code>if foo == 'blah': do_blah_thing()
 for x in lst: total += x
 while t &lt; 10: t = delay()
-&#8220;`</p>
+</code></pre>
 
 <p>一定不要:</p>
 
-<p>&#8220;`
-if foo == &lsquo;blah&rsquo;: do_blah_thing()
-else: do_non_blah_thing()</p>
+<pre><code>if foo == 'blah': do_blah_thing()
+else: do_non_blah_thing()
 
-<p>try: something()
-finally: cleanup()</p>
+try: something()
+finally: cleanup()
 
-<p>do_one(); do_two(); do_three(long, argument,</p>
+do_one(); do_two(); do_three(long, argument,
+                        list, like, this)
 
-<pre><code>                         list, like, this)
+if foo == 'blah': one(); two(); three()
 </code></pre>
-
-<p>if foo == &lsquo;blah&rsquo;: one(); two(); three()
-&#8220;`</p>
 
 <h2>注释</h2>
 
@@ -1026,14 +936,13 @@ finally: cleanup()</p>
 
 <p>如果行内注释描述的是显而易见的事，那么是不必要的甚至造成干扰：</p>
 
-<p>&#8220;`
-x = x + 1                 # Increment x
-&#8220;`
-但有时候是有用的：</p>
+<pre><code>x = x + 1                 # Increment x
+</code></pre>
 
-<p>&#8220;`
-x = x + 1                 # Compensate for border
-&#8220;`</p>
+<p>但有时候是有用的：</p>
+
+<pre><code>x = x + 1                 # Compensate for border
+</code></pre>
 
 <h3>文档字符串</h3>
 
@@ -1041,20 +950,13 @@ x = x + 1                 # Compensate for border
 
 <ul>
 <li>为所有公共的模块、函数、类和方法写文档字符串。对于非公共的方法，文档字符串不是必须的，但你应该写一个注释来描述该方法，这个注释应该放在def行后面。</li>
-<li>PEP 257描述了良好的文档字符串编写规范。其中最重要的是，&#8221;&ldquo;&#8221;作为多行文档字符串的结束时，应该单独起一行，之前还需要有一行空行。</li>
-</ul>
+<li><p>PEP 257描述了良好的文档字符串编写规范。其中最重要的是，&#8221;&ldquo;&#8221;作为多行文档字符串的结束时，应该单独起一行，之前还需要有一行空行。</p>
 
+<p>  &ldquo;&rdquo;&ldquo;Return a foobang</p>
 
-<p>&#8220;`
-&ldquo;&rdquo;&ldquo;Return a foobang</p>
-
-<p>Optional plotz says to frobnicate the bizbaz first.</p>
-
-<p>&ldquo;&rdquo;&ldquo;
-&#8220;`</p>
-
-<ul>
-<li>如果是单行的文档字符串，可以不用将结束的&#8221;&ldquo;&#8221;单独放置一行。</li>
+<p>  Optional plotz says to frobnicate the bizbaz first.
+  &ldquo;&rdquo;&#8221;</p></li>
+<li><p>如果是单行的文档字符串，可以不用将结束的&#8221;&ldquo;&#8221;单独放置一行。</p></li>
 </ul>
 
 
@@ -1062,12 +964,9 @@ x = x + 1                 # Compensate for border
 
 <p>如果在代码源文件中掺杂着Subversion，CVS或RCS注记，按照下面的规则书写。</p>
 
-<p>&#8220;`
-<strong>version</strong> = &ldquo;$Revision: cfd6d2cb1ca6 $&rdquo;</p>
-
-<h1>$Source$</h1>
-
-<p>&#8220;`</p>
+<pre><code>__version__ = "$Revision: cfd6d2cb1ca6 $"
+$Source$
+</code></pre>
 
 <p>这些行应放在块注释之后，其他代码之前。前后各有一个空行。</p>
 
@@ -1108,9 +1007,8 @@ x = x + 1                 # Compensate for border
 &ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
 &ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
 
-<p>&#8220;`
-Tkinter.Toplevel(master, class_=&lsquo;ClassName&rsquo;)
-&#8220;`</p>
+<pre><code>Tkinter.Toplevel(master, class\_='ClassName')
+</code></pre>
 
 <ul>
 <li>__double_leading_underscore：命名一个类属性时，触发调用“名字扩展”（inside class FooBar, __boo becomes _FooBar__boo）</li>
@@ -1248,14 +1146,11 @@ Tkinter.Toplevel(master, class_=&lsquo;ClassName&rsquo;)
 
 <p>模块或包应该定义它们自己特定域下面的异常基类。这些异常类应该继承自内置的Exception类，并且永远包含有文档字符串。</p>
 
-<p>&#8220;`
-class MessageError(Exception):</p>
-
-<pre><code>"""Base class for errors in the email package."""
+<pre><code>class MessageError(Exception):
+"""Base class for errors in the email package."""
 </code></pre>
 
-<p>&#8220;`
-在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
+<p>在这里应用了类名规范，即如果这个异常是个错误，你应该为你的异常类名增加Error后缀。非错误异常类名不需要额外的后缀。</p>
 
 <ul>
 <li>当抛出异常时，使用raise ValueError(&lsquo;message&rsquo;)，而不是使用 raise ValueError, &lsquo;message&#8217;这种旧形式。</li>
@@ -1271,18 +1166,11 @@ class MessageError(Exception):</p>
 
 <p>例如：</p>
 
-<p>&#8220;`
-try:</p>
-
-<pre><code>import platform_specific_module
+<pre><code>try:
+    import platform_specific_module
+except ImportError:
+    platform_specific_module = None
 </code></pre>
-
-<p>except ImportError:</p>
-
-<pre><code>platform_specific_module = None
-</code></pre>
-
-<p>&#8220;`</p>
 
 <p>一个只有except的异常捕获会捕获SystemExit和KeyboardInterrupt异常，会使程序变得难以使用Control-C来结束，并且会掩盖其他问题。如果你想捕获所有错误，可以使用except Exception:（只有except的捕获相当于except BaseException:）</p>
 
@@ -1299,40 +1187,23 @@ try:</p>
 
 <p>Yes:</p>
 
-<p>&#8220;`
-try:</p>
-
-<pre><code>value = collection[key]
+<pre><code>try:
+    value = collection[key]
+except KeyError:
+    return key_not_found(key)
+else:
+    return handle_value(value)
 </code></pre>
-
-<p>except KeyError:</p>
-
-<pre><code>return key_not_found(key)
-</code></pre>
-
-<p>else:</p>
-
-<pre><code>return handle_value(value)
-</code></pre>
-
-<p>&#8220;`</p>
 
 <p>No:</p>
 
-<p>&#8220;`
-try:</p>
-
-<pre><code># Too broad!
-return handle_value(collection[key])
+<pre><code>try:
+    # Too broad!
+    return handle_value(collection[key])
+except KeyError:
+    # Will also catch KeyError raised by handle_value()
+    return key_not_found(key)
 </code></pre>
-
-<p>except KeyError:</p>
-
-<pre><code># Will also catch KeyError raised by handle_value()
-return key_not_found(key)
-</code></pre>
-
-<p>&#8220;`</p>
 
 <ul>
 <li>如果要做除获取和释放资源外的事情，上下文操作符应该通过单独的函数或者方法来调用，例如：</li>
@@ -1341,23 +1212,15 @@ return key_not_found(key)
 
 <p>Yes:</p>
 
-<p>&#8220;`
-with conn.begin_transaction():</p>
-
-<pre><code>do_stuff_in_transaction(conn)
+<pre><code>with conn.begin_transaction():
+    do_stuff_in_transaction(conn)
 </code></pre>
-
-<p>&#8220;`</p>
 
 <p>No:</p>
 
-<p>&#8220;`
-with conn:</p>
-
-<pre><code>do_stuff_in_transaction(conn)
+<pre><code>with conn:
+    do_stuff_in_transaction(conn)
 </code></pre>
-
-<p>&#8220;`</p>
 
 <p>后一个例子并没有提供任何信息来表明__enter__ 和 __exit__方法在一次处理以后做了除关闭连接以外的事情。在这个情况里，显示调用是比较重要的。</p>
 
@@ -1375,61 +1238,41 @@ with conn:</p>
 
 <p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
 
-<p>&#8220;`
-Yes: if foo.startswith(&lsquo;bar&rsquo;):
-No:  if foo[:3] == &lsquo;bar&rsquo;:
-&#8220;`
-有个例外是你的代码必须使用Python 1.5.2。</p>
+<pre><code>Yes: if foo.startswith('bar'):
+No:  if foo\[:3] == 'bar':
+</code></pre>
+
+<p>有个例外是你的代码必须使用Python 1.5.2。</p>
 
 <ul>
-<li>用isinstance()来判断对象的类别，而不是用type()</li>
+<li><p>用isinstance()来判断对象的类别，而不是用type()</p>
+
+<p>  Yes: if isinstance(obj, int):</p>
+
+<p>  No:  if type(obj) is type(1):</p></li>
 </ul>
 
-
-<p>&#8220;`
-Yes: if isinstance(obj, int):</p>
-
-<p>No:  if type(obj) is type(1):
-&#8220;`</p>
 
 <p>当检测一个对象是不是一个字符串的时候，要注意，字符串也可能是一个unicode字符串。在Python2.3中，str和unicode拥有一个共同基类basestring，所以你可以这样判断：</p>
 
-<p>&#8220;`
-if isinstance(obj, basestring):
-&#8220;`</p>
-
-<ul>
-<li>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</li>
-</ul>
-
-
-<p>&#8220;`
-Yes: if not seq:</p>
-
-<pre><code> if seq:
+<pre><code>if isinstance(obj, basestring):
 </code></pre>
 
-<p>No: if len(seq)</p>
-
-<pre><code>if not len(seq)
-</code></pre>
-
-<p>&#8220;`</p>
-
 <ul>
+<li><p>对于序列（字符串，列表，元组），利用真值校验是否为false来判断序列是否为空：</p>
+
+<p>  Yes: if not seq:
+      if seq:</p>
+
+<p>  No: if len(seq)
+      if not len(seq)</p></li>
 <li><p>书写字符串常量时，不要依赖末尾的空格。这样的空格视觉上比较难区分，而且一些编辑器会去掉它们。</p></li>
-<li><p>不要使用==将一个布尔变量跟True和False比较：</p></li>
-</ul>
+<li><p>不要使用==将一个布尔变量跟True和False比较：</p>
 
-
-<p>&#8220;`
-Yes:   if greeting:
-No:    if greeting == True:
-Worse: if greeting is True:
-&#8220;`</p>
-
-<ul>
-<li>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</li>
+<p>  Yes:   if greeting:
+  No:    if greeting == True:
+  Worse: if greeting is True:</p></li>
+<li><p>Python标准库将不会使用函数标注，因为那样会导致过早形成特定的标注风格。相反，留给用户去发掘和尝试有用的标注风格。</p></li>
 </ul>
 
 <div class="footnotes">
