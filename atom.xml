@@ -4,7 +4,7 @@
   <title><![CDATA[iBlog]]></title>
   <link href="http://Ju6y.github.io/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-09-04T13:45:06+08:00</updated>
+  <updated>2014-09-04T13:51:38+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -631,11 +631,11 @@ UnicodeDecodeError: &lsquo;gb2312&rsquo; codec can&rsquo;t decode bytes in posit
 
 <pre><code>跟开始的圆括号对齐
 foo = long_function_name(var_one, var_two,
-                        var_three, var_four)
+                         var_three, var_four)
 多缩进一次来进行区分
 def long_function_name(
         var_one, var_two, var_three,
-       var_four):
+        var_four):
         print(var_one)
 </code></pre>
 
@@ -739,7 +739,7 @@ def __init__(self, width, height,
 <p>每个import应该单独一行使用，如：</p>
 
 <pre><code>Yes: import os
-    import sys
+     import sys
 No:  import sys, os
 </code></pre>
 
@@ -787,7 +787,7 @@ import foo.bar.yourclass
 <ul>
 <li><p>紧贴圆括号、方括号、花括号</p>
 
-<p>  Yes: spam(ham[1], {eggs: 2})
+<p>  Yes: spam(ham<a href="http://www.python.org/dev/peps/pep-0008/#id8">1</a>, {eggs: 2})
   No:  spam( ham[ 1 ], { eggs: 2 } )</p></li>
 <li><p>逗号、冒号和分号之前不要有空格</p>
 
@@ -903,7 +903,7 @@ try: something()
 finally: cleanup()
 
 do_one(); do_two(); do_three(long, argument,
-                        list, like, this)
+                             list, like, this)
 
 if foo == 'blah': one(); two(); three()
 </code></pre>
@@ -1007,7 +1007,7 @@ $Source$
 &ndash; _single_leading_underscore：弱内部使用指示，例如from M import *不会导入下划线开头的名称
 &ndash; single_trailing_underscore_：规定用来避免与Python关键字冲突，如：</p>
 
-<pre><code>Tkinter.Toplevel(master, class\_='ClassName')
+<pre><code>Tkinter.Toplevel(master, class_='ClassName')
 </code></pre>
 
 <ul>
@@ -1239,7 +1239,7 @@ except KeyError:
 <p>使用startswith() 和 endswith()语义更明确，引起错误的可能性也更小。</p>
 
 <pre><code>Yes: if foo.startswith('bar'):
-No:  if foo\[:3] == 'bar':
+No:  if foo[:3] == 'bar':
 </code></pre>
 
 <p>有个例外是你的代码必须使用Python 1.5.2。</p>
