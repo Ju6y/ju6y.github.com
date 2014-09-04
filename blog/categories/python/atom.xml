@@ -4,7 +4,7 @@
   <title><![CDATA[Category: python | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/python/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2014-09-04T13:15:37+08:00</updated>
+  <updated>2014-09-04T13:17:35+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -151,38 +151,35 @@ endif
 
 <h3>安装</h3>
 
-<p>```
-$ sudo easy_install virtualenv
-```
-或者</p>
+<pre><code>$ sudo easy_install virtualenv
+</code></pre>
 
-<p>```
-$ sudo pip install virtualenv
-```</p>
+<p>或者</p>
+
+<pre><code>$ sudo pip install virtualenv
+</code></pre>
 
 <!--more-->
 
 
 <h3>建立虚拟环境</h3>
 
-<p>```
-$ mkdir myproject
+<pre><code>$ mkdir myproject
 $ cd myproject
 $ virtualenv venv
 New python executable in venv/bin/python
-Installing distribute&hellip;&hellip;&hellip;&hellip;done.
-```</p>
+Installing distribute............done.
+</code></pre>
 
 <h3>使用虚拟环境</h3>
 
-<p>```
-$ . venv/bin/activate
-```
-如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
+<pre><code>$ . venv/bin/activate
+</code></pre>
 
-<p>```
-virtualenv = myproject的全路径/venv
-```</p>
+<p>如果以uwsgi的方式启动，那么在uwsgi的配置中增加如下配置（ini格式，其他形式请查<a href="http://uwsgi-docs.readthedocs.org/en/latest/Options.html#home-virtualenv-venv-pyhome">官方文档</a>）：</p>
+
+<pre><code>virtualenv = myproject的全路径/venv
+</code></pre>
 ]]></content>
   </entry>
   
