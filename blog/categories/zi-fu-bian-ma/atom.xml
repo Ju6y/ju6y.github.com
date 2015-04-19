@@ -4,7 +4,7 @@
   <title><![CDATA[Category: 字符编码 | iBlog]]></title>
   <link href="http://Ju6y.github.io/blog/categories/zi-fu-bian-ma/atom.xml" rel="self"/>
   <link href="http://Ju6y.github.io/"/>
-  <updated>2015-04-19T18:29:23+08:00</updated>
+  <updated>2015-04-19T18:53:32+08:00</updated>
   <id>http://Ju6y.github.io/</id>
   <author>
     <name><![CDATA[Ju6y]]></name>
@@ -29,10 +29,8 @@
 <!--more-->
 
 
-<p>```
-def to_unicode(string):</p>
-
-<pre><code>#1
+<pre><code>def to_unicode(string):
+#1
 if isinstance(string, unicode):
     return string
 try:
@@ -81,44 +79,37 @@ except UnicodeDecodeError:
     return string
 </code></pre>
 
-<p>```</p>
+<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： <strong>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</strong>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。<strong>这里去掉了big5和gb18030编码的强行解码，因为发现gb18030编码的字符串可以被big5解码而不报错，反之亦然。至于原因目前还没搞懂，只知道gb2312是gbk的子集，gbk是gb18030的子集，各自都向下兼容。(2013-09-03更新)</strong></p>
 
-<p>这个函数的功能是将一个字符串转为unicode类型，下面来解释下这段代码： \~\~第一部分先用最常见的几个中文字符编码尝试去解码字符串\~\~，<em>第一部分先判断是否是unicode，来作兼容，因为如果传入的字符串本身就已经是unicode了，下面的代码都执行不了，然后先强制作utf8解码，(2013-09-03新加)</em>这是考虑到使用chardet的性能问题，因为直接调用decode函数的成本会比使用chardet.detect成本低很多。\~\~如果解码成功就返回，这几行代码基本能处理大部分的字符串。这里需要注意下几个编码的尝试顺序，必须将gb18030放在最后，因为偶数个字节的utf8编码字符串或者big5编码字符串都能被gb18030解码而不抛出异常，当然解码的结果是错误的。\~\~
-<em>这里去掉了big5和gb18030编码的强行解码，因为发现gb18030编码的字符串可以被big5解码而不报错，反之亦然。至于原因目前还没搞懂，只知道gb2312是gbk的子集，gbk是gb18030的子集，各自都向下兼容。(2013-09-03更新)</em></p>
-
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>a = &lsquo;中文&rsquo;
-a
-&lsquo;\xe4\xb8\xad\xe6\x96\x87&rsquo;
-print a.decode(&lsquo;gb18030&rsquo;)
+<pre><code>&gt;&gt;&gt; a = '中文'
+&gt;&gt;&gt; a
+'\xe4\xb8\xad\xe6\x96\x87'
+&gt;&gt;&gt; print a.decode('gb18030')
 涓枃
-b = a.decode(&lsquo;utf8&rsquo;).encode(&lsquo;big5&rsquo;)
-b
-&lsquo;\xa4\xa4\xa4\xe5&rsquo;
-b.decode(&lsquo;gb18030&rsquo;)
+&gt;&gt;&gt; b = a.decode('utf8').encode('big5')
+&gt;&gt;&gt; b
+'\xa4\xa4\xa4\xe5'
+&gt;&gt;&gt; b.decode('gb18030')
 u'\u3044\u3085'
-print b.decode(&lsquo;gb18030&rsquo;)
+&gt;&gt;&gt; print b.decode('gb18030')
 いゅ
-c = a.decode(&lsquo;utf8&rsquo;).encode(&lsquo;gb18030&rsquo;)
-c
-&lsquo;\xd6\xd0\xce\xc4&rsquo;
-print c.decode(&lsquo;big5&rsquo;)
+&gt;&gt;&gt; c = a.decode('utf8').encode('gb18030')
+&gt;&gt;&gt; c
+'\xd6\xd0\xce\xc4'
+&gt;&gt;&gt; print c.decode('big5')
 笢恅
-```</p></blockquote></blockquote></blockquote>
+</code></pre>
 
 <p>如果是奇数个字节的utf8编码字符串就不能被gb18030解码：</p>
 
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>c = &lsquo;中文字&rsquo;
-c
-&lsquo;\xe4\xb8\xad\xe6\x96\x87\xe5\xad\x97&rsquo;
-c.decode(&lsquo;gb18030&rsquo;)
+<pre><code>&gt;&gt;&gt; c = '中文字'
+&gt;&gt;&gt; c
+'\xe4\xb8\xad\xe6\x96\x87\xe5\xad\x97'
+&gt;&gt;&gt; c.decode('gb18030')
 Traceback (most recent call last):
-  File &ldquo;<stdin>&rdquo;, line 1, in <module>
-UnicodeDecodeError: &lsquo;gb18030&rsquo; codec can&rsquo;t decode byte 0x97 in position 8: incomplete multibyte sequence
-```</p></blockquote></blockquote></blockquote>
+ File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+UnicodeDecodeError: 'gb18030' codec can't decode byte 0x97 in ''position 8: incomplete multibyte sequence
+</code></pre>
 
 <p>这里使用gb18030，而没有使用gbk或者gb2312，是因为gb18030是后两者的超集。</p>
 
@@ -128,10 +119,8 @@ UnicodeDecodeError: &lsquo;gb18030&rsquo; codec can&rsquo;t decode byte 0x97 in 
 
 <p>这里补充下decode函数的说明：</p>
 
-<p>```
-decode(&hellip;)</p>
-
-<pre><code>S.decode([encoding[,errors]]) -&gt; object
+<pre><code>decode(...)
+S.decode([encoding[,errors]]) -&gt; object
 
 Decodes S using the codec registered for encoding. encoding defaults
 to the default encoding. errors may be given to set a different error
@@ -141,69 +130,57 @@ as well as any other name registered with codecs.register_error that is
 able to handle UnicodeDecodeErrors.
 </code></pre>
 
-<p>```
-上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
+<p>上面是使用help查看decode函数的内置说明，可以看到调用decode，如果只传入编码信息，默认的异常处理模式为strict，只要遇到不能解码的就会抛出UnicodeDecodeError异常，另外你可以传入ignore来跳过不能解码的字节，或者replace来强制使用指定的编码解码。这个异常处理模式的指定，在encode函数中也同样适用。</p>
 
 <p>例：</p>
 
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>&lsquo;中文&rsquo;
-&lsquo;\xe4\xb8\xad\xe6\x96\x87&rsquo;
-&lsquo;中文&rsquo;.decode(&lsquo;utf8&rsquo;)
+<pre><code>&gt;&gt;&gt; '中文'
+'\xe4\xb8\xad\xe6\x96\x87'
+&gt;&gt;&gt; '中文'.decode('utf8')
 u'\u4e2d\u6587'
-```</p></blockquote></blockquote></blockquote>
+</code></pre>
 
 <p>手动在上面utf8编码的字符串中混入一个错误编码，并且已经无法正常使用utf8解码</p>
 
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>d = &lsquo;\xe4\xb8\xad\xdd\xe6\x96\x87&rsquo;
-d
-&lsquo;\xe4\xb8\xad\xdd\xe6\x96\x87&rsquo;
-print d
+<pre><code>&gt;&gt;&gt; d = '\xe4\xb8\xad\xdd\xe6\x96\x87'
+&gt;&gt;&gt; d
+'\xe4\xb8\xad\xdd\xe6\x96\x87'
+&gt;&gt;&gt; print d
 中?文
-d.decode(&lsquo;utf8&rsquo;)
+&gt;&gt;&gt; d.decode('utf8')
 Traceback (most recent call last):
-  File &ldquo;<stdin>&rdquo;, line 1, in <module>
-  File &ldquo;/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.py&rdquo;, line 16, in decode</p>
-
-<pre><code>return codecs.utf_8_decode(input, errors, True)
+ File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ File "/System/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf\_8.py", line 16, in decode
+return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xdd in position 3: invalid continuation byte
 </code></pre>
-
-<p>UnicodeDecodeError: &lsquo;utf8&rsquo; codec can&rsquo;t decode byte 0xdd in position 3: invalid continuation byte
-```</p></blockquote></blockquote></blockquote>
 
 <p>下面测试下使用ingore和replace后的不同</p>
 
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>d.decode(&lsquo;utf8&rsquo;, &lsquo;ignore&rsquo;)
+<pre><code>&gt;&gt;&gt; d.decode('utf8', 'ignore')
 u'\u4e2d\u6587'
-print d.decode(&lsquo;utf8&rsquo;, &lsquo;ignore&rsquo;)
+&gt;&gt;&gt; print d.decode('utf8', 'ignore')
 中文
-d.decode(&lsquo;utf8&rsquo;, &lsquo;replace&rsquo;)
+&gt;&gt;&gt; d.decode('utf8', 'replace')
 u'\u4e2d\ufffd\u6587'
-print d.decode(&lsquo;utf8&rsquo;, &lsquo;replace&rsquo;)
+&gt;&gt;&gt; print d.decode('utf8', 'replace')
 中�文
-&lsquo;中文&rsquo;.decode(&lsquo;utf8&rsquo;)
+&gt;&gt;&gt; '中文'.decode('utf8')
 u'\u4e2d\u6587'
-```</p></blockquote></blockquote></blockquote>
+</code></pre>
 
 <p>发现，使用ignore正确地跳过了错误编码，使用replace则会将那个错误编码强制转换，造成乱码。</p>
 
 <p><em>第4部分中，不知道是不是chardet的bug，如果是gb18030编码的字符串会被检测成为gb2312，而gb2312的字符集要比gb18030小，导致某些生僻字解码出错，这个函数里如果遇到是gb字符集都统一用gb18030去解码，保证解码成功。(2013-09-03更新)</em></p>
 
-<p>```</p>
-
-<blockquote><blockquote><blockquote><p>a = &lsquo;中文阿舒服的沙发法撒爹翻爾薾&rsquo;.decode(&lsquo;utf8&rsquo;).encode(&lsquo;gb18030&rsquo;)
-chardet.detect(a)
-{&lsquo;confidence&rsquo;: 0.99, &lsquo;encoding&rsquo;: &lsquo;GB2312&rsquo;}
-print a.decode(&lsquo;gb2312&rsquo;)
+<pre><code>&gt;&gt;&gt; a = '中文阿舒服的沙发法撒爹翻爾薾'.decode('utf8').encode('gb18030')
+&gt;&gt;&gt; chardet.detect(a)
+{'confidence': 0.99, 'encoding': 'GB2312'}
+&gt;&gt;&gt; print a.decode('gb2312')
 Traceback (most recent call last):
-  File &ldquo;<stdin>&rdquo;, line 1, in <module>
-UnicodeDecodeError: &lsquo;gb2312&rsquo; codec can&rsquo;t decode bytes in position 24-25: illegal multibyte sequence
-```</p></blockquote></blockquote></blockquote>
+ File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+UnicodeDecodeError: 'gb2312' codec can't decode bytes in position 24-25: illegal multibyte sequence
+</code></pre>
 
 <p>再回到上面的函数代码，第五部分中，不管之前有没有检测出编码，都会对字符串进行强制解码，当然保险起见，这里还加了try，来捕获有可能抛出的异常。</p>
 
