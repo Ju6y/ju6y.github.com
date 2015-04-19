@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>定制Python中的logging handler - iBlog</title>
+  <meta name="author" content="Ju6y">
+
+  
+  <meta name="description" content="作为一个开发，写程序的时候应该都很喜欢打日志，一个是方便调试和定位问题，还有一个是可以将一些关键数据打印出来，方便业务上的统计和监控。但是在实际工作中，往往是不能随心所欲的打日志的，因为我们都知道磁盘io是很慢的，而生成环境的服务器一般都是机械硬盘（用SSD的可以忽略，但SSD的一般空间不会太大， &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://Ju6y.github.io/blog/2015/04/19/ding-zhi-pythonzhong-de-logging-handler">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="iBlog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+  <!-- for markdown table syntax -->
+  <link href="/stylesheets/data-table.css" media="screen, projection" rel="stylesheet" type="text/css" />
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">iBlog</a></h1>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:Ju6y.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">定制Python中的logging Handler</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-19T17:04:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>作为一个开发，写程序的时候应该都很喜欢打日志，一个是方便调试和定位问题，还有一个是可以将一些关键数据打印出来，方便业务上的统计和监控。但是在实际工作中，往往是不能随心所欲的打日志的，因为我们都知道磁盘io是很慢的，而生成环境的服务器一般都是机械硬盘（用SSD的可以忽略，但SSD的一般空间不会太大，毕竟价格昂贵），即使有raid也架不住程序开到DEBUG级别狂刷日志，大量的CPU都用在等待io上了，很影响性能。</p>
+
+<!--more-->
+
+
+<p>但是呢，日志全关也不行，因为总会有些数据是需要日志来获取的，或者需要通过打印一些关键数据来监控程序的运行情况。当然，有人会说，要运行时的数据不一定要用日志啊，可以搞个监控服务器，定时向监控服务器推数据嘛。采用这种方式当然能解决需求，但是每增加一项统计监控项都是需要带来一些开发工作量的，灵活性上要比打日志的方式差。
+那么，是否有更好的方式呢，当然有，那就是将日志打到别的机器上（就好比青春痘长在别人脸上不让你担心。。）既然走网络，那就得挑个协议，最常用的TCP显然不是最优选择，我们知道TCP是个可靠性高的协议，有很多机制来保证数据传输的可靠性，又是面向有连接的，实际用时可能为了性能还需要维持长连接，总之TCP的优点在打日志上显得不是那么重要。既然不打算用TCP，那就用UDP吧，UDP面向无连接，又没有确认机制，对日志来说丢个1\~2条完全是可接受的。（对日志可靠性要求高的可以用TCP，但本文不会涉及用TCP来打远端日志，但可借鉴本文，实现没有太大区别）
+好了，既然明确了需要什么样东西，那就先找找有没有现成的。看了下Python <a href="https://docs.python.org/2/library/logging.html">logging</a>库自带的几个handler实现，倒是也有个用UDP的，叫<a href="https://docs.python.org/2/library/logging.handlers.html?highlight=datagramhandler#logging.handlers.DatagramHandler">DatagramHandler</a>，但是这个handler发送的数据内容是个<a href="https://docs.python.org/2/library/logging.html#logging.LogRecord">LogRecord</a>对象，如果你打算在远端要python来接收数据，那就可以直接用这个handler就行了，也就没后面什么事情了。但我是希望能直接发送string形式的数据，这样远端只要任何能够监控对应udp端口的程序都能做为接收端。
+先上代码</p>
+
+<pre><code>class UdpHandler(DatagramHandler):
+    """
+    Send log which is already formatted to the recieve end in string format.
+    """
+    def emit(self, record):
+        try:
+            log_line = "%s\n" % self.format(record)
+            self.send(log_line)
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            self.handleError(record)
+</code></pre>
+
+<p>我在这里定义了一个类UdpHandler，继承DatagramHandler，另外定义了一个emit方法，其他的方法都可以复用DatagramHandler的。
+我来解释下这个emit方法，所有handler类都是在emit这个方法中做实际的“写日志”操作，在执行emit这个方法前已经进行了日志级别的过滤，但是参数record中的实际日志内容只有我们应用程序调用时传入的一个字符串，并没有按配置的那样经过格式化，所以我这里会先调用self.format格式话日志内容，然后加个换行符，然后调用send方法发送，这个send方法是DatagramHandler中定义的，内容比较简单就是调用socket的sendto方法，具体可以看DatagramHandler的源代码。</p>
+
+<p>handler定义好以后是没法直接用的，即没法在配置文件中指定。例如，ini形式的配置文件中指定handler是个Udphandler</p>
+
+<pre><code>class = UdpHandler
+</code></pre>
+
+<p>这样程序会报错，说找不到UdpHandler。
+其实，这个class的解析过程是这样的，class的值必须是在logging的变量字典的key中，并且对应一个handler类。
+源代码是这样的</p>
+
+<pre><code>klass = eval(klass, vars(logging)) 
+</code></pre>
+
+<p>会对class的值进行一个eval操作，将handler名字符串转成handler对象，而查找范围是logging模块下可见的所有对象。所以这个UdpHandler类必须是在logging下可见，那就好办了，在UdpHandler定义完再加一行</p>
+
+<pre><code>vars(logging)[UdpHandler.__name__] = UdpHandler
+</code></pre>
+
+<p>这样就可以正常在配置文件中使用了。当然，别忘了指定ip和端口</p>
+
+<pre><code>args=(‘127.0.0.1’, 12345)
+</code></pre>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Ju6y</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-19T17:04:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2015</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/logging/'>logging</a>, <a class='category' href='/blog/categories/python/'>python,</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  
+  
+  
+	<!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+	<span class="jiathis_txt">分享到：</span>
+	<a class="jiathis_button_tsina">新浪微博</a>
+	<a class="jiathis_button_weixin">微信</a>
+	<a class="jiathis_button_instapaper">Instapaper</a>
+	<a class="jiathis_button_pocket">Pocket</a>
+	<a class="jiathis_button_evernote">EverNote</a>
+	<a class="jiathis_button_twitter">Twitter</a>
+	<a class="jiathis_button_douban">豆瓣</a>
+	<a href="http://www.jiathis.com/share?uid=1807891" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank">更多</a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1807891" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+
+<!-- UY BEGIN -->
+<div id="uyan_frame"></div>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1807891"></script>
+<!-- UY END -->
+
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/" title="Previous Post: 在Terminal中拷贝文件到剪贴板">&laquo; 在Terminal中拷贝文件到剪贴板</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>最新文章</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/04/19/ding-zhi-pythonzhong-de-logging-handler/">定制Python中的logging Handler</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/08/30/socketxiang-jie/">Socket详解</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/26/pythonzheng-ze-pi-pei-zhong-matchyu-searchde-qu-bie/">Python正则匹配中match与search的区别</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/09/10/32wei-yu-64wei-xi-tong-xia-zai-pythonzhong-shi-yong-structmo-kuai-de-qu-bie/">32位与64位系统下在python中使用struct模块的区别</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+<section>
+  <h1>关于我</h1>
+  <p>Pythoner, 苹果脑残粉, 有轻微洁癖, 强迫症患者。</p>
+</section>
+<section>
+  <h1>Sina围脖</h1>
+	<iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=1762414755&verifier=f8370028&dpc=1"></iframe>
+</section>
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Ju6y -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
   <meta name="author" content="Ju6y">
 
   
-  <meta name="description" content="工作中经常会在终端中用shell算一些数据，将结果保存到文件中，然后需要把文件发给同事（用email或者RTX）。这时会发现需要你打开Finder，然后进到刚才计算的目录下（往往这个目录在Finder下访问会比较繁琐）然后拷贝文件，或者先将结果文件用cp命令拷贝到某个常用目录比如Downloads &hellip;">
+  <meta name="description" content="作为一个开发，写程序的时候应该都很喜欢打日志，一个是方便调试和定位问题，还有一个是可以将一些关键数据打印出来，方便业务上的统计和监控。但是在实际工作中，往往是不能随心所欲的打日志的，因为我们都知道磁盘io是很慢的，而生成环境的服务器一般都是机械硬盘（用SSD的可以忽略，但SSD的一般空间不会太大， &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -64,6 +64,47 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/04/19/ding-zhi-pythonzhong-de-logging-handler/">定制Python中的logging Handler</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-19T17:04:00+08:00" pubdate data-updated="true">Apr 19<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>作为一个开发，写程序的时候应该都很喜欢打日志，一个是方便调试和定位问题，还有一个是可以将一些关键数据打印出来，方便业务上的统计和监控。但是在实际工作中，往往是不能随心所欲的打日志的，因为我们都知道磁盘io是很慢的，而生成环境的服务器一般都是机械硬盘（用SSD的可以忽略，但SSD的一般空间不会太大，毕竟价格昂贵），即使有raid也架不住程序开到DEBUG级别狂刷日志，大量的CPU都用在等待io上了，很影响性能。</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/2015/04/19/ding-zhi-pythonzhong-de-logging-handler/">继续阅读 &rarr;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -555,6 +596,10 @@ application = tornado.wsgi.WSGIApplication(\[
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2015/04/19/ding-zhi-pythonzhong-de-logging-handler/">定制Python中的logging Handler</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2014/09/04/zai-terminalzhong-kao-bei-wen-jian-dao-jian-tie-ban/">在Terminal中拷贝文件到剪贴板</a>
       </li>
     
@@ -568,10 +613,6 @@ application = tornado.wsgi.WSGIApplication(\[
     
       <li class="post">
         <a href="/blog/2013/09/10/32wei-yu-64wei-xi-tong-xia-zai-pythonzhong-shi-yong-structmo-kuai-de-qu-bie/">32位与64位系统下在python中使用struct模块的区别</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2013/09/08/gitming-ling-hui-zong/">Git命令汇总</a>
       </li>
     
   </ul>
@@ -595,7 +636,7 @@ application = tornado.wsgi.WSGIApplication(\[
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Ju6y -
+  Copyright &copy; 2015 - Ju6y -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
